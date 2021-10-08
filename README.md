@@ -24,5 +24,6 @@ Redis(Cache)
 ### Database
 MySQL
 
-
+### Jenkins
+Project is jenkins enabled for the purpose of CI/CD
 
