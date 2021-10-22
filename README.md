@@ -4,7 +4,7 @@ team-project-the-team created by GitHub Classroom
 ## Team Members
 Akash Kuratkar
 Sherin Thlakulathielias
-Veena Mamindi
+Veena Mamidi
 Sai Sravani Chalasani
 
 ## Technology Stack
