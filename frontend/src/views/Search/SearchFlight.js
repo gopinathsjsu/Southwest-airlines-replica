@@ -1,122 +1,139 @@
 import * as React from "react";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import TextField from "@mui/material/TextField";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import Button from "@mui/material/Button";
+import {Container, Form, FormLabel, Row, Col, Button }from "react-bootstrap";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Redirect } from 'react-router';
+import axios from 'axios';
 
 class SearchFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectionAdult: "1",
-      selectionChild: "",
+      redirectFlag: false,
+      source: '',
+      destination: '',
+      tripType: 'Round trip',
+      errorMsg: '',
+      departDate: '',
+      arriveDate: '',
+      successMsg: '',
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = () => {
-    this.setState = {
-      selectionAdult: "1",
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleChangeDeptDate = (val) => {
+    this.setState({ departDate: val });
+  }
+
+  handleChangeArrDate = (val) => {
+    this.setState({ arriveDate: val });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { source, destination, tripType, departDate, arriveDate } = this.state;
+    const inputData = {
+      source,
+      destination,
+      tripType,
+      departDate,
+      arriveDate,
     };
+    console.log(inputData);
+    
+    this.setState({
+      redirectFlag: true,
+    });
   };
 
-  handleSearch = () => {};
   render() {
+    const { redirectFlag, source, tripType, destination, departDate, arriveDate, errorMsg, successMsg } = this.state;
+    const request = {
+      source,
+      destination,
+      departDate,
+      arriveDate,
+      tripType
+    }
+    let redirectVar = null;
+    if (redirectFlag) {
+      redirectVar = <Redirect to={{pathname: "/displayFlights",
+                                  request}} />;
+    }
     return (
       <>
+      {redirectVar}
         <h2>Search Flight</h2>
-        <Container>
-          <Form>
-            <Col md={12}>
-              <Row>
-                <TextField
-                  id="standard-basic"
-                  label="Source"
-                  variant="standard"
-                  size="small"
-                />
-
-                <TextField
-                  id="standard-basic"
-                  label="Destination"
-                  variant="standard"
-                  size="small"
-                />
-
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    row
-                    aria-label="gender"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="oneway"
-                      control={<Radio size="small" />}
-                      label="One Way"
-                    />
-                    <FormControlLabel
-                      value="round"
-                      control={<Radio size="small" />}
-                      label="Round"
-                      size="small"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Row>
-              <Row>&nbsp;</Row>
-              <Row>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DesktopDatePicker
-                    size="small"
-                    label="From"
-                    value={"date"}
-                    minDate={new Date("2017-01-01")}
-                    onChange={(newValue) => {
-                      this.setState = {
-                        date: "",
-                      };
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} size="small" />
-                    )}
-                  />
-                  <DesktopDatePicker
-                    label="To"
-                    value={"date"}
-                    minDate={new Date("2017-01-01")}
-                    onChange={(newValue) => {
-                      this.setState = {
-                        date: "",
-                      };
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} size="small" />
-                    )}
-                  />
-                </LocalizationProvider>
-              </Row>
-              <Row>&nbsp;</Row>
-              <Row>
-                <Button
-                  size="small"
-                  variant="contained"
-                  onClick={this.handleSearch()}
-                >
-                  Search
-                </Button>
-              </Row>
+        <div>
+          <Container>
+        <br />
+        <Form onSubmit={this.handleSubmit}>
+          <Row>
+            <Col>
+              {(successMsg !== undefined && successMsg != null)
+                ? <h4 style={{ color: 'green' }}>{successMsg}</h4> : null}
+              {(errorMsg !== undefined && errorMsg != null)
+                ? <h4 style={{ color: 'brown' }}>{errorMsg}</h4> : null}
             </Col>
-          </Form>
+          </Row>
+          <Row>
+          <Col>
+              <Form.Check inline value="Round trip" defaultChecked="true" label="Round trip" name="tripType" type="radio" id="Round trip" onChange={this.handleChange} />
+              <Form.Check inline value="One-way" label="One-way" name="tripType" type="radio" id="One-way" onChange={this.handleChange} />
+            </Col>
+          </Row>
+          <Row>
+          <Col>
+              <Form.Group className="mb-3">
+                <Form.Control name="source" type="text" className="mr-sm-2" onChange={this.handleChange} value={source} placeholder="Depart"/>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Control name="destination" type="text" className="mr-sm-2" onChange={this.handleChange} value={destination} placeholder="Arrive" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+            <Form.Group className="mb-3">
+              Depart Date
+                  <DatePicker
+                    selected={departDate ? new Date(departDate) : null}
+                    onChange={this.handleChangeDeptDate}
+                    name="departDate"
+                    dateFormat="MM/dd/yyyy"
+                    label="Depart Date"
+                  />
+                </Form.Group>
+            </Col>
+            <Col>
+            <Form.Group className="mb-3">
+              Arrive Date
+                  <DatePicker
+                    selected={arriveDate ? new Date(arriveDate) : null}
+                    onChange={this.handleChangeArrDate}
+                    name="arrriveDate"
+                    dateFormat="MM/dd/yyyy"
+                  />
+                </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button variant="primary" type="submit" onClick={this.handleSubmit}>
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </Form>
         </Container>
+      </div>
       </>
     );
   }
