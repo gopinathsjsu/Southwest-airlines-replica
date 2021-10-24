@@ -5,6 +5,7 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import Header from "../src/views/Header/header";
 import DashBoard from "../src/views/Container/DashBoard/DashBoard";
+import DisplayFlights from "../src/views/Search/DisplayFlights";
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
@@ -29,6 +30,7 @@ function App() {
           <ThemeProvider theme={theme}>
             <Switch>
               <Route path="/dashboard" exact component={() => <DashBoard />} />
+              <Route path="/displayFlights" render={(props) => <DisplayFlights {...props}/>}/>
               {/* <Route path='/home' exact component={() => <Home isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} />} /> */}
             </Switch>
           </ThemeProvider>
