@@ -14,11 +14,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Search from "@mui/icons-material/Search";
 import Loyalty from "@mui/icons-material/Loyalty";
+import PaymentIcon from "@mui/icons-material/Payment";
 import Logout from "@mui/icons-material/Logout";
 import MyProfile from "@mui/icons-material/AccountBox";
 import MyBookings from "@mui/icons-material/FlightTakeoff";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchFlight from "../../Search/SearchFlight";
+import Payment from "../../Payment/Payment";
 const drawerWidth = 240;
 
 class DashBoard extends React.Component {
@@ -28,6 +30,12 @@ class DashBoard extends React.Component {
       page: "search",
     };
   }
+
+  handlePayment = () => {
+    this.setState({
+      page: "payment",
+    });
+  };
 
   render() {
     return (
@@ -83,6 +91,12 @@ class DashBoard extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="My Bookings" />
                 </ListItem>
+                <ListItem button key="Payment" onClick={this.handlePayment}>
+                  <ListItemIcon>
+                    <PaymentIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Payments" />
+                </ListItem>
                 <ListItem button key="Notifications">
                   <ListItemIcon>
                     <NotificationsActiveIcon />
@@ -105,6 +119,7 @@ class DashBoard extends React.Component {
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             {this.state.page === "search" ? <SearchFlight /> : null}
+            {this.state.page === "payment" ? <Payment /> : null}
           </Box>
         </Box>
       </div>
