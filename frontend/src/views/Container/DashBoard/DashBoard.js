@@ -21,6 +21,7 @@ import MyBookings from "@mui/icons-material/FlightTakeoff";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchFlight from "../../Search/SearchFlight";
 import Payment from "../../Payment/Payment";
+import Profile from "../../Profile/Profile";
 const drawerWidth = 240;
 
 class DashBoard extends React.Component {
@@ -30,6 +31,13 @@ class DashBoard extends React.Component {
       page: "search",
     };
   }
+  handlePageChange = (e) => {
+    if (e.target.innerText === "My Profile") {
+      this.setState({
+        page: "profile",
+      });
+    }
+  };
 
   handlePayment = () => {
     this.setState({
@@ -73,7 +81,11 @@ class DashBoard extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="Search Flight" />
                 </ListItem>
-                <ListItem button key="MyProfile">
+                <ListItem
+                  button
+                  onClick={this.handlePageChange}
+                  key="MyProfile"
+                >
                   <ListItemIcon>
                     <MyProfile />
                   </ListItemIcon>
@@ -120,6 +132,7 @@ class DashBoard extends React.Component {
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             {this.state.page === "search" ? <SearchFlight /> : null}
             {this.state.page === "payment" ? <Payment /> : null}
+            {this.state.page === "profile" ? <Profile /> : null}
           </Box>
         </Box>
       </div>
