@@ -1,5 +1,4 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import { ReactComponent as Logo } from "../../../swa_logo_dark.svg";
@@ -15,11 +14,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Search from "@mui/icons-material/Search";
 import Loyalty from "@mui/icons-material/Loyalty";
+import PaymentIcon from "@mui/icons-material/Payment";
 import Logout from "@mui/icons-material/Logout";
 import MyProfile from "@mui/icons-material/AccountBox";
 import MyBookings from "@mui/icons-material/FlightTakeoff";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchFlight from "../../Search/SearchFlight";
+import Payment from "../../Payment/Payment";
 import Profile from "../../Profile/Profile";
 const drawerWidth = 240;
 
@@ -30,13 +31,19 @@ class DashBoard extends React.Component {
       page: "search",
     };
   }
-  handlePageChange= (e) => {
-    if(e.target.innerText === 'My Profile') {
+  handlePageChange = (e) => {
+    if (e.target.innerText === "My Profile") {
       this.setState({
-        page: "profile"
+        page: "profile",
       });
     }
-  }
+  };
+
+  handlePayment = () => {
+    this.setState({
+      page: "payment",
+    });
+  };
 
   render() {
     return (
@@ -74,7 +81,11 @@ class DashBoard extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="Search Flight" />
                 </ListItem>
-                <ListItem button onClick={this.handlePageChange} key="MyProfile">
+                <ListItem
+                  button
+                  onClick={this.handlePageChange}
+                  key="MyProfile"
+                >
                   <ListItemIcon>
                     <MyProfile />
                   </ListItemIcon>
@@ -91,6 +102,12 @@ class DashBoard extends React.Component {
                     <MyBookings />
                   </ListItemIcon>
                   <ListItemText primary="My Bookings" />
+                </ListItem>
+                <ListItem button key="Payment" onClick={this.handlePayment}>
+                  <ListItemIcon>
+                    <PaymentIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Payments" />
                 </ListItem>
                 <ListItem button key="Notifications">
                   <ListItemIcon>
@@ -114,6 +131,7 @@ class DashBoard extends React.Component {
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             {this.state.page === "search" ? <SearchFlight /> : null}
+            {this.state.page === "payment" ? <Payment /> : null}
             {this.state.page === "profile" ? <Profile /> : null}
           </Box>
         </Box>
