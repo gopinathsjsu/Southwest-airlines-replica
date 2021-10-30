@@ -6,7 +6,7 @@ import "./App.css";
 import Header from "../src/views/Header/header";
 import DashBoard from "../src/views/Container/DashBoard/DashBoard";
 
-import Profile from "../src/views/Profile/Profile";
+// import Profile from "../src/views/Profile/Profile";
 
 import DisplayFlights from "../src/views/Search/DisplayFlights";
 
@@ -36,7 +36,7 @@ function App() {
               <Route path="/dashboard" exact component={() => <DashBoard />} />
               <Route path="/displayFlights" render={(props) => <DisplayFlights {...props}/>}/>
               {/* <Route path='/home' exact component={() => <Home isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} />} /> */}
-              <Route path="/profile" exact component={() => <Profile />} />
+              {/* <Route path="/profile" exact component={() => <Profile />} /> */}
             </Switch>
           </ThemeProvider>
         </Container>
