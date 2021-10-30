@@ -21,6 +21,8 @@ public class CacheConfig {
           .withCacheConfiguration("transactionCache",
             RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
           .withCacheConfiguration("paymentCache",
+                RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
+        .withCacheConfiguration("bookingCache",
                 RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)));
     }
 
@@ -32,7 +34,7 @@ public class CacheConfig {
           .serializeValuesWith(SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
     }
     
- /**For more infp abt cahce please visit below link
+ /**For more info abt cahce please visit below link
     *baeldung.com/spring-cache-tutorials
     *baeldung.com/spring-boot-redis-cache
     *Please install redis before starting an application

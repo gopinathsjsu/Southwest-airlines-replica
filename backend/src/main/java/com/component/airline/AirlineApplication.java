@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 
 @EnableJpaRepositories(basePackages = "com.component.airline.repository")
 @SpringBootApplication
@@ -22,7 +24,5 @@ public class AirlineApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AirlineApplication.class, args);
 	}
-	
-	
 }
 	
