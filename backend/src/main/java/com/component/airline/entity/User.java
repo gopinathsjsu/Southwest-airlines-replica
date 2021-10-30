@@ -1,5 +1,6 @@
 package com.component.airline.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,7 +12,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="user")
-public class User {
+public class User implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -167,6 +173,14 @@ public class User {
 	}
 	public void setFrequent_flyer(boolean frequent_flyer) {
 		this.frequent_flyer = frequent_flyer;
+	}
+	@Override
+	public String toString() {
+		return "User [Id=" + Id + ", first_name=" + first_name + ", last_name=" + last_name + ", dob=" + dob
+				+ ", phone_number=" + phone_number + ", email=" + email + ", add_line1=" + add_line1 + ", add_line2="
+				+ add_line2 + ", city=" + city + ", state=" + state + ", country=" + country + ", zip=" + zip
+				+ ", user_type=" + user_type + ", username=" + username + ", password=" + password + ", rewards="
+				+ rewards + ", frequent_flyer=" + frequent_flyer + "]";
 	}
 
 	
