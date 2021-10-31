@@ -11,7 +11,7 @@ import com.component.airline.db.FlightDAOService;
 import com.component.airline.entity.Flight;
 
 @RestController
-public class AirlineController {
+public class FlightController {
 
 	@Autowired
 	FlightDAOService service;
