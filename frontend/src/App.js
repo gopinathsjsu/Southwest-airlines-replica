@@ -6,8 +6,6 @@ import "./App.css";
 import Header from "../src/views/Header/header";
 import DashBoard from "../src/views/Container/DashBoard/DashBoard";
 
-//import Profile from "../src/views/Profile/Profile";
-
 import DisplayFlights from "../src/views/Search/DisplayFlights";
 
 import { createMuiTheme } from "@material-ui/core/styles";
