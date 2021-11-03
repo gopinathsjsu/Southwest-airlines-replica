@@ -1,5 +1,7 @@
 package com.component.airline.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,10 +22,10 @@ public class Flight {
 	public String flightName;
 	
 	@Column(name = "departureTime")
-	public String departureTime;
+	public Date departureTime;
 	
 	@Column(name = "arrivalTime")
-	public String arrivalTime;
+	public Date arrivalTime;
 	
 	@Column(name = "tripStops")
 	public String stops;
@@ -40,7 +42,7 @@ public class Flight {
 	@Column(name = "tripDestination")
 	public String tripDestination;
 	
-	public Flight(Integer id, String flightName, String departureTime, String arrivalTime, String stops,
+	public Flight(Integer id, String flightName, Date departureTime, Date arrivalTime, String stops,
 			String duration, String tripType, String tripSource, String tripDestination) {
 		super();
 		this.id = id;
@@ -83,19 +85,19 @@ public class Flight {
 		this.flightName = flightName;
 	}
 
-	public String getDepartureTime() {
+	public Date getDepartureTime() {
 		return departureTime;
 	}
 
-	public void setDepartureTime(String departureTime) {
+	public void setDepartureTime(Date departureTime) {
 		this.departureTime = departureTime;
 	}
 
-	public String getArrivalTime() {
+	public Date getArrivalTime() {
 		return arrivalTime;
 	}
 
-	public void setArrivalTime(String arrivalTime) {
+	public void setArrivalTime(Date arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 
