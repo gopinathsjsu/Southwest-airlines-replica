@@ -28,11 +28,13 @@ public class FlightDAOService {
 	
 	public Object addFlight(Flight flight){
 		System.out.println(flight);
-		return flightRepository.addFlight(flight.arrivalTime, flight.departureTime, flight.duration,
-				flight.flightName, flight.stops, flight.tripDestination, flight.tripSource,
-				flight.tripType);
+		return flightRepository.save(flight);
 	}
 	
+	public Object updateFlight(Flight flight){
+		System.out.println(flight);
+		return flightRepository.save(flight);
+	}
 	
 	
 }
