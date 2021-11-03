@@ -24,7 +24,6 @@ import Payment from "../../Payment/Payment";
 import Booking from "../../Bookings/Booking";
 //import Profile from "../../";
 const drawerWidth = 240;
-
 class DashBoard extends React.Component {
   constructor(props) {
     super(props);
