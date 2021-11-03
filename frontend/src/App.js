@@ -7,6 +7,8 @@ import Header from "../src/views/Header/header";
 import DashBoard from "../src/views/Container/DashBoard/DashBoard";
 
 import DisplayFlights from "../src/views/Search/DisplayFlights";
+import Login from "./views/Login/login";
+import Register from "./views/Registration/registration";
 
 import { createMuiTheme } from "@material-ui/core/styles";
 
@@ -36,6 +38,8 @@ function App() {
                 path="/displayFlights"
                 render={(props) => <DisplayFlights {...props} />}
               />
+              <Route path="/login" exact component={() => <Login />} />
+              <Route path="/registration" exact component={() => <Register />} />
               {/* <Route path='/home' exact component={() => <Home isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} />} /> */}
             </Switch>
           </ThemeProvider>
