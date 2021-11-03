@@ -2,6 +2,7 @@ package com.component.airline.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,11 +17,22 @@ public class FlightController {
 	@Autowired
 	FlightDAOService service;
 	
+	@GetMapping(path = "/getFlightById", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Object getFlightById(@RequestBody Flight flight) {
+		return service.getFlightById(flight);
+		
+	}
 	
 	@PostMapping(path = "/searchFlights", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object getFlights(@RequestBody Flight flight) {
 		return service.getFlightBySourceAndDestination(flight);
-		
+	}
+	
+	@PostMapping(path = "/addFlight", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Object addFlight(@RequestBody Flight flight) {
+		return service.addFlight(flight);
 	}
 }
