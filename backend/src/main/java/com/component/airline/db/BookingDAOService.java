@@ -1,5 +1,7 @@
 package com.component.airline.db;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -13,19 +15,24 @@ public class BookingDAOService {
 	@Autowired
 	BookingRepository bookingRepository;
 	
-	@Cacheable(value = "bookingCache")
-	public Object createBooking(Booking booking){
+	public Booking saveBooking(Booking booking){
 		return bookingRepository.save(booking);
 	}
 	
-	@Cacheable(value = "bookingCache")
-	public Object getBookingById(int bookingId){
-		return bookingRepository.getById(bookingId);
+	public Booking getBookingById(int bookingId){
+		return bookingRepository.findById(bookingId).orElse(null);
 	}
 	
-	@Cacheable(value = "bookingCache")
-	public Object getBookingByUserId(int userId){
-	//	return bookingRepository.findByUserId(userId);
-		return null;
+	public List<Booking> getBookings(){
+		return bookingRepository.findAll();
+	}
+	
+	public Booking getBookingByUserId(int userId){
+		return bookingRepository.findByUserId(userId);
+	}
+	
+	public String deleteByID(int bookingId) {
+		bookingRepository.deleteById(bookingId);
+		return ("Booking deleted BookingID: "+bookingId);
 	}
 }
