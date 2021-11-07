@@ -12,8 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 
 @EnableJpaRepositories(basePackages = "com.component.airline.repository")
 @SpringBootApplication

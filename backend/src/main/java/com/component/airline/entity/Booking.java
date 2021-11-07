@@ -5,9 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Data
@@ -18,14 +24,36 @@ import javax.persistence.Table;
 public class Booking {
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
     private int id;
+	
+	@Column(name="travel_date")
 	private Date date;
+	
+	@Column(name="flight_id")
 	private String flightId;
+	
+	@Column(name="transaction_id")
 	private int transactionId;
-	private int paymentId;
-	private int userId;
-	private String Status;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "payment", referencedColumnName = "id")
+	private Payment payment;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user", referencedColumnName = "id")
+	private User user;
+	
+	@Column(name="status",columnDefinition = "varchar(255) default PENDING")
+	private String status;
+	
+	@Column(name="mileage_points")
+	private String mileagePoints;
+	
+	@Column(name="mileage_status")
+	private String mileageStatus;
+	
 	public int getId() {
 		return id;
 	}
@@ -50,22 +78,35 @@ public class Booking {
 	public void setTransactionId(int transactionId) {
 		this.transactionId = transactionId;
 	}
-	public int getPaymentId() {
-		return paymentId;
+	public Payment getPayment() {
+		return payment;
 	}
-	public void setPaymentId(int paymentId) {
-		this.paymentId = paymentId;
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
-	public int getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getStatus() {
-		return Status;
+		return status;
 	}
 	public void setStatus(String status) {
-		Status = status;
+		this.status = status;
 	}
+	public String getMileagePoints() {
+		return mileagePoints;
+	}
+	public void setMileagePoints(String mileagePoints) {
+		this.mileagePoints = mileagePoints;
+	}
+	public String getMileageStatus() {
+		return mileageStatus;
+	}
+	public void setMileageStatus(String mileageStatus) {
+		this.mileageStatus = mileageStatus;
+	}
+	
 }
