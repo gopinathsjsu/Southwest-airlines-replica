@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.UserDAOService;
 import com.component.airline.entity.User;
+import com.component.models.UserRequestObject;
 
 @RestController
 @RequestMapping(path="/v1/user")
@@ -30,7 +31,7 @@ public class UserController {
 	
 	@PostMapping(path = "/register", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object registerUser(@RequestBody User user) {
+	public Object registerUser(@RequestBody UserRequestObject user) {
 		return service.registerUser(user);
 		
 	}

@@ -3,7 +3,6 @@ package com.component.airline.db;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Booking;
@@ -28,7 +27,7 @@ public class BookingDAOService {
 	}
 	
 	public Booking getBookingByUserId(int userId){
-		return bookingRepository.findByUserId(userId);
+		return bookingRepository.findBookingByUser(userId);
 	}
 	
 	public String deleteByID(int bookingId) {
