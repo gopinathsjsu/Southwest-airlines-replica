@@ -43,8 +43,8 @@ class SearchFlight extends React.Component {
       tripSource: source,
       tripDestination: destination,
       tripType,
-      departDate,
-      arriveDate,
+      departureTime: departDate,
+      arrivalTime: arriveDate,
     };
     console.log(flight);
     axios
