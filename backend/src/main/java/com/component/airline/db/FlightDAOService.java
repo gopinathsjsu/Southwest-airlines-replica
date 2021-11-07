@@ -1,5 +1,7 @@
 package com.component.airline.db;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class FlightDAOService {
 	 * @param flight
 	 * @return
 	 */
-	public Object getFlightBySourceAndDestination(Flight flight){
+	public List<Flight> getFlightBySourceAndDestination(Flight flight){
 		System.out.println(flight);
 		return flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination);
 	}
