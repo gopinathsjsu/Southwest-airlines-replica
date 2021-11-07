@@ -25,7 +25,13 @@ public class FlightDAOService {
 	 */
 	public List<Flight> getFlightBySourceAndDestination(Flight flight){
 		System.out.println(flight);
-		return flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination);
+		if(flight.tripType.equals("Round trip")) {
+			List<Flight> deptFlights = flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime);
+			List<Flight> arrFlights = flightRepository.findReturnFlights(flight.tripSource, flight.tripDestination, flight.arrivalTime);
+			deptFlights.addAll(arrFlights);
+			return deptFlights;
+		}
+		return flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime);
 	}
 	
 	public Object addFlight(Flight flight){

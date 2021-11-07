@@ -1,5 +1,6 @@
 package com.component.airline.entity;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,10 +23,10 @@ public class Flight {
 	public String flightName;
 	
 	@Column(name = "departureTime")
-	public Date departureTime;
+	public Timestamp departureTime;
 	
 	@Column(name = "arrivalTime")
-	public Date arrivalTime;
+	public Timestamp arrivalTime;
 	
 	@Column(name = "tripStops")
 	public String stops;
@@ -42,7 +43,7 @@ public class Flight {
 	@Column(name = "tripDestination")
 	public String tripDestination;
 	
-	public Flight(Integer id, String flightName, Date departureTime, Date arrivalTime, String stops,
+	public Flight(Integer id, String flightName, Timestamp departureTime, Timestamp arrivalTime, String stops,
 			String duration, String tripType, String tripSource, String tripDestination) {
 		super();
 		this.id = id;
@@ -85,19 +86,19 @@ public class Flight {
 		this.flightName = flightName;
 	}
 
-	public Date getDepartureTime() {
+	public Timestamp getDepartureTime() {
 		return departureTime;
 	}
 
-	public void setDepartureTime(Date departureTime) {
+	public void setDepartureTime(Timestamp departureTime) {
 		this.departureTime = departureTime;
 	}
 
-	public Date getArrivalTime() {
+	public Timestamp getArrivalTime() {
 		return arrivalTime;
 	}
 
-	public void setArrivalTime(Date arrivalTime) {
+	public void setArrivalTime(Timestamp arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 

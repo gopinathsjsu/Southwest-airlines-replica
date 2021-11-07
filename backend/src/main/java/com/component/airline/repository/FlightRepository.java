@@ -1,5 +1,6 @@
 package com.component.airline.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +14,15 @@ import com.component.airline.entity.Flight;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer>{
 
-	@Query("SELECT e from Flight e where e.tripSource =:tripSource AND e.tripDestination =:tripDestination")
-	List<Flight> findBySourceAndDestination(@Param("tripSource") String tripSource,@Param("tripDestination")String tripDestination);
+	@Query("SELECT e from Flight e where e.tripSource =:tripSource AND e.tripDestination =:tripDestination"
+			+ " AND date(e.departureTime) =:departureTime")
+	List<Flight> findBySourceAndDestination(@Param("tripSource") String tripSource,@Param("tripDestination")String tripDestination,
+			@Param("departureTime") Timestamp departureTime);
+	
+	@Query("SELECT e from Flight e where e.tripSource =:tripDestination AND e.tripDestination =:tripSource"
+			+ " AND date(e.arrivalTime) =:arrivalTime")
+	List<Flight> findReturnFlights(@Param("tripSource") String tripSource,@Param("tripDestination")String tripDestination,
+			@Param("arrivalTime") Timestamp arrivalTime);
 	
 	@Modifying
 	@Query(value ="insert into Flight (arrivalTime,departureTime,tripDuration,flightName,tripStops,tripDestination,tripSource,tripType) VALUES (:arrivalTime,:departureTime,:tripDuration,:flightName,:tripStops,:tripDestination,:tripSource,:tripType)",nativeQuery = true)
