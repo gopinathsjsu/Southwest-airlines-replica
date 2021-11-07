@@ -1,5 +1,7 @@
 package com.component.airline.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,7 @@ public class FlightController {
 	
 	@PostMapping(path = "/searchFlights", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object getFlights(@RequestBody Flight flight) {
+	public List<Flight> getFlights(@RequestBody Flight flight) {
 		return service.getFlightBySourceAndDestination(flight);
 	}
 	

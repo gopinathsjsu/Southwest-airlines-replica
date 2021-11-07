@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Table, Col, Row } from "react-bootstrap";
+import { Container, Table, Col, Row, ListGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
 class DisplayFlights extends React.Component {
@@ -10,6 +10,18 @@ class DisplayFlights extends React.Component {
   }
 
   render() {
+    const flightList = this.props.location.request.flightList;
+    console.log(flightList)
+    const searchDetails = flightList.map((flight) => (
+      <ListGroup>
+        <ListGroup.Item>
+          {flight.departureTime}
+          {flight.duration}
+          {flight.stops}
+        </ListGroup.Item>
+      </ListGroup>
+
+    ));
     return (
       <>
         <Container>
@@ -20,7 +32,7 @@ class DisplayFlights extends React.Component {
             <h3>Depart:{' '}{this.props.location.request.source}{'-'}{this.props.location.request.destination}</h3>
             <h4>{this.props.location.request.departDate.toDateString()}</h4>
             </Row>
-          <Table striped bordered hover size="sm">
+          <Table striped hover size="sm">
             <thead>
                 <tr>
                 <th>Departing Flights</th>
@@ -29,6 +41,7 @@ class DisplayFlights extends React.Component {
                 </tr>
             </thead>
             </Table>
+            {searchDetails}
             </Col>
           </Form>
         </Container>

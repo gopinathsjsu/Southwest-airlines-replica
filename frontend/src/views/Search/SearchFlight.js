@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Redirect } from 'react-router';
 import axios from 'axios';
+import backendServer from '../../webConfig';
 
 class SearchFlight extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class SearchFlight extends React.Component {
       departDate: '',
       arriveDate: '',
       successMsg: '',
+      flightList: [],
     };
   }
 
@@ -36,29 +38,42 @@ class SearchFlight extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { source, destination, tripType, departDate, arriveDate } = this.state;
-    const inputData = {
-      source,
-      destination,
+    const { source, destination, tripType, departDate, arriveDate, flightList } = this.state;
+    const flight = {
+      tripSource: source,
+      tripDestination: destination,
       tripType,
       departDate,
       arriveDate,
     };
-    console.log(inputData);
-    
-    this.setState({
-      redirectFlag: true,
-    });
+    console.log(flight);
+    axios
+      .post(`${backendServer}/searchFlights`, flight)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            flightList: flightList.concat(response.data),
+            redirectFlag: true,
+          });
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
   };
 
   render() {
-    const { redirectFlag, source, tripType, destination, departDate, arriveDate, errorMsg, successMsg } = this.state;
+    const { redirectFlag, source, tripType, destination, departDate, arriveDate, errorMsg, successMsg, flightList } = this.state;
     const request = {
       source,
       destination,
       departDate,
       arriveDate,
-      tripType
+      tripType,
+      flightList
     }
     let redirectVar = null;
     if (redirectFlag) {
@@ -70,7 +85,7 @@ class SearchFlight extends React.Component {
       {redirectVar}
         <h2>Search Flight</h2>
         <div>
-          <Container>
+          <Container style={{display: 'flex', width: '75rem'}}>
         <br />
         <Form onSubmit={this.handleSubmit}>
           <Row>
@@ -83,8 +98,10 @@ class SearchFlight extends React.Component {
           </Row>
           <Row>
           <Col>
-              <Form.Check inline value="Round trip" defaultChecked="true" label="Round trip" name="tripType" type="radio" id="Round trip" onChange={this.handleChange} />
-              <Form.Check inline value="One-way" label="One-way" name="tripType" type="radio" id="One-way" onChange={this.handleChange} />
+            <Form.Group className="mb-3">
+              <Form.Check className="mr-sm-2" inline value="Round trip" defaultChecked="true" label="Round trip" name="tripType" type="radio" id="Round trip" onChange={this.handleChange} />
+              <Form.Check className="mr-sm-2" inline value="One-way" label="One-way" name="tripType" type="radio" id="One-way" onChange={this.handleChange} />
+              </Form.Group>
             </Col>
           </Row>
           <Row>
