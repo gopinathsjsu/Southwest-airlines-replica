@@ -22,6 +22,7 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import SearchFlight from "../../Search/SearchFlight";
 import Payment from "../../Payment/Payment";
 import Booking from "../../Bookings/Booking";
+import Mileage from "../../Rewards/Mileage";
 //import Profile from "../../";
 const drawerWidth = 240;
 class DashBoard extends React.Component {
@@ -48,6 +49,12 @@ class DashBoard extends React.Component {
   handleBooking = () => {
     this.setState({
       page: "booking",
+    });
+  };
+
+  handleRewards = () => {
+    this.setState({
+      page: "rewards",
     });
   };
 
@@ -97,7 +104,7 @@ class DashBoard extends React.Component {
                   </ListItemIcon>
                   <ListItemText primary="My Profile" />
                 </ListItem>
-                <ListItem button key="Rewards">
+                <ListItem button key="Rewards" onClick={this.handleRewards}>
                   <ListItemIcon>
                     <Loyalty />
                   </ListItemIcon>
@@ -139,6 +146,7 @@ class DashBoard extends React.Component {
             {this.state.page === "search" ? <SearchFlight /> : null}
             {this.state.page === "payment" ? <Payment /> : null}
             {this.state.page === "booking" ? <Booking /> : null}
+            {this.state.page === "rewards" ? <Mileage /> : null}
           </Box>
         </Box>
       </div>

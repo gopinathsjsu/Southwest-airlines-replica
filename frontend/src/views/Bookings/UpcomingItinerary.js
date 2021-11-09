@@ -32,7 +32,7 @@ export default class UpcomingItinerary extends React.Component {
                 <Avatar sx={{ width: 24, height: 24 }}>
                   <Landing fontSize="sm" />
                 </Avatar>
-                <Typography>BOM</Typography>
+                <Typography>BOM </Typography>
               </Col>
               <Col md={4}>
                 {" "}

@@ -3,12 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { alpha } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import InputBase from "@material-ui/core/InputBase";
 import axios from "axios";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,18 +69,20 @@ export default function NavBar(props) {
   // }
   function removeItem(id) {
     const data = { itemId: id };
-    axios.post(`http://${window.location.hostname}:3001/removeFromCart`, data).then((res) => {
-      //setCartData(res.data);
-      let arr = [...cartData];
-      const index = arr.findIndex((ele) => {
-        return id === ele.id;
+    axios
+      .post(`http://${window.location.hostname}:3001/removeFromCart`, data)
+      .then((res) => {
+        //setCartData(res.data);
+        let arr = [...cartData];
+        const index = arr.findIndex((ele) => {
+          return id === ele.id;
+        });
+        arr.splice(index, 1);
+        setCartData(arr);
+        if (arr.length == 0) {
+          closeCart();
+        }
       });
-      arr.splice(index, 1);
-      setCartData(arr);
-      if (arr.length == 0) {
-        closeCart();
-      }
-    });
 
     //call backedn API to remove this item from cart
   }
@@ -94,7 +91,6 @@ export default function NavBar(props) {
     <div className={classes.root}>
       <AppBar style={{ background: "white" }} position="static">
         <Toolbar>
-          
           <h5
             className={classes.title}
             style={{ color: "blue", fontSize: "30px", margin: "0px" }}
@@ -110,12 +106,10 @@ export default function NavBar(props) {
           {/* <div className={classes.searchIcon}>
               <SearchIcon />
             </div> */}
-          
-          
+
           {/* <Button variant="extended" style={{background: 'grey', color:'black', position:'absolute', right:'2%'}} > Sign in</Button> */}
         </Toolbar>
       </AppBar>
-      
     </div>
   );
 }
