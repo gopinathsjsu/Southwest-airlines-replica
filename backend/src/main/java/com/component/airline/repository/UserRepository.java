@@ -1,12 +1,14 @@
 package com.component.airline.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
+import com.component.airline.entity.Payment;
 import com.component.airline.entity.User;
 
 @Repository
@@ -19,5 +21,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			@Param("email") String email, @Param("add_line1") String add_line1,
 			@Param("add_line2") String add_line2, @Param("city") String city, @Param("state") String state, @Param("country") String country, @Param("zip") String zip, @Param("user_type") String user_type, @Param("username") String username,@Param("password") String password);
 
+    
+
+	@Query("SELECT id from user u where u.username =:username")
+	User findByUserName(@Param("user") String user);
 
 }

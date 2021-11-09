@@ -43,4 +43,9 @@ public class UserDAOService {
 	public Object updateUser(User user){
 		return UserService.save(user);
 	}
+	
+	
+	public Object loginUser(User user){
+		return UserService.findByUserName(user.getUsername());
+	}
 }

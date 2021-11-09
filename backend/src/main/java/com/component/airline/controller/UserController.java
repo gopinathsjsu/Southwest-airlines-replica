@@ -42,4 +42,12 @@ public class UserController {
 		return service.updateUser(user);
 		
 	}
+	
+	
+	@PostMapping(path = "/login", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Object loginUser(@RequestBody User user) {
+		return service.loginUser(user);
+		
+	}
 }
