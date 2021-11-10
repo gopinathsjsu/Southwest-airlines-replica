@@ -61,93 +61,79 @@ class DashBoard extends React.Component {
   render() {
     return (
       <div>
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-          <AppBar
-            style={{ background: "#ffff" }}
-            position="fixed"
-            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          >
-            <Toolbar color="white">
-              <Typography variant="h6" noWrap component="div">
-                <Logo />
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            variant="permanent"
-            sx={{
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
               width: drawerWidth,
-              flexShrink: 0,
-              [`& .MuiDrawer-paper`]: {
-                width: drawerWidth,
-                boxSizing: "border-box",
-              },
-            }}
-          >
-            <Toolbar />
-            <Box sx={{ overflow: "auto" }}>
-              <List>
-                <ListItem button key="SearchFlight">
+              boxSizing: "border-box",
+            },
+          }}
+        >
+          <Toolbar />
+          <Box sx={{ overflow: "auto" }}>
+            <List>
+              <ListItem button key="SearchFlight">
+                <ListItemIcon>
+                  <Search />
+                </ListItemIcon>
+                <ListItemText primary="Search Flight" />
+              </ListItem>
+              <ListItem button onClick={this.handlePageChange} key="MyProfile">
+                <ListItemIcon>
+                  <MyProfile />
+                </ListItemIcon>
+                <ListItemText primary="My Profile" />
+              </ListItem>
+              <ListItem button key="Rewards" onClick={this.handleRewards}>
+                <ListItemIcon>
+                  <Loyalty />
+                </ListItemIcon>
+                <ListItemText primary="Rewards" />
+              </ListItem>
+              <ListItem button key="MyBookings" onClick={this.handleBooking}>
+                <ListItemIcon>
+                  <MyBookings />
+                </ListItemIcon>
+                <ListItemText primary="My Bookings" />
+              </ListItem>
+              <ListItem button key="Payment" onClick={this.handlePayment}>
+                <ListItemIcon>
+                  <PaymentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Payments" />
+              </ListItem>
+              <ListItem button key="Notifications">
+                <ListItemIcon>
+                  <NotificationsActiveIcon />
+                </ListItemIcon>
+                <ListItemText primary="Notifications" />
+              </ListItem>
+            </List>
+            <Divider />
+            <List>
+              {["Logout"].map((text, index) => (
+                <ListItem button key={text}>
                   <ListItemIcon>
-                    <Search />
+                    <Logout />
                   </ListItemIcon>
-                  <ListItemText primary="Search Flight" />
+                  <ListItemText primary={text} />
                 </ListItem>
-                <ListItem
-                  button
-                  onClick={this.handlePageChange}
-                  key="MyProfile"
-                >
-                  <ListItemIcon>
-                    <MyProfile />
-                  </ListItemIcon>
-                  <ListItemText primary="My Profile" />
-                </ListItem>
-                <ListItem button key="Rewards" onClick={this.handleRewards}>
-                  <ListItemIcon>
-                    <Loyalty />
-                  </ListItemIcon>
-                  <ListItemText primary="Rewards" />
-                </ListItem>
-                <ListItem button key="MyBookings" onClick={this.handleBooking}>
-                  <ListItemIcon>
-                    <MyBookings />
-                  </ListItemIcon>
-                  <ListItemText primary="My Bookings" />
-                </ListItem>
-                <ListItem button key="Payment" onClick={this.handlePayment}>
-                  <ListItemIcon>
-                    <PaymentIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Payments" />
-                </ListItem>
-                <ListItem button key="Notifications">
-                  <ListItemIcon>
-                    <NotificationsActiveIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Notifications" />
-                </ListItem>
-              </List>
-              <Divider />
-              <List>
-                {["Logout"].map((text, index) => (
-                  <ListItem button key={text}>
-                    <ListItemIcon>
-                      <Logout />
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-          </Drawer>
-          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-            {this.state.page === "search" ? <SearchFlight /> : null}
-            {this.state.page === "payment" ? <Payment /> : null}
-            {this.state.page === "booking" ? <Booking /> : null}
-            {this.state.page === "rewards" ? <Mileage /> : null}
+              ))}
+            </List>
           </Box>
+        </Drawer>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3 }}
+          style={{ "padding-left": "250px" }}
+        >
+          {this.state.page === "search" ? <SearchFlight /> : null}
+          {this.state.page === "payment" ? <Payment /> : null}
+          {this.state.page === "booking" ? <Booking /> : null}
+          {this.state.page === "rewards" ? <Mileage /> : null}
         </Box>
       </div>
     );

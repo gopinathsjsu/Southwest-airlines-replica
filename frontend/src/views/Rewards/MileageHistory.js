@@ -3,25 +3,16 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Card from "react-bootstrap/Card";
-import Summary from "./Summary";
-import Activity from "./MileageHistory";
-
-class Mileage extends React.Component {
+class Summary extends React.Component {
   constructor() {
     super();
-    this.state = { page: "default" };
+    this.state = {};
   }
-
-  handleActivity = () => {
-    this.setState({
-      page: "activities",
-    });
-  };
   render() {
     return (
       <>
+        <Typography>Activities</Typography>
         <Card>
           <Card.Body>
             <Row>
@@ -44,7 +35,6 @@ class Mileage extends React.Component {
                   Mileage rewards member since
                   <Button size="small" sx={{ fontSize: 11 }}>
                     View Profile
-                    <ChevronRightIcon />
                   </Button>
                 </Typography>
               </Col>
@@ -56,25 +46,16 @@ class Mileage extends React.Component {
                 <Typography sx={{ fontSize: 24 }} color="text.secondary">
                   0
                 </Typography>
-                <Button
-                  size="small"
-                  sx={{ fontSize: 11 }}
-                  onClick={this.handleActivity}
-                >
+                <Button size="small" sx={{ fontSize: 11 }}>
                   Learn More
-                  <ChevronRightIcon />
                 </Button>
               </Col>
             </Row>
             <Row></Row>
           </Card.Body>
         </Card>
-        &nbsp;
-        {this.state.page === "activities" ? <Activity /> : null}
-        {this.state.page === "default" ? <Summary /> : null}
       </>
     );
   }
 }
-
-export default Mileage;
+export default Summary;

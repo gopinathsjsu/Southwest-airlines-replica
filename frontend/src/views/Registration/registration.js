@@ -1,360 +1,199 @@
-import "./registration.css";
-import React, { Component, useState } from "react";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import {stateChangeHandler} from "../../views/redux/reducers/SignUp";
-import { useHistory } from "react-router-dom";
-
-
-export default function Register(props) {
-  const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = React.useState("");
-  const [selectedCountry, setSelectedCountry] = React.useState("US");
-  const [open, setOpen] = useState(false);
-  const [uploadedFile, setUploadedFile] = React.useState('');
-  const [profilePic, setProfilePic] = React.useState('');
-  const [usProvience, setUsProvience] = React.useState(
-    useSelector((state) => state.masterData.usProvience)
-  );
-  const [caProvience, setCaProvience] = React.useState(
-    useSelector((state) => state.masterData.caProvience)
-  );
-
-  
-    const history = useHistory();
-  
-    const handleRoute = () =>{ 
-      history.push("/about");
-    }
-  const registrationData = useSelector(
-    (state) => state.signUp.registrationData
-  );
-
-
-  React.useEffect(() => {
-    const headerConfig = {
-      headers: {
-          'x-authentication-header': localStorage.getItem('token')
-        }
-    }
-    loadBasicDetails();
-    axios.get(`http://${window.location.hostname}:3001/cart`, headerConfig).then((res) => {
-      
-    });
-  }, []);
-
-  function loadBasicDetails() {
-    const headerConfig = {
-      headers: {
-          'x-authentication-header': localStorage.getItem('token')
-        }
-    }
-    axios.get(`http://${window.location.hostname}:3001/customerBasicDetail`, headerConfig).then((res) => {
-      if (res.data) {
-        dispatch(stateChangeHandler({ name: "fullName", value: res.data.fullName }));
-        dispatch(stateChangeHandler({ name: "mobileNumber", value: res.data.mobileNumber }));
-        dispatch(stateChangeHandler({ name: "country", value: res.data.country }));
-        dispatch(stateChangeHandler({ name: "provience", value: res.data.state }));
-        dispatch(stateChangeHandler({ name: "address", value: res.data.address[0].address }));
-        dispatch(stateChangeHandler({ name: "email", value: res.data.email }));
-        dispatch(stateChangeHandler({ name: "dateOfBirth", value: res.data.dateOfBirth }));
-        dispatch(stateChangeHandler({ name: "language", value: res.data.language }));
-        dispatch(stateChangeHandler({ name: "password", value: res.data.password }));
-        dispatch(stateChangeHandler({ name: "userType", value: res.data.userType }));
-        dispatch(stateChangeHandler({ name: "city", value: res.data.address[0].city }));
-        setProfilePic(`http://${window.location.hostname}:3001/resources/${res.data.favorites}`);
-      }
-    });
-  }
-
-  function valdiate() {
-    if (!registrationData.fullName) { 
-      setErrorMessage("Name can't be empty");
-      return false;
-    } else if(!ValidateDOB(registrationData.dateOfBirth)){
-      //setErrorMessage("Please enter a correct date of birth");
-    }    
-    else if (registrationData.password && registrationData.password.length < 6) {
-      setErrorMessage("Password must be between 6-20 characters.");
-      return false;
-    } else if (registrationData.email && !validateEmail(registrationData.email)) {
-      setErrorMessage("Enter a valid email.");
-      return false;
-    } else if (registrationData.mobileNumber && registrationData.mobileNumber.length < 10) {
-      setErrorMessage("Enter a valid mobile number.");
-      return false;
-    } else if (!registrationData.address) {
-      setErrorMessage("Address field is required.");
-      return false;
-    } else if (!registrationData.city) {
-      setErrorMessage("City field is required.");
-      return false;
-    } else if (registrationData.confirmPassword != registrationData.password) {
-      setErrorMessage("Passwords does not match");
-      return false;
-    } else if ( !localStorage.getItem('role') &&
-      ["Customer", "Restaurant"].findIndex(
-        (role) => role == registrationData.userType
-      ) == -1
-    ) {
-      setErrorMessage("Please select the user type.");
-      return false;
-    } else {
-      setErrorMessage("");
-      setOpen(true);
-      setTimeout(()=>{
-        setOpen(false);
-      }, 2000)
-      return true;
-    }
-  }
-  function validateEmail(email) {
-    console.log(email);
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  function ValidateDOB(dob) {
-    var dateString = dob;
-    var regex = /(((0|1)[0-9]|2[0-9]|3[0-1])\-(0[1-9]|1[0-2])\-((19|20)\d\d))$/;
-    if (regex.test(dateString)) {
-        var parts = dateString.split("-");
-        var dtDOB = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
-        var dtCurrent = new Date();
-        setErrorMessage("Eligibility 14 years ONLY.")
-        if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 14) {
-            return false;
-        }
-        if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 14) {
-            if (dtCurrent.getMonth() < dtDOB.getMonth()) {
-                return false;
-            }
-            if (dtCurrent.getMonth() == dtDOB.getMonth()) {
-                if (dtCurrent.getDate() < dtDOB.getDate()) {
-                    return false;
-                }
-            }
-        }
-        setErrorMessage("");
-        return true;
-    } else {
-        setErrorMessage("Please enter a correct date and in dd-mm-yyyy format.");
-        return false;
-    }
-  }
-
-
-
-  function savecustomerData() {
-    if (!valdiate()) return;
-    const basicDetails = { ...registrationData, uploadedFile };
-    axios
-      .post(`http://${window.location.hostname}:3001/addCustomerDetail`, basicDetails)
-      .then((res) => {
-        if(!localStorage.getItem('role')){
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('role', res.data.data.role);
-          props.history.push('/');
-        }
-      });
-  }
-
-  function handleCountryChange(e) {
-    setSelectedCountry(e.target.value);
-    dispatch(stateChangeHandler({ name: "country", value: e.target.value }))
-  }
-
-  function uploadImage(e){
-    const config = {
-      headers: {
-          'content-type': 'multipart/form-data'
-      }
-  };
-  const formData = new FormData();
-  formData.append('myImage', e.target.files[0]);
-      axios.post(`http://${window.location.hostname}:3001/upload`,formData,config)
-          .then((res) => {
-           setUploadedFile(res.data.fileName);
-          }).catch((error) => {
-      });
-  }
-
-  return (
-    <div>
-    <div id="RegisterPage">
-    <h5>Registration</h5>
-      
-      
-      <p class="error">{errorMessage}</p>
-      <div class="d-flex justify-content-around align-items-center">
-        <input
-          type="text"
-          placeholder="Full Name"
-          name="fullName"
-          value = {registrationData.fullName}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "fullName", value: e.target.value })
-            )
-          }
-        />
-        <input
-          type="text"
-          placeholder="Date of Birth"
-          name="dateOfBirth"
-          value = {registrationData.dateOfBirth}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "dateOfBirth", value: e.target.value })
-            )
-          }
-        />
-      </div>
-      <div class="d-flex justify-content-around align-items-center">
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          //value = {registrationData.password}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "password", value: e.target.value })
-            )
-          }
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({
-                name: "confirmPassword",
-                value: e.target.value,
-              })
-            )
-          }
-        />
-      </div>
-      <div class="d-flex justify-content-around align-items-center">
-      <input
-          type="number"
-          placeholder="Mobile Number"
-          name="mobileNumber"
-          disabled={localStorage.getItem("role") ? true : false}
-          value = {registrationData.mobileNumber}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({
-                name: "mobileNumber",
-                value: e.target.value,
-              })
-            )
-          }
-        />
-        <input
-          type="email"
-          placeholder="email"
-          name="email"
-          value = {registrationData.email}
-          disabled={localStorage.getItem("role") ? true : false}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "email", value: e.target.value })
-            )
-          }
-        />
-      </div>
-      <div class="d-flex justify-content-around align-items-center">
-
-      </div>
-      <div class="d-flex justify-content-around align-items-center">
-        <input
-          type="text"
-          placeholder="Address"
-          name="address"
-          value = {registrationData.address}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "address", value: e.target.value })
-            )
-          }
-        />
-        <input
-          type="text"
-          placeholder="City"
-          name="city"
-          value = {registrationData.city}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "city", value: e.target.value })
-            )
-          }
-        />
-      </div>
-      <div class="d-flex justify-content-around align-items-center">
-        <select
-          placeholder="Select Country"
-          name="country"
-          value = {registrationData.country}
-          onChange={(e)=>handleCountryChange(e)}
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import * as React from "react";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import DatePicker from "react-datepicker";
+import Card from "react-bootstrap/Card";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+export default class Registration extends React.Component {
+  render() {
+    return (
+      <div
+        style={{
+          "padding-top": "100px",
+          "align-items": "center",
+          "justify-content": "center",
+        }}
+      >
+        {" "}
+        <Card
+          style={{
+            "align-items": "center",
+            "justify-content": "center",
+          }}
         >
-          <option value="US">United States</option>
-          <option value="CA">Canada</option>
-        </select>
-        <select
-          placeholder="Select Province"
-          name="provience"
-          value = {registrationData.provience}
-          onChange={(e) =>
-            dispatch(
-              stateChangeHandler({ name: "provience", value: e.target.value })
-            )
-          }
-        >
-          {selectedCountry == "US"
-            ? usProvience.map((provience) => {
-                return (
-                  <option value={provience.abbreviation}>
-                    {provience.name}
-                  </option>
-                );
-              })
-            : caProvience.map((provience) => {
-                return (
-                  <option value={provience.abbreviation}>
-                    {provience.name}
-                  </option>
-                );
-              })}
-        </select>
+          <Card.Body>
+            <h5>New User</h5>
+            &nbsp;
+            <Form noValidate>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="4" controlId="validationCustom01">
+                  <Form.Label>First name</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="First name"
+                    size="sm"
+                  />
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="4" controlId="validationCustom02">
+                  <Form.Label>Last name</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="Last name"
+                    size="sm"
+                  />
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group
+                  as={Col}
+                  md="4"
+                  controlId="validationCustomUsername"
+                >
+                  <Form.Label>Date Of Birth</Form.Label>
+                  <DatePicker
+                    selected={null}
+                    onChange={this.handleChangeArrDate}
+                    name="arrriveDate"
+                    dateFormat="MM/dd/yyyy"
+                  />
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="5" controlId="validationCustom03">
+                  <Form.Label>Address Line 1</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Address Line 1"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid city.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="5" controlId="validationCustom04">
+                  <Form.Label>Address Line 2</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Address Line 2"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid state.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="2" controlId="validationCustom05">
+                  <Form.Label>City</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="City"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid zip.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="2" controlId="validationCustom03">
+                  <Form.Label>State</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="State"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid city.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                  <Form.Label>Country</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Country"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid state.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom05">
+                  <Form.Label>Zip</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Zip"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid zip.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Form.Group as={Col} md="6" controlId="validationCustom03">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Username"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid city.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom04">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    required
+                    size="sm"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid state.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                &nbsp;
+                <FormControl component="fieldset">
+                  <FormLabel component="legend"></FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="gender"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="customer"
+                      control={<Radio size="small" />}
+                      label="Customer"
+                    />
+                    <FormControlLabel
+                      value="employee"
+                      control={<Radio size="small" />}
+                      label="Employee"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Row>
+
+              <Button type="submit">Register</Button>
+            </Form>
+          </Card.Body>
+        </Card>
       </div>
-      <div class="d-flex justify-content-start align-items-center my-3">
-        <select
-          name="language"
-          value = {registrationData.language}
-          onChange={(e) =>dispatch(stateChangeHandler({ name: "language", value: e.target.value }))
-          }
-        >
-          <option>---SELECT---</option>
-          <option>Male</option>
-          <option>Female</option>
-        </select>
-        <div  className={localStorage.getItem('role') ? 'd-none' : 'd-block'}>
-        
-        
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <button class="btn btn-primary w-100" onClick={()=>history.push('/dashboard')}>
-          {localStorage.getItem("role") ? 'Update' : 'Register' }
-        </button>
-      </div>
-    </div>
-    <div style={{display: localStorage.getItem('role') ? 'block' : 'none'}}>
-    <p>Favorites</p>
-    
-    </div>
-        </div>
-  );
+    );
+  }
 }
