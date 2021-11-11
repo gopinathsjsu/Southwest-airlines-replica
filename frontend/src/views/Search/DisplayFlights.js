@@ -33,6 +33,9 @@ class DisplayFlights extends React.Component {
           <Col>
           {flight.duration}
           </Col>
+          <Col>
+          {flight.price}
+          </Col>
           </Row>
         </ListGroup.Item>
       </ListGroup>
@@ -52,6 +55,9 @@ class DisplayFlights extends React.Component {
           </Col>
           <Col>
           {flight.duration}
+          </Col>
+          <Col>
+          {flight.price}
           </Col>
           </Row>
         </ListGroup.Item>
@@ -81,6 +87,9 @@ class DisplayFlights extends React.Component {
           <Col>
           <b>Duration</b>
           </Col>
+          <Col>
+          <b>Price</b>
+          </Col>
           </Row>
         </ListGroup.Item>
       </ListGroup>
@@ -89,7 +98,7 @@ class DisplayFlights extends React.Component {
             <div>  
             <Row>
             <br/>
-            <h3>Depart:{' '}{this.props.location.request.destination}{' '}<CgAirplane />{' '}{this.props.location.request.source}</h3>
+            <h3>Arrive:{' '}{this.props.location.request.destination}{' '}<CgAirplane />{' '}{this.props.location.request.source}</h3>
             <h4>{this.props.location.request.arriveDate.toDateString()}</h4>
             </Row>
             <br />
@@ -104,6 +113,9 @@ class DisplayFlights extends React.Component {
           </Col>
           <Col>
           <b>Duration</b>
+          </Col>
+          <Col>
+          <b>Price</b>
           </Col>
           </Row>
         </ListGroup.Item>
