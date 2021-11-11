@@ -49,9 +49,10 @@ public class Booking {
 	private String status;
 	
 	@Column(name="mileage_points")
-	private String mileagePoints;
+	private int mileagePoints;
 	
-	@Column(name="mileage_status")
+	
+	@Column(name="mileage_status",columnDefinition = "varchar(255) default Pending")
 	private String mileageStatus;
 	
 	public int getId() {
@@ -96,10 +97,11 @@ public class Booking {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getMileagePoints() {
+	
+	public int getMileagePoints() {
 		return mileagePoints;
 	}
-	public void setMileagePoints(String mileagePoints) {
+	public void setMileagePoints(int mileagePoints) {
 		this.mileagePoints = mileagePoints;
 	}
 	public String getMileageStatus() {

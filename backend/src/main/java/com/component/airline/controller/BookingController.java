@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.BookingDAOService;
 import com.component.airline.entity.Booking;
+import com.component.models.AvailMileagePointsRequest;
 
 @RestController
 public class BookingController {
@@ -20,31 +22,42 @@ public class BookingController {
 	private BookingDAOService service;
 	
 	@PostMapping("/addBooking")
+	@ResponseBody
 	public Booking addBooking(@RequestBody Booking booking) {
 		return service.saveBooking(booking);
 		
 	}
+	
 	@GetMapping("/booking/{Id}")
+	@ResponseBody
 	public Booking findBookingById(@PathVariable int bookingId) {
 		return service.getBookingById(bookingId);
 		
 	}
 	
 	@GetMapping("/bookings")
+	@ResponseBody
 	public List<Booking> findBookings() {
 		return  service.getBookings();
 		
 	}
 	
 	@GetMapping("/booking/user/{userId}")
+	@ResponseBody
 	public Booking findBookingByUserId(@PathVariable int userId) {
 		return service.getBookingById(userId);
 	}
 	
 	@DeleteMapping("/delete/{bookingId}")
+	@ResponseBody
 	public String deleteBookingByID(@PathVariable int bookingId) {
 		return service.deleteByID(bookingId);
 	}
 	
-	
+	@PostMapping("/availBooking")
+	@ResponseBody
+	public String availMileagePoints(@RequestBody AvailMileagePointsRequest request) {
+		return service.availMileagePoints(request.getBookingId());
+		
+	}
 }
