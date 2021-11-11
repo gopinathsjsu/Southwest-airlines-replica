@@ -15,14 +15,14 @@ import com.component.airline.entity.Flight;
 public interface FlightRepository extends JpaRepository<Flight, Integer>{
 
 	@Query("SELECT e from Flight e where e.tripSource =:tripSource AND e.tripDestination =:tripDestination"
-			+ " AND date(e.departureTime) =:departureTime")
+			+ " AND date(e.departureTime) =:departureTime and e.id in (select s.flight from Seat s where s.status=0 group by s.flight having count(s.id) >=(:adults+:children))")
 	List<Flight> findBySourceAndDestination(@Param("tripSource") String tripSource,@Param("tripDestination")String tripDestination,
-			@Param("departureTime") Timestamp departureTime);
+			@Param("departureTime") Timestamp departureTime, @Param("adults") long adults, @Param("children") long children);
 	
 	@Query("SELECT e from Flight e where e.tripSource =:tripDestination AND e.tripDestination =:tripSource"
-			+ " AND date(e.arrivalTime) =:arrivalTime")
+			+ " AND date(e.arrivalTime) =:arrivalTime and e.id in (select s.flight from Seat s where s.status=0 group by s.flight having count(s.id) >=(:adults+:children))")
 	List<Flight> findReturnFlights(@Param("tripSource") String tripSource,@Param("tripDestination")String tripDestination,
-			@Param("arrivalTime") Timestamp arrivalTime);
+			@Param("arrivalTime") Timestamp arrivalTime, @Param("adults") long adults, @Param("children") long children);
 	
 	@Modifying
 	@Query(value ="insert into Flight (arrivalTime,departureTime,tripDuration,flightName,tripStops,tripDestination,tripSource,tripType) VALUES (:arrivalTime,:departureTime,:tripDuration,:flightName,:tripStops,:tripDestination,:tripSource,:tripType)",nativeQuery = true)

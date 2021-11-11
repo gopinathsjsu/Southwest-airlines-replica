@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.FlightDAOService;
 import com.component.airline.entity.Flight;
+import com.component.models.FlightRequestObject;
 
 @RestController
 public class FlightController {
@@ -29,7 +30,7 @@ public class FlightController {
 	
 	@PostMapping(path = "/searchFlights", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Flight> getFlights(@RequestBody Flight flight) {
+	public List<Flight> getFlights(@RequestBody FlightRequestObject flight) {
 		return service.getFlightBySourceAndDestination(flight);
 	}
 	

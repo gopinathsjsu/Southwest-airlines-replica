@@ -17,6 +17,8 @@ class SearchFlight extends React.Component {
       errorMsg: '',
       departDate: '',
       arriveDate: '',
+      adults: 0,
+      children: 0,
       successMsg: '',
       flightList: [],
     };
@@ -38,11 +40,13 @@ class SearchFlight extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { source, destination, tripType, departDate, arriveDate, flightList } = this.state;
+    const { source, destination, tripType, departDate, arriveDate, flightList, adults, children } = this.state;
     const flight = {
       tripSource: source,
       tripDestination: destination,
       tripType,
+      adults: parseInt(adults),
+      children,
       departureTime: departDate,
       arrivalTime: arriveDate,
     };
@@ -66,14 +70,16 @@ class SearchFlight extends React.Component {
   };
 
   render() {
-    const { redirectFlag, source, tripType, destination, departDate, arriveDate, errorMsg, successMsg, flightList } = this.state;
+    const { redirectFlag, source, tripType, destination, departDate, arriveDate, errorMsg, successMsg, flightList, adults, children } = this.state;
     const request = {
       source,
       destination,
       departDate,
       arriveDate,
       tripType,
-      flightList
+      flightList,
+      adults, 
+      children
     }
     let redirectVar = null;
     if (redirectFlag) {
@@ -102,6 +108,16 @@ class SearchFlight extends React.Component {
               <Form.Check className="mr-sm-2" inline value="Round trip" defaultChecked="true" label="Round trip" name="tripType" type="radio" id="Round trip" onChange={this.handleChange} />
               <Form.Check className="mr-sm-2" inline value="One-way" label="One-way" name="tripType" type="radio" id="One-way" onChange={this.handleChange} />
               </Form.Group>
+              <Col>
+              <Form.Group className="mb-3">
+                <Form.Control name="adults" type="text" className="mr-sm-2" onChange={this.handleChange} value={adults} placeholder="Number of adults"/>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3">
+                <Form.Control name="children" type="text" className="mr-sm-2" onChange={this.handleChange} value={children} placeholder="Number of children" />
+              </Form.Group>
+            </Col>
             </Col>
           </Row>
           <Row>
