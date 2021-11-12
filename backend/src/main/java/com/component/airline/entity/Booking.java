@@ -38,21 +38,21 @@ public class Booking {
 	private int transactionId;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "payment", referencedColumnName = "id")
+	@JoinColumn(name = "id", referencedColumnName = "id")
 	private Payment payment;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user", referencedColumnName = "id")
+	@JoinColumn(name = "id", referencedColumnName = "id")
 	private User user;
 	
-	@Column(name="status",columnDefinition = "varchar(255) default PENDING")
+	@Column(name="status",columnDefinition = "varchar(255) default 'PENDING'")
 	private String status;
 	
 	@Column(name="mileage_points")
 	private int mileagePoints;
 	
 	
-	@Column(name="mileage_status",columnDefinition = "varchar(255) default Pending")
+	@Column(name="mileage_status",columnDefinition = "varchar(255) default 'Pending'")
 	private String mileageStatus;
 	
 	public int getId() {
