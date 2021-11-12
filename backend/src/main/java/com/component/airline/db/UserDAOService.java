@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.component.airline.entity.Mileage;
 import com.component.airline.entity.User;
 import com.component.airline.repository.UserRepository;
+import com.component.models.UserLogin;
 import com.component.models.UserRequestObject;
 
 @Service
@@ -45,7 +46,12 @@ public class UserDAOService {
 	}
 	
 	
-	public Object loginUser(User user){
-		return UserService.findByUserName(user.getUsername());
+	public Object loginUser(UserLogin userLogin){
+		User user =  UserService.findUserByUsernameandPassword(userLogin.getUsername(),userLogin.getPassword());
+		if(user==null) {
+			return null;
+		}else {
+			return user;
+		}
 	}
 }

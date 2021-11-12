@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.UserDAOService;
 import com.component.airline.entity.User;
+import com.component.models.UserLogin;
 import com.component.models.UserRequestObject;
 
 @RestController
@@ -46,8 +47,8 @@ public class UserController {
 	
 	@PostMapping(path = "/login", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object loginUser(@RequestBody User user) {
-		return service.loginUser(user);
+	public Object loginUser(@RequestBody UserLogin userLogin) {
+		return service.loginUser(userLogin);
 		
 	}
 }

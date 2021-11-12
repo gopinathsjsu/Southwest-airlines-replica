@@ -21,9 +21,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 			@Param("email") String email, @Param("add_line1") String add_line1,
 			@Param("add_line2") String add_line2, @Param("city") String city, @Param("state") String state, @Param("country") String country, @Param("zip") String zip, @Param("user_type") String user_type, @Param("username") String username,@Param("password") String password);
 
-    
+    @Query(value ="SELECT * from user e where e.username =:username AND e.password =:password",nativeQuery = true)
+    User findUserByUsernameandPassword(@Param("username") String username,@Param("password") String password); 
 
-	@Query("SELECT id from user u where u.username =:username")
-	User findByUserName(@Param("user") String user);
+   User findByUsername(@Param("user") String user);
 
 }
