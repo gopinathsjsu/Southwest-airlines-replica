@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Booking;
+import com.component.airline.entity.CardDetails;
+import com.component.airline.entity.User;
 import com.component.airline.entity.MileageHistory;
+import com.component.airline.entity.Payment;
 import com.component.airline.repository.BookingRepository;
 import com.component.airline.repository.MileageHistoryRepository;
 
@@ -22,11 +25,24 @@ public class BookingDAOService {
 	MileageHistoryRepository mileageHistoryRepository;
 	
 	public Booking saveBooking(Booking booking){
-		//new Payment - 
+		
+		if(booking.getPayment()==null) {
+			User user = booking.getUser();
+			
+			List<CardDetails> cards = user.getCards();
+			if(cards.size()!=0) {
+				Payment payment = new Payment();
+				payment.setCardDetails(cards.get(0));
+				booking.setPayment(payment);
+			}
+			
+		}
+		if(booking.getUser()==null) {
+			////new Passenger
+			//saving passenger
+		}
 		
 		//save Payment
-		//new Passenger
-		//saving passenger
 		//flight
 		//booking
 		return bookingRepository.save(booking);
