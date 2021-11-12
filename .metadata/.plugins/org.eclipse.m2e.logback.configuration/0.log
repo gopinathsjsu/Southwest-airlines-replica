@@ -405,3 +405,38 @@
 2021-11-12 00:59:51,381 [Worker-163: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2021-11-12 00:59:51,381 [Worker-163: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
 2021-11-12 00:59:51,381 [Worker-163: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend\src\test\resources
+2021-11-12 01:08:55,248 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2021-11-12 01:10:28,520 [Worker-174: Launching backend (1)] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend
+2021-11-12 01:10:28,520 [Worker-174: Launching backend (1)] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -B install clean
+2021-11-12 01:11:00,850 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-11-12 01:11:00,851 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-11-12 01:11:00,853 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-11-12 01:11:00,859 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-11-12 01:11:00,875 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-11-12 01:11:00,876 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-11-12 01:11:00,876 [Worker-172: Launching AirlineApplication (1)] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend\src\test\resources
+2021-11-12 01:12:47,093 [Worker-170: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2021-11-12 01:12:48,314 [Worker-170: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.example:backend:0.0.1-SNAPSHOT @ C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend\pom.xml.
+2021-11-12 01:12:50,057 [Worker-170: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /backend/src/main/java
+2021-11-12 01:12:50,058 [Worker-170: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /backend/src/main/resources
+2021-11-12 01:12:50,058 [Worker-170: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /backend/src/main/resources
+2021-11-12 01:12:50,058 [Worker-170: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /backend/src/test/java
+2021-11-12 01:12:50,950 [Worker-170: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 3 sec
+2021-11-12 01:12:54,105 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-11-12 01:12:54,106 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-11-12 01:12:54,107 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-11-12 01:12:54,134 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-11-12 01:12:54,138 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-11-12 01:12:54,138 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-11-12 01:12:54,138 [Worker-169: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend\src\test\resources
+2021-11-12 01:15:17,496 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-11-12 01:15:17,496 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-11-12 01:15:17,514 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-11-12 01:15:17,515 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-11-12 01:15:17,519 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-11-12 01:15:17,519 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-11-12 01:15:17,519 [Worker-176: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend\src\test\resources
+2021-11-12 01:18:29,490 [Worker-176: Launching backend] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend
+2021-11-12 01:18:29,490 [Worker-176: Launching backend] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -B clean install
+2021-11-12 01:21:04,462 [Worker-176: Launching backend] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\Checkout\Desktop\AirlineInterface\team-project-the-team\backend
+2021-11-12 01:21:04,462 [Worker-176: Launching backend] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -B clean install
