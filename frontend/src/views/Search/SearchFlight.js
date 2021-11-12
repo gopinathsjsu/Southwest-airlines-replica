@@ -38,6 +38,10 @@ class SearchFlight extends React.Component {
     this.setState({ arriveDate: val });
   }
 
+  onSelect = (flight) => {
+    localStorage.setItem('flight', JSON.stringify(flight));
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { source, destination, tripType, departDate, arriveDate, flightList, adults, children } = this.state;
@@ -108,7 +112,7 @@ class SearchFlight extends React.Component {
           {flight.price}
           </Col>
           <Col>
-          <Button>Book</Button>
+          <Button onClick={() => this.onSelect(flight)}>Select</Button>
           </Col>
           </Row>
         </ListGroup.Item>
@@ -134,7 +138,7 @@ class SearchFlight extends React.Component {
           {flight.price}
           </Col>
           <Col>
-          <Button>Book</Button>
+          <Button>Select</Button>
           </Col>
           </Row>
         </ListGroup.Item>
