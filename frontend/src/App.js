@@ -13,6 +13,8 @@ import Login from "./views/Login/login";
 import SignUp from "./views/Registration/registration";
 
 import { createMuiTheme } from "@material-ui/core/styles";
+import AddPassenger from "../src/views/Passenger/AddPassenger";
+import BookingPayment from "../src/views/Payment/BookingPayment";
 
 const theme = createMuiTheme({
   palette: {
@@ -48,6 +50,16 @@ function App() {
                 />
                 <Route path="/login" exact component={() => <Login />} />
                 <Route path="/signup" exact component={() => <SignUp />} />
+                <Route
+                  path="/addpassenger"
+                  exact
+                  component={() => <AddPassenger />}
+                />
+                <Route
+                  path="/bookingpayment"
+                  exact
+                  component={() => <BookingPayment />}
+                />
 
                 {/* <Route path='/home' exact component={() => <Home isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} />} /> */}
               </Switch>
