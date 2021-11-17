@@ -1,8 +1,9 @@
 package com.component.airline.db;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
