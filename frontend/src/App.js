@@ -14,6 +14,7 @@ import SignUp from "./views/Registration/registration";
 import { createMuiTheme } from "@material-ui/core/styles";
 import AddPassenger from "../src/views/Passenger/AddPassenger";
 import BookingPayment from "../src/views/Payment/BookingPayment";
+import BookingReview from "../src/views/Payment/BookingReview";
 
 const theme = createMuiTheme({
   palette: {
@@ -58,6 +59,12 @@ function App() {
                   path="/bookingpayment"
                   exact
                   component={() => <BookingPayment />}
+                />
+
+                <Route
+                  path="/bookingreview"
+                  exact
+                  component={() => <BookingReview />}
                 />
 
                 {/* <Route path='/home' exact component={() => <Home isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} />} /> */}
