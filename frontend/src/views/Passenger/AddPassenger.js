@@ -20,7 +20,11 @@ export default class AddPassenger extends React.Component {
 
   componentDidMount() {
     const flight = JSON.parse(localStorage.getItem('flight'));
+    const passengers = JSON.parse(localStorage.getItem('passengers'));
     this.setState({ flightDetails : flight});
+    if(passengers != null && passengers !== undefined){
+      this.setState({ passengers : passengers});
+    }
   }
 
   handleChange(i, e) {

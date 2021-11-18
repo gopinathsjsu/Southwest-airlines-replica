@@ -26,14 +26,11 @@ export default class AddCard extends React.Component {
     };
   }
 
-  onTrigger = () => {
-    this.props.parentCallback(this.state);
-  };
-
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    this.props.parentCallback(this.state);
   }
 
   render() {
@@ -89,9 +86,8 @@ export default class AddCard extends React.Component {
                 endIcon={<SendIcon size="small" />}
                 size="small"
                 style={{ width: "80px" }}
-                onClick={this.onTrigger}
               >
-                Add
+                Edit
               </Button>
               &nbsp;
               <Button
