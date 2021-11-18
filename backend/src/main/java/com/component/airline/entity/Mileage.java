@@ -1,6 +1,6 @@
 package com.component.airline.entity;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,26 +9,43 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 @Table(name="mileage")
-public class Mileage {
+@Proxy(lazy = false)
+@JsonSerialize
+public class Mileage implements Serializable{
 	
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@SequenceGenerator(name = "mySeqGen", sequenceName = "mySeq", initialValue = 12312312)
     @GeneratedValue(generator = "mySeqGen")
 	@Column(name = "id")
     private Integer id;
 
-	@OneToOne(cascade = CascadeType.ALL,mappedBy = "rewards")
+	@JsonBackReference
+	@OneToOne(cascade = CascadeType.ALL,mappedBy = "mileage")
 	private User user;
 	
+	@Column(name = "points",columnDefinition = "integer default 0")
+	private int points;
 	
 	@Column(name = "available_rewards")
 	private double availableRewards;
@@ -39,9 +56,12 @@ public class Mileage {
 	@Column(name = "distance_travelled")
 	private long distance;
 	
+	@Column(name = "member_since")
+	private Date memberSince;
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<MileageHistory> transactions = new ArrayList<>();
+	@JsonManagedReference
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<MileageHistory> transactions;
 
 
 	public Integer getId() {
@@ -104,6 +124,22 @@ public class Mileage {
 	}
 	
 	
+	
+	public Date getMemberSince() {
+		return memberSince;
+	}
+
+
+	public void setMemberSince(Date memberSince) {
+		this.memberSince = memberSince;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Mileage [id=" + id + ", user=" + user + ", availableRewards=" + availableRewards + ", expDate="
+				+ expDate + ", distance=" + distance + ", transactions=" + transactions + "]";
+	}
 	
 	
 }

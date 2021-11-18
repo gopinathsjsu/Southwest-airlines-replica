@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.BookingDAOService;
 import com.component.airline.entity.Booking;
-import com.component.models.AvailMileagePointsRequest;
+import com.component.airline.models.AvailMileagePointsRequest;
 
 @RestController
 public class BookingController {
@@ -42,11 +42,12 @@ public class BookingController {
 		
 	}
 	
-	@GetMapping("/booking/user/{userId}")
-	@ResponseBody
-	public Booking findBookingByUserId(@PathVariable int userId) {
-		return service.getBookingById(userId);
-	}
+	/*
+	 * @GetMapping("/booking/user/{userId}")
+	 * 
+	 * @ResponseBody public Booking findBookingByUserId(@PathVariable int userId) {
+	 * return service.getBookingById(userId); }
+	 */
 	
 	@DeleteMapping("/delete/{bookingId}")
 	@ResponseBody
@@ -54,10 +55,13 @@ public class BookingController {
 		return service.deleteByID(bookingId);
 	}
 	
-	@PostMapping("/availBooking")
-	@ResponseBody
-	public String availMileagePoints(@RequestBody AvailMileagePointsRequest request) {
-		return service.availMileagePoints(request.getBookingId());
-		
-	}
+	/*
+	 * @PostMapping("/availBooking")
+	 * 
+	 * @ResponseBody public String availMileagePoints(@RequestBody
+	 * AvailMileagePointsRequest request) { return
+	 * service.availMileagePoints(request.getBookingId());
+	 * 
+	 * }
+	 */
 }

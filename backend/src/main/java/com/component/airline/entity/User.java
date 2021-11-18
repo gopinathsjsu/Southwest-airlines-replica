@@ -14,8 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 @Table(name="user")
+@JsonSerialize
 public class User implements Serializable{
 
 	/**
@@ -70,9 +74,10 @@ public class User implements Serializable{
 	@Column(name = "password")
 	private String password;
 	
-	@OneToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name = "fk_rewards")
-	private Mileage rewards;
+	@JsonManagedReference
+	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name = "mileage_account", referencedColumnName = "id")
+	private Mileage mileage;
 	
 	@Column(name = "frequent_flyer",columnDefinition = "boolean default False")
 	private boolean frequent_flyer;
@@ -168,11 +173,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public Mileage getRewards() {
-		return rewards;
+	public Mileage getMileage() {
+		return mileage;
 	}
-	public void setRewards(Mileage rewards) {
-		this.rewards = rewards;
+	public void setMileage(Mileage mileage) {
+		this.mileage = mileage;
 	}
 	public boolean isFrequent_flyer() {
 		return frequent_flyer;
@@ -186,7 +191,7 @@ public class User implements Serializable{
 				+ ", phone_number=" + phone_number + ", email=" + email + ", add_line1=" + add_line1 + ", add_line2="
 				+ add_line2 + ", city=" + city + ", state=" + state + ", country=" + country + ", zip=" + zip
 				+ ", user_type=" + user_type + ", username=" + username + ", password=" + password + ", rewards="
-				+ rewards + ", frequent_flyer=" + frequent_flyer + "]";
+				+ mileage + ", frequent_flyer=" + frequent_flyer + "]";
 	}
 
 	
