@@ -78,14 +78,7 @@ public class User implements Serializable{
 	@Column(name = "frequent_flyer",columnDefinition = "boolean default False")
 	private boolean frequent_flyer;
 	
-	private List<CardDetails> cards;
 	
-	public List<CardDetails> getCards() {
-		return cards;
-	}
-	public void setCards(List<CardDetails> cards) {
-		this.cards = cards;
-	}
 	public int getId() {
 		return Id;
 	}
