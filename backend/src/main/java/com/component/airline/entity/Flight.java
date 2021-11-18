@@ -43,8 +43,11 @@ public class Flight {
 	@Column(name = "tripDestination")
 	public String tripDestination;
 	
+	@Column(name = "price")
+	public Double price;
+	
 	public Flight(Integer id, String flightName, Timestamp departureTime, Timestamp arrivalTime, String stops,
-			String duration, String tripType, String tripSource, String tripDestination) {
+			String duration, String tripType, String tripSource, String tripDestination, Double price) {
 		super();
 		this.id = id;
 		this.flightName = flightName;
@@ -55,6 +58,15 @@ public class Flight {
 		this.tripType = tripType;
 		this.tripSource = tripSource;
 		this.tripDestination = tripDestination;
+		this.price = price;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 	
 	public Flight(){

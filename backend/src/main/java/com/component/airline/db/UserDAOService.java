@@ -11,6 +11,8 @@ import com.component.airline.entity.User;
 import com.component.airline.models.UserLogin;
 import com.component.airline.models.UserRequestObject;
 import com.component.airline.repository.UserRepository;
+import com.component.models.UserLogin;
+import com.component.models.UserRequestObject;
 
 @Service
 public class UserDAOService {
@@ -46,8 +48,8 @@ public class UserDAOService {
 	//@Cacheable(value = "userCache")
 	public Object updateUser(User user){
 		return UserService.save(user);
-	}
-	
+  }
+  
 	public Object loginUser(UserLogin userLogin){
 		User user =  UserService.findUserByUsernameandPassword(userLogin.getUsername(),userLogin.getPassword());
 		if(user==null) {

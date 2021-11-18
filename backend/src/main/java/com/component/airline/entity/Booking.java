@@ -46,6 +46,7 @@ public class Booking {
 	private User user;
 	 
 	@Column(name = "status", columnDefinition = "varchar(255) default 'Pending'")
+
 	private String status;
 
 	@Column(name = "mileage_points")

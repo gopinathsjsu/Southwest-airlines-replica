@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Table(name = "payment_dtl")
 public class Payment {
 	
+	public Payment() {}
 	public Payment(int Id,String payment_type,CardDetails saved_card,OnlinePaymentDetails online_payment_dtl) {
 		this.Id=Id;
 		this.payment_type=payment_type;
