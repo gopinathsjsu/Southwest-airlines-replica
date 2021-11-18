@@ -14,10 +14,30 @@ import { InputGroup, FormControl, Row } from "react-bootstrap/";
 export default class AddCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firstFour: '',
+      secondFour: '',
+      middleFour: '',
+      lastFour: '',
+      nameOnCard: '',
+      month: '',
+      year: '',
+      cvv: '',
+    };
+  }
+
+  onTrigger = () => {
+    this.props.parentCallback(this.state);
+  };
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
   render() {
+    const {firstFour, secondFour, middleFour, lastFour, nameOnCard, month, year, cvv } = this.state;
     return (
       <>
         <div>
@@ -28,10 +48,10 @@ export default class AddCard extends React.Component {
                   Card Number
                 </InputGroup.Text>
 
-                <FormControl aria-label="firstFour" />
-                <FormControl aria-label="secondFour" />
-                <FormControl aria-label="middleFour" />
-                <FormControl aria-label="kastFourar" />
+                <FormControl aria-label="firstFour" name="firstFour" value= {firstFour} onChange={this.handleChange}/>
+                <FormControl aria-label="secondFour" name="secondFour" value= {secondFour} onChange={this.handleChange}/>
+                <FormControl aria-label="middleFour" name="middleFour" value= {middleFour} onChange={this.handleChange}/>
+                <FormControl aria-label="lastFour" name="lastFour" value= {lastFour} onChange={this.handleChange}/>
               </InputGroup>
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">
@@ -41,18 +61,24 @@ export default class AddCard extends React.Component {
                 <FormControl
                   aria-label="Small"
                   aria-describedby="inputGroup-sizing-sm"
+                  name="nameOnCard"
+                  value={nameOnCard}
+                  onChange={this.handleChange}
                 />
               </InputGroup>
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text>Valid Thru (mm/yy)</InputGroup.Text>
-                <FormControl aria-label="month" />
-                <FormControl aria-label="year" />
+                <FormControl aria-label="month" name="month" value={month} onChange={this.handleChange}/>
+                <FormControl aria-label="year" name="year" value={year} onChange={this.handleChange}/>
               </InputGroup>
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">CVV</InputGroup.Text>
                 <FormControl
                   aria-label="Small"
                   aria-describedby="inputGroup-sizing-sm"
+                  name="cvv"
+                  value={cvv}
+                  onChange={this.handleChange}
                 />
               </InputGroup>
             </Row>
@@ -63,8 +89,9 @@ export default class AddCard extends React.Component {
                 endIcon={<SendIcon size="small" />}
                 size="small"
                 style={{ width: "80px" }}
+                onClick={this.onTrigger}
               >
-                Edit
+                Add
               </Button>
               &nbsp;
               <Button

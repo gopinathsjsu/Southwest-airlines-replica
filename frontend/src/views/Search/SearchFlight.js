@@ -6,6 +6,7 @@ import axios from 'axios';
 import backendServer from '../../webConfig';
 import { BsArrowRight } from 'react-icons/bs';
 import { CgAirplane } from 'react-icons/cg';
+import { Redirect } from "react-router";
 
 class SearchFlight extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class SearchFlight extends React.Component {
       children: 0,
       successMsg: '',
       flightList: [],
+      redirectFlag: false,
     };
   }
 
@@ -40,6 +42,7 @@ class SearchFlight extends React.Component {
 
   onSelect = (flight) => {
     localStorage.setItem('flight', JSON.stringify(flight));
+    this.setState({ redirectFlag: true });
   }
 
   handleSubmit = (e) => {
@@ -50,7 +53,7 @@ class SearchFlight extends React.Component {
       tripDestination: destination,
       tripType,
       adults: parseInt(adults),
-      children,
+      children: parseInt(children),
       departureTime: departDate,
       arrivalTime: arriveDate,
     };
@@ -73,7 +76,7 @@ class SearchFlight extends React.Component {
   };
 
   render() {
-    const { flightList, tripType, source, destination, departDate, arriveDate, errorMsg, successMsg, adults, children } = this.state;
+    const { flightList, tripType, source, redirectFlag, destination, departDate, arriveDate, errorMsg, successMsg, adults, children } = this.state;
     // const request = {
     //   source,
     //   destination,
@@ -84,11 +87,10 @@ class SearchFlight extends React.Component {
     //   adults, 
     //   children
     // }
-    // let redirectVar = null;
-    // if (redirectFlag) {
-    //   redirectVar = <Redirect to={{pathname: "/displayFlights",
-    //                               request}} />;
-    // }
+     let redirectVar = null;
+     if (redirectFlag) {
+       redirectVar = <Redirect to="/addpassenger" />;
+     }
     const deptDetails = flightList.filter((flight) => flight.tripSource === source);
     const arrDetails = flightList.filter((flight) => flight.tripSource === destination);
     console.log(deptDetails);
@@ -109,7 +111,7 @@ class SearchFlight extends React.Component {
           {flight.duration}
           </Col>
           <Col>
-          {flight.price}
+          ${flight.price}
           </Col>
           <Col>
           <Button onClick={() => this.onSelect(flight)}>Select</Button>
@@ -147,6 +149,7 @@ class SearchFlight extends React.Component {
     ));
     return (
       <>
+      {redirectVar}
         <h2>Search Flight</h2>
         <div>
           <Container style={{display: 'flex', width: '75rem'}}>
