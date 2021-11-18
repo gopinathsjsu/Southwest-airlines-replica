@@ -37,6 +37,10 @@ public class Payment {
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "booking", referencedColumnName = "id")
+	private Booking booking;
+	
 	@Embedded
 	CardDetails saved_card;
 	

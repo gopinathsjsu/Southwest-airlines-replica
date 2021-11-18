@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Booking;
 import com.component.airline.entity.CardDetails;
+import com.component.airline.entity.Flight;
 import com.component.airline.entity.Mileage;
 import com.component.airline.entity.User;
 import com.component.airline.entity.MileageHistory;
@@ -27,16 +28,14 @@ public class BookingDAOService {
 	
 	public Booking saveBooking(Booking booking){
 		
-		if(booking.getPayment()==null) {
-			User user = booking.getUser();
-			Payment payment = booking.getPayment();
-			booking.setPayment(payment);
-			//flightid
-			//Mileage m= 
-			//add transaction table- add booking
-		}//send 10perc to mileage
-		//jpa entity manager criteria
-		return bookingRepository.save(booking);
+		
+		Flight flight= booking.getFlight();
+		Payment payment= booking.getPayment();
+		Mileage m= payment.getUser().getMileage();
+		m.setAvailableRewards(m.getAvailableRewards()+flight.getPrice()/10.0);
+		booking.setPayment(payment);
+		Booking savedBooking = bookingRepository.save(booking);
+		return savedBooking;
 	}
 	
 	public Booking getBookingById(int bookingId){

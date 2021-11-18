@@ -31,19 +31,16 @@ public class Booking {
 	@Column(name = "travel_date")
 	private Date date;
 
-	@Column(name = "flight_id")
-	private String flightId;
+	@OneToOne
+	private Flight flight;
 
 	@Column(name = "transaction_id")
 	private int transactionId;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, mappedBy="user")
 	@JoinColumn(name = "payment", referencedColumnName = "id") 
 	private Payment payment;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user", referencedColumnName = "id") 
-	private User user;
 	 
 	@Column(name = "status", columnDefinition = "varchar(255) default 'Pending'")
 
@@ -71,12 +68,12 @@ public class Booking {
 		this.date = date;
 	}
 
-	public String getFlightId() {
-		return flightId;
+	public Flight getFlight() {
+		return flight;
 	}
 
-	public void setFlightId(String flightId) {
-		this.flightId = flightId;
+	public void setFlight(Flight flight) {
+		this.flight = flight;
 	}
 
 	public int getTransactionId() {
@@ -91,9 +88,7 @@ public class Booking {
 	
 	public void setPayment(Payment payment) { this.payment = payment; } 
 	
-	public User getUser(){ return user; } 
 	
-	public void setUser(User user) { this.user = user; }
 	 
 	public String getStatus() {
 		return status;
