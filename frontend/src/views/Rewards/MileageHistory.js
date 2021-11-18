@@ -5,55 +5,51 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 class Summary extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = { userMileageProfile: this.props.data };
   }
   render() {
     return (
       <>
         <Typography>Activities</Typography>
-        <Card>
-          <Card.Body>
-            <Row>
-              <Col md={5}>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Hi! User
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 13 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Mileage Rewards
-                </Typography>
-                <Typography
-                  sx={{ fontSize: 13 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Mileage rewards member since
-                  <Button size="small" sx={{ fontSize: 11 }}>
-                    View Profile
-                  </Button>
-                </Typography>
-              </Col>
-              <Col md={4}>&nbsp;</Col>
-              <Col md={3}>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  Points
-                </Typography>
-                <Typography sx={{ fontSize: 24 }} color="text.secondary">
-                  0
-                </Typography>
-                <Button size="small" sx={{ fontSize: 11 }}>
-                  Learn More
-                </Button>
-              </Col>
-            </Row>
-            <Row></Row>
-          </Card.Body>
-        </Card>
+        {this.state.userMileageProfile.mileage.transactions.map((p) => (
+          <Card>
+            <Card.Body>
+              <Row>
+                <Col md={3}>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {p.date_avl}
+                  </Typography>
+                </Col>
+                <Col md={3}>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {p.status}
+                  </Typography>
+                </Col>
+                <Col md={3}>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {p.status === "Availed" ? (
+                      <Typography style={{ color: "green" }}>
+                        +{p.points}
+                      </Typography>
+                    ) : (
+                      <Typography style={{ color: "red" }}>
+                        -{p.points}
+                      </Typography>
+                    )}
+                  </Typography>
+                </Col>
+                <Col md={3}>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    {p.remiaingPoints}
+                  </Typography>
+                </Col>
+              </Row>
+              <Row></Row>
+            </Card.Body>
+          </Card>
+        ))}
       </>
     );
   }

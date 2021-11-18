@@ -1,9 +1,6 @@
 package com.component.airline.db;
 
-import java.sql.Date;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,17 +54,17 @@ public class BookingDAOService {
 		return bookingRepository.findAll();
 	}
 	
-	public Booking getBookingByUserId(int userId){
-		return bookingRepository.findBookingByUser(userId);
-	}
-	
+	/*
+	 * public Booking getBookingByUserId(int userId){ return
+	 * bookingRepository.findBookingByUser(userId); }
+	 */
 	public String deleteByID(int bookingId) {
 		bookingRepository.deleteById(bookingId);
 		return ("Booking deleted BookingID: "+bookingId);
 	}
 	
-	@SuppressWarnings("deprecation")
-	public String availMileagePoints(int bookingId) {
+//	@SuppressWarnings("deprecation")
+	/*public String availMileagePoints(int bookingId) {
 		Booking booking  = bookingRepository.getById(bookingId);
 		if(booking.getStatus().equals("Pending")) {
 			booking.setMileageStatus("Availed");
@@ -86,5 +83,5 @@ public class BookingDAOService {
 		}
 		
 		
-	}
+	}*/
 }

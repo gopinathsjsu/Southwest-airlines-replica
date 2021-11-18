@@ -1,4 +1,4 @@
-package com.component.models;
+package com.component.airline.models;
 
 public class AvailMileagePointsRequest {
 

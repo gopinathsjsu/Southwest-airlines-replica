@@ -1,5 +1,7 @@
 package com.component.airline.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -39,6 +42,9 @@ public class Payment {
 	
 	@Embedded
 	OnlinePaymentDetails online_payment_dtl;
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "payment")
+	private List<Transaction> transaction;
 
 	public CardDetails getCardDetails() {
 		return saved_card;
@@ -96,7 +102,13 @@ public class Payment {
 		this.payment_type = payment_type;
 	}
 
-	
+	public List<Transaction> getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(List<Transaction> transaction) {
+		this.transaction = transaction;
+	}
 	
 	
 }

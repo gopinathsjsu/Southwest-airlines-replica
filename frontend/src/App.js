@@ -3,7 +3,6 @@ import { ThemeProvider } from "@material-ui/styles";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-//import SignIn from "./views/SignIn/";
 import "./App.css";
 import Header from "../src/views/Header/header";
 import DashBoard from "../src/views/Container/DashBoard/DashBoard";
