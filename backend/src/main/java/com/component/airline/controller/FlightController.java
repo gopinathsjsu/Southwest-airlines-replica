@@ -25,7 +25,6 @@ public class FlightController {
 	@ResponseBody
 	public Object getFlightById(@RequestBody Flight flight) {
 		return service.getFlightById(flight);
-		
 	}
 	
 	@PostMapping(path = "/searchFlights", produces=MediaType.APPLICATION_JSON_VALUE)

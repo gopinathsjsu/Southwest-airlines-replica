@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,11 +36,12 @@ public class Transaction {
 	@Column(name = "Cash")
 	private double Cash;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user", referencedColumnName = "id")
-	private User user;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user", referencedColumnName = "id")
+	private User user;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment", referencedColumnName = "id")
 	private Payment payment;
 
@@ -92,18 +94,14 @@ public class Transaction {
 	}
 
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
+	  public User getUser() { return user; }
+	  public void setUser(User user) { this.user = user; }
+	 
 
 	public Payment getPayment() {
 		return payment;
 	}
-
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}

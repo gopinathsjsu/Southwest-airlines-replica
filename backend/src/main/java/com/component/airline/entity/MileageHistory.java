@@ -1,19 +1,29 @@
 package com.component.airline.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="mileage_history")
-public class MileageHistory {
+public class MileageHistory implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "id")
@@ -28,8 +38,16 @@ public class MileageHistory {
 	@Column(name = "points")
 	private int points;
 	
-	@Column(name = "status",columnDefinition = "varchar(255) default Pending")
+	@Column(name = "rem_points",columnDefinition = "integer default 0")
+	private int remiaingPoints;
+	
+	@Column(name = "status",columnDefinition = "varchar(255) default 'Availed'")
 	private String status;
+	
+	@JsonBackReference
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name = "mileage_account", referencedColumnName = "id")
+	private Mileage mileage;
 	
 	public Integer getId() {
 		return id;
@@ -69,6 +87,22 @@ public class MileageHistory {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public int getRemiaingPoints() {
+		return remiaingPoints;
+	}
+
+	public void setRemiaingPoints(int remiaingPoints) {
+		this.remiaingPoints = remiaingPoints;
+	}
+
+	public Mileage getMileage() {
+		return mileage;
+	}
+
+	public void setMileage(Mileage mileage) {
+		this.mileage = mileage;
 	}
 	
 	

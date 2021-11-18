@@ -128,7 +128,7 @@ class DashBoard extends React.Component {
         <Box
           component="main"
           sx={{ flexGrow: 1, p: 3 }}
-          style={{ "padding-left": "250px" }}
+          style={{ "padding-left": "250px", "padding-top": "100px" }}
         >
           {this.state.page === "search" ? <SearchFlight /> : null}
           {this.state.page === "payment" ? <Payment /> : null}

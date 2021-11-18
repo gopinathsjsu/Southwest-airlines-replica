@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.UserDAOService;
 import com.component.airline.entity.User;
-import com.component.models.UserLogin;
-import com.component.models.UserRequestObject;
+
+import com.component.airline.models.UserLogin;
+import com.component.airline.models.UserRequestObject;
+
 
 @RestController
 @RequestMapping(path="/v1/user")
@@ -23,11 +25,10 @@ public class UserController {
 	@Autowired
 	UserDAOService service;
 	
-	@GetMapping(path = "/get", produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/getUser", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object getBooking(@QueryParam(value = "userId") int userId) {
+	public Object getUser(@QueryParam(value = "userId") int userId) {
 		return service.getUserById(userId);
-		
 	}
 	
 	@PostMapping(path = "/register", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -43,7 +44,6 @@ public class UserController {
 		return service.updateUser(user);
 		
 	}
-	
 	
 	@PostMapping(path = "/login", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
