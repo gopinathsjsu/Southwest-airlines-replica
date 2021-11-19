@@ -23,6 +23,7 @@ export default class AddCard extends React.Component {
       month: '',
       year: '',
       cvv: '',
+      paymentType: 'Credit Card'
     };
   }
 
@@ -78,26 +79,6 @@ export default class AddCard extends React.Component {
                   onChange={this.handleChange}
                 />
               </InputGroup>
-            </Row>
-            <Row style={{ alignItems: "right" }}>
-              &nbsp; &nbsp;
-              <Button
-                variant="contained"
-                endIcon={<SendIcon size="small" />}
-                size="small"
-                style={{ width: "80px" }}
-              >
-                Edit
-              </Button>
-              &nbsp;
-              <Button
-                size="small"
-                variant="outlined"
-                endIcon={<DeleteIcon size="small" />}
-                style={{ width: "100px" }}
-              >
-                Remove
-              </Button>
             </Row>
           </Col>
         </div>

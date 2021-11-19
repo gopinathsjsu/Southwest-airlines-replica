@@ -152,6 +152,7 @@ export default class BookingReview extends React.Component {
           <Card>
             <Card.Header>Payment Details</Card.Header>
             <Card.Body>
+              {paymentDetails.paymentType === 'Credit Card' &&
               <Row>
                   <Col>
                   Card Number: <b>{paymentDetails.firstFour}{'-'}{paymentDetails.secondFour}{'-'}{paymentDetails.middleFour}{'-'}{paymentDetails.lastFour}</b>
@@ -165,7 +166,22 @@ export default class BookingReview extends React.Component {
                   <Col>
                   CVV: <b>{paymentDetails.cvv}</b>
                   </Col>
-              </Row>
+              </Row>}
+              {paymentDetails.paymentType === 'Bank Account' &&
+              <Row>
+                  <Col>
+                  Bank Name: <b>{paymentDetails.bankName}</b>
+                  </Col>
+                  <Col>
+                  Account Number: <b>{paymentDetails.accNumber}</b>
+                  </Col>
+                  <Col>
+                  IFSC Code: <b>{paymentDetails.ifscCode}</b>
+                  </Col>
+                  <Col>
+                  CVV: <b>{paymentDetails.cvv}</b>
+                  </Col>
+              </Row>}
               <br />
               <Row>
                   <Col>
