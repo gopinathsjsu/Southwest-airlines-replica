@@ -31,6 +31,9 @@ public class BookingDAOService {
 		
 		Flight flight= booking.getFlight();
 		Payment payment= booking.getPayment();
+		System.out.println(flight.getFlightName());
+		System.out.println(payment.getPayment_type());
+		
 		Mileage m= payment.getUser().getMileage();
 		m.setAvailableRewards(m.getAvailableRewards()+flight.getPrice()/10.0);
 		booking.setPayment(payment);

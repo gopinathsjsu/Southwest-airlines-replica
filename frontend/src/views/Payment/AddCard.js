@@ -23,7 +23,7 @@ export default class AddCard extends React.Component {
       month: '',
       year: '',
       cvv: '',
-      paymentType: 'Credit Card'
+      payment_type: 'Credit Card'
     };
   }
 

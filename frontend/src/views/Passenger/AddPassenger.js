@@ -15,6 +15,7 @@ export default class AddPassenger extends React.Component {
       passengers: [{firstName: "", lastName: "", govtId: "", govtIdNum: ""}],
       flightDetails: '',
       redirectFlag: '',
+      redirectBackFlag: false,
     };
   }
 
@@ -32,6 +33,11 @@ export default class AddPassenger extends React.Component {
     console.log(passengers);
     passengers[i][e.target.name] = e.target.value;
     this.setState({ passengers });
+  }
+
+  handleBack = (e) => {
+    e.preventDefault();
+    this.setState({ redirectBackFlag: true });
   }
 
   addFormFields() {
@@ -53,11 +59,14 @@ export default class AddPassenger extends React.Component {
   }
 
   render() {
-    const { flightDetails, redirectFlag} = this.state;
+    const { flightDetails, redirectFlag, redirectBackFlag} = this.state;
     let redirectVar = null;
      if (redirectFlag) {
        redirectVar = <Redirect to="/bookingpayment" />;
      }
+     if (redirectBackFlag) {
+      redirectVar = <Redirect to="/dashboard" />;
+    }
     return (
       <>
       {redirectVar}
@@ -168,7 +177,7 @@ export default class AddPassenger extends React.Component {
           &nbsp;
           <Form>
           <div>
-            <Button variant="danger">
+            <Button variant="danger" type="submit" onClick={this.handleBack}>
               <ChevronLeftIcon />
               Select Flight
             </Button>{" "}

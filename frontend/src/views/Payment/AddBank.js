@@ -9,7 +9,7 @@ export default class AddBank extends React.Component {
       accNumber: '',
       ifscCode: '',
       cvv: '',
-      paymentType: 'Bank Account'
+      payment_type: 'Bank Account'
     };
   }
 

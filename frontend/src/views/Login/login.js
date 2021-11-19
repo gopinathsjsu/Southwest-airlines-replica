@@ -46,7 +46,7 @@ export default class Login extends React.Component {
             user: response.data,
             redirectFlag: true,
           });
-          window.sessionStorage.setItem("user", this.state.user.toString());
+          window.sessionStorage.setItem("user", JSON.stringify(this.state.user));
         } else {
           this.setState({ errorMsg: response.data });
         }
