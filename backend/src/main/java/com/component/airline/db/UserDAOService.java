@@ -11,8 +11,6 @@ import com.component.airline.entity.User;
 import com.component.airline.models.UserLogin;
 import com.component.airline.models.UserRequestObject;
 import com.component.airline.repository.UserRepository;
-import com.component.models.UserLogin;
-import com.component.models.UserRequestObject;
 
 @Service
 public class UserDAOService {

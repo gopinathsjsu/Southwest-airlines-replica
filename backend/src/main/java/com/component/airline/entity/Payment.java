@@ -33,11 +33,11 @@ public class Payment {
 	@Column(name = "payment_type")
 	String payment_type;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "booking", referencedColumnName = "id")
 	private Booking booking;
 	

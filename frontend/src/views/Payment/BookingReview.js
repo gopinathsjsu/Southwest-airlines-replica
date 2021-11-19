@@ -32,14 +32,31 @@ export default class BookingReview extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { flightDetails, passengers, paymentDetails } = this.state;
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    let saved_card = '';
+    let payment = '';
+    if(paymentDetails.payment_type === "Credit Card"){
+        saved_card = {
+            cardNumber : paymentDetails.firstFour+'-'+paymentDetails.secondFour+'-'+paymentDetails.middleFour+'-'+paymentDetails.lastFour,
+            nameOnCard : paymentDetails.nameOnCard,
+            expirationDate : paymentDetails.month+'/'+paymentDetails.year
+        }
+        payment = {
+            payment_type : paymentDetails.payment_type,
+            saved_card : saved_card,
+            user : user
+        }
+    }
+    
     const inputData = {
         flight: flightDetails,
         passengers,
-        payment: paymentDetails
+        payment: payment,
+        user: user
     }
     console.log(inputData);
     axios
-      .post(`${backendServer}/saveBooking`, inputData)
+      .post(`${backendServer}/addBooking`, inputData)
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
@@ -152,7 +169,7 @@ export default class BookingReview extends React.Component {
           <Card>
             <Card.Header>Payment Details</Card.Header>
             <Card.Body>
-              {paymentDetails.paymentType === 'Credit Card' &&
+              {paymentDetails.payment_type === 'Credit Card' &&
               <Row>
                   <Col>
                   Card Number: <b>{paymentDetails.firstFour}{'-'}{paymentDetails.secondFour}{'-'}{paymentDetails.middleFour}{'-'}{paymentDetails.lastFour}</b>
@@ -167,7 +184,7 @@ export default class BookingReview extends React.Component {
                   CVV: <b>{paymentDetails.cvv}</b>
                   </Col>
               </Row>}
-              {paymentDetails.paymentType === 'Bank Account' &&
+              {paymentDetails.payment_type === 'Bank Account' &&
               <Row>
                   <Col>
                   Bank Name: <b>{paymentDetails.bankName}</b>

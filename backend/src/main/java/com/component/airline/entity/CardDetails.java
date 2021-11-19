@@ -15,7 +15,7 @@ public class CardDetails {
 	private String nameOnCard;
 	
 	@Column(name = "exp_date")
-	private Date expirationDate;
+	private String expirationDate;
 	
 	public String getCardNumber() {
 		return cardNumber;
@@ -29,10 +29,10 @@ public class CardDetails {
 	public void setNameOnCard(String nameOnCard) {
 		this.nameOnCard = nameOnCard;
 	}
-	public Date getExpirationDate() {
+	public String getExpirationDate() {
 		return expirationDate;
 	}
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 	
