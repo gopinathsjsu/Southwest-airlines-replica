@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import AddCard from './AddCard';
+import AddBank from './AddBank';
 import { Redirect } from "react-router";
 
 export default class BookingPayment extends React.Component {
@@ -18,6 +19,7 @@ export default class BookingPayment extends React.Component {
       paymentDetails: '',
       redirectFlag: false,
       redirectBackFlag: false,
+      paymentType: 'Credit Card',
     };
   }
 
@@ -33,7 +35,6 @@ export default class BookingPayment extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log("payment "+ this.state.paymentDetails);
     localStorage.setItem('payment', JSON.stringify(this.state.paymentDetails));
     this.setState({ redirectFlag: true });
   }
@@ -43,8 +44,20 @@ export default class BookingPayment extends React.Component {
     this.setState({ redirectBackFlag: true });
   }
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
   render() {
-    const { flightDetails, passengers, redirectFlag, redirectBackFlag } = this.state;
+    const { flightDetails, passengers, redirectFlag, redirectBackFlag, paymentType } = this.state;
+    let showCard = false;
+    if(paymentType === "Credit Card"){
+      showCard = true;
+    }else{
+      showCard = false;
+    }
     let redirectVar = null;
     console.log("redirectFlag"+redirectFlag);
      if (redirectFlag) {
@@ -140,7 +153,11 @@ export default class BookingPayment extends React.Component {
           <Card>
             <Card.Header>Payment Details</Card.Header>
             <Card.Body>
-              <AddCard parentCallback = {this.handleCallback}/>
+              <Form.Check className="mr-sm-2" inline value="Credit Card" defaultChecked="true" label="Credit Card" name="paymentType" type="radio" id="Credit Card" onChange={this.handleChange} />
+              <Form.Check className="mr-sm-2" inline value="Bank Account" label="Bank Account" name="paymentType" type="radio" id="Bank Account" onChange={this.handleChange} />
+              {showCard && <AddCard parentCallback = {this.handleCallback}/>}
+              {!showCard && <AddBank parentCallback = {this.handleCallback}></AddBank>}
+
             </Card.Body>
           </Card>
           </Form>
