@@ -27,8 +27,6 @@ public class Transaction {
 	@Column(name = "Tran_date")
 	private Date Tran_date;
 	
-	@Column(name = "Payment_id")
-	private int Payment_id;
 	
 	@Column(name = "Rewards")
 	private int Rewards;
@@ -37,7 +35,7 @@ public class Transaction {
 	private double Cash;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 	
@@ -69,13 +67,11 @@ public class Transaction {
 		Tran_date = tran_date;
 	}
 
-	public int getPayment_id() {
-		return Payment_id;
-	}
-
-	public void setPayment_id(int payment_id) {
-		Payment_id = payment_id;
-	}
+	/*
+	 * public int getPayment_id() { return Payment_id; }
+	 * 
+	 * public void setPayment_id(int payment_id) { Payment_id = payment_id; }
+	 */
 
 	public int getRewards() {
 		return Rewards;

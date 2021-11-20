@@ -2,8 +2,14 @@ package com.component.airline.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -19,48 +25,73 @@ import lombok.NoArgsConstructor;
 public class Passenger {
 	
 	@Id
-	int passengerID;
-	String firstName;
-	Date dateOfBooking;
-	String passportID;
-	int bookingID;
-	String seatNo;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
+	private Integer id;
 	
-	public int getPassengerID() {
-		return passengerID;
+	@Column(name = "firstName")
+	private String firstName;
+	
+	@Column(name = "lastName")
+	private String lastName;
+	
+	@Column(name = "govtId")
+	private String govtId;
+	
+	@Column(name = "govtIdNum")
+	private String govtIdNum;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "booking", referencedColumnName = "id")
+	public Booking booking;
+
+	public Integer getId() {
+		return id;
 	}
-	public void setPassengerID(int passengerID) {
-		this.passengerID = passengerID;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	public Date getDateOfBooking() {
-		return dateOfBooking;
+
+	public String getLastName() {
+		return lastName;
 	}
-	public void setDateOfBooking(Date dateOfBooking) {
-		this.dateOfBooking = dateOfBooking;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public String getPassportID() {
-		return passportID;
+
+	public String getGovtId() {
+		return govtId;
 	}
-	public void setPassportID(String passportID) {
-		this.passportID = passportID;
+
+	public void setGovtId(String govtId) {
+		this.govtId = govtId;
 	}
-	public int getBookingID() {
-		return bookingID;
+
+	public String getGovtIdNum() {
+		return govtIdNum;
 	}
-	public void setBookingID(int bookingID) {
-		this.bookingID = bookingID;
+
+	public void setGovtIdNum(String govtIdNum) {
+		this.govtIdNum = govtIdNum;
 	}
-	public String getSeatNo() {
-		return seatNo;
+
+	public Booking getBooking() {
+		return booking;
 	}
-	public void setSeatNo(String seatNo) {
-		this.seatNo = seatNo;
+
+	public void setBooking(Booking booking) {
+		this.booking = booking;
 	}
+	
 	
 }

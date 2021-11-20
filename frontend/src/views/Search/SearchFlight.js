@@ -140,7 +140,7 @@ class SearchFlight extends React.Component {
           {flight.price}
           </Col>
           <Col>
-          <Button>Select</Button>
+          <Button onClick={() => this.onSelect(flight)}>Select</Button>
           </Col>
           </Row>
         </ListGroup.Item>

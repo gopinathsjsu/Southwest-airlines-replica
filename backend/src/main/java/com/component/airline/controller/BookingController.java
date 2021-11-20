@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.component.airline.db.BookingDAOService;
 import com.component.airline.entity.Booking;
 import com.component.airline.models.AvailMileagePointsRequest;
+import com.component.airline.models.BookingRequestObject;
 
 @RestController
 public class BookingController {
@@ -23,7 +24,7 @@ public class BookingController {
 	
 	@PostMapping("/addBooking")
 	@ResponseBody
-	public Booking addBooking(@RequestBody Booking booking) {
+	public Booking addBooking(@RequestBody BookingRequestObject booking) {
 		return service.saveBooking(booking);
 		
 	}

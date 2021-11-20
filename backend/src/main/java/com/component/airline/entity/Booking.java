@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,12 +35,13 @@ public class Booking {
 	@OneToOne
 	private Flight flight;
 
-	@Column(name = "transaction_id")
-	private int transactionId;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "transaction", referencedColumnName = "id")
+	public Transaction transaction;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy="user")
+	/*@OneToOne(cascade = CascadeType.ALL, mappedBy="user")
 	@JoinColumn(name = "payment", referencedColumnName = "id") 
-	private Payment payment;
+	private Payment payment;*/
 
 	 
 	@Column(name = "status", columnDefinition = "varchar(255) default 'Pending'")
@@ -76,19 +78,20 @@ public class Booking {
 		this.flight = flight;
 	}
 
-	public int getTransactionId() {
-		return transactionId;
+	public Transaction getTransaction() {
+		return transaction;
 	}
 
-	public void setTransactionId(int transactionId) {
-		this.transactionId = transactionId;
+	public void setTransaction(Transaction transaction) {
+		this.transaction = transaction;
 	}
 	
-	public Payment getPayment() { return payment; } 
-	
-	public void setPayment(Payment payment) { this.payment = payment; } 
-	
-	
+	/*
+	 * public Payment getPayment() { return payment; }
+	 * 
+	 * public void setPayment(Payment payment) { this.payment = payment; }
+	 * 
+	 */
 	 
 	public String getStatus() {
 		return status;
