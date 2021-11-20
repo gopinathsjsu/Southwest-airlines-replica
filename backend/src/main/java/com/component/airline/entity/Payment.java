@@ -37,18 +37,18 @@ public class Payment {
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "booking", referencedColumnName = "id")
-	private Booking booking;
+	/*
+	 * @OneToOne(cascade = CascadeType.MERGE)
+	 * 
+	 * @JoinColumn(name = "booking", referencedColumnName = "id") private Booking
+	 * booking;
+	 */
 	
 	@Embedded
 	CardDetails saved_card;
 	
 	@Embedded
 	OnlinePaymentDetails online_payment_dtl;
-	
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "payment")
-	private List<Transaction> transaction;
 
 	public CardDetails getCardDetails() {
 		return saved_card;
@@ -105,14 +105,5 @@ public class Payment {
 	public void setPayment_type(String payment_type) {
 		this.payment_type = payment_type;
 	}
-
-	public List<Transaction> getTransaction() {
-		return transaction;
-	}
-
-	public void setTransaction(List<Transaction> transaction) {
-		this.transaction = transaction;
-	}
-	
 	
 }

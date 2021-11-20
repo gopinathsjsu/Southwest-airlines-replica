@@ -33,27 +33,19 @@ export default class BookingReview extends React.Component {
     e.preventDefault();
     const { flightDetails, passengers, paymentDetails } = this.state;
     const user = JSON.parse(sessionStorage.getItem('user'));
-    let saved_card = '';
-    let payment = '';
+    let inputData = '';
     if(paymentDetails.payment_type === "Credit Card"){
-        saved_card = {
-            cardNumber : paymentDetails.firstFour+'-'+paymentDetails.secondFour+'-'+paymentDetails.middleFour+'-'+paymentDetails.lastFour,
-            nameOnCard : paymentDetails.nameOnCard,
-            expirationDate : paymentDetails.month+'/'+paymentDetails.year
-        }
-        payment = {
-            payment_type : paymentDetails.payment_type,
-            saved_card : saved_card,
-            user : user
-        }
-    }
-    
-    const inputData = {
+      inputData = {
         flight: flightDetails,
-        passengers,
-        payment: payment,
-        user: user
+        payment_type : paymentDetails.payment_type,
+        cardNumber : paymentDetails.firstFour+'-'+paymentDetails.secondFour+'-'+paymentDetails.middleFour+'-'+paymentDetails.lastFour,
+        nameOnCard : paymentDetails.nameOnCard,
+        expirationDate : paymentDetails.month+'/'+paymentDetails.year,
+        user: user,
+        passengers
+      }
     }
+  
     console.log(inputData);
     axios
       .post(`${backendServer}/addBooking`, inputData)
@@ -63,6 +55,7 @@ export default class BookingReview extends React.Component {
           this.setState({
             bookingConfirm: response.data,
           });
+          alert("booking success ");
         } else {
           this.setState({ errorMsg: response.data });
         }

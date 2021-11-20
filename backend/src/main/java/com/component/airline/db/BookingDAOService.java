@@ -1,19 +1,27 @@
 package com.component.airline.db;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.component.airline.entity.Booking;
 import com.component.airline.entity.CardDetails;
 import com.component.airline.entity.Flight;
 import com.component.airline.entity.Mileage;
 import com.component.airline.entity.User;
+import com.component.airline.models.BookingRequestObject;
 import com.component.airline.entity.MileageHistory;
+import com.component.airline.entity.Passenger;
 import com.component.airline.entity.Payment;
+import com.component.airline.entity.Transaction;
 import com.component.airline.repository.BookingRepository;
 import com.component.airline.repository.MileageHistoryRepository;
+import com.component.airline.repository.PassengerRepository;
+import com.component.airline.repository.PaymentRepository;
+import com.component.airline.repository.TransactionRepository;
 
 @Service
 public class BookingDAOService {
@@ -21,23 +29,54 @@ public class BookingDAOService {
 	@Autowired
 	BookingRepository bookingRepository;
 	
+	@Autowired 
+	PaymentRepository paymentRepository;
+	
+	@Autowired
+	TransactionRepository transactionRepository;
+	
 	@Autowired
 	MileageHistoryRepository mileageHistoryRepository;
 	
+	@Autowired 
+	PassengerRepository passengerRepository;
 	
 	
-	public Booking saveBooking(Booking booking){
+	@Transactional
+	public Booking saveBooking(BookingRequestObject bookingReq){
 		
+		Payment payment = new Payment();
+		payment.setPayment_type(bookingReq.getPayment_type());
+		CardDetails card = new CardDetails();
+		card.setCardNumber(bookingReq.getCardNumber());
+		card.setNameOnCard(bookingReq.getNameOnCard());
+		card.setExpirationDate(bookingReq.getExpirationDate());
+		payment.setCardDetails(card);
+		payment.setUser(bookingReq.getUser());
 		
-		Flight flight= booking.getFlight();
-		Payment payment= booking.getPayment();
-		System.out.println(flight.getFlightName());
-		System.out.println(payment.getPayment_type());
+		Payment savedPayment = paymentRepository.save(payment);
+		
+		Transaction transaction = new Transaction();
+		transaction.setPayment(savedPayment);
+		transaction.setTotal_amt(bookingReq.getFlight().getPrice());
+		Date sqlDate = new Date(System.currentTimeMillis());
+		transaction.setTran_date(sqlDate);
+		transaction.setUser(bookingReq.getUser());
+		Transaction savedTrans = transactionRepository.save(transaction);
+		
+		Booking booking = new Booking();
+		booking.setFlight(bookingReq.getFlight());
+		booking.setTransaction(savedTrans);
 		
 		Mileage m= payment.getUser().getMileage();
-		m.setAvailableRewards(m.getAvailableRewards()+flight.getPrice()/10.0);
-		booking.setPayment(payment);
+		m.setAvailableRewards(m.getAvailableRewards()+bookingReq.getFlight().getPrice()/10.0);
 		Booking savedBooking = bookingRepository.save(booking);
+		
+		List<Passenger> passengers = bookingReq.getPassengers();
+		for(Passenger p : passengers) {
+			p.setBooking(savedBooking);
+			passengerRepository.save(p);
+		}
 		return savedBooking;
 	}
 	
