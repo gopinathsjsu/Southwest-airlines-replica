@@ -48,7 +48,7 @@ function App() {
                   path="/displayFlights"
                   render={(props) => <DisplayFlights {...props} />}
                 />
-                <Route path="/login" exact component={() => <Login />} />
+                <Route path="/" exact component={() => <Login />} />
                 <Route path="/signup" exact component={() => <SignUp />} />
                 <Route
                   path="/addpassenger"
