@@ -29,6 +29,9 @@ public class Passenger {
 	@Column(name = "id")
 	private Integer id;
 	
+	@Column(name="age")
+	private int age;
+	
 	@Column(name = "firstName")
 	private String firstName;
 	
@@ -92,6 +95,14 @@ public class Passenger {
 
 	public void setBooking(Booking booking) {
 		this.booking = booking;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 	
 	

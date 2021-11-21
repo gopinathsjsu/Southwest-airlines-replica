@@ -3,11 +3,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { ReactComponent as Logo } from "../../../swa_logo_dark.svg";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -24,6 +21,9 @@ import Payment from "../../Payment/Payment";
 import Booking from "../../Bookings/Booking";
 import Mileage from "../../Rewards/Mileage";
 import Profile from "../../Profile/Profile";
+import AddPassenger from "../../Passenger/AddPassenger";
+import BookingPayment from "../../Payment/BookingPayment";
+import { Redirect } from "react-router";
 //import Profile from "../../";
 const drawerWidth = 240;
 class DashBoard extends React.Component {
@@ -31,15 +31,18 @@ class DashBoard extends React.Component {
     super(props);
     this.state = {
       page: "search",
-      user: "",
+      user: JSON.parse(localStorage.getItem("user")),
     };
   }
+
+  setPage = (page) => {
+    this.setState({ page: page, redirectFlag: false });
+  };
 
   componentDidMount = () => {
     this.setState({
       user: JSON.parse(localStorage.getItem("user")),
     });
-    console.log(this.state.user.user_type);
   };
   handlePageChange = (e) => {
     if (e.target.innerText === "My Profile") {
@@ -67,9 +70,22 @@ class DashBoard extends React.Component {
     });
   };
 
+  handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("payment");
+    localStorage.removeItem("passengers");
+    localStorage.removeItem("flight");
+    this.setState({ redirectFlag: true });
+  };
+
   render() {
+    let redirectVar = null;
+    if (this.state.redirectFlag) {
+      redirectVar = <Redirect to={{ pathname: "/login" }} />;
+    }
     return (
       <div>
+        {redirectVar}
         <Drawer
           variant="permanent"
           sx={{
@@ -84,7 +100,8 @@ class DashBoard extends React.Component {
           <Toolbar />
           <Box sx={{ overflow: "auto" }}>
             <List>
-              {this.state.user.user_type === "Customer" ? (
+              {this.state.user !== null &&
+              this.state.user.user_type === "Customer" ? (
                 <>
                   <ListItem button key="SearchFlight">
                     <ListItemIcon>
@@ -151,7 +168,7 @@ class DashBoard extends React.Component {
             <Divider />
             <List>
               {["Logout"].map((text, index) => (
-                <ListItem button key={text}>
+                <ListItem button key={text} onClick={this.handleLogout}>
                   <ListItemIcon>
                     <Logout />
                   </ListItemIcon>
@@ -166,11 +183,19 @@ class DashBoard extends React.Component {
           sx={{ flexGrow: 1, p: 3 }}
           style={{ "padding-left": "250px", "padding-top": "100px" }}
         >
-          {this.state.page === "search" ? <SearchFlight /> : null}
+          {this.state.page === "search" ? (
+            <SearchFlight setPage={this.setPage} />
+          ) : null}
           {this.state.page === "payment" ? <Payment /> : null}
           {this.state.page === "booking" ? <Booking /> : null}
           {this.state.page === "profile" ? <Profile /> : null}
           {this.state.page === "rewards" ? <Mileage /> : null}
+          {this.state.page === "addpassenger" ? (
+            <AddPassenger setPage={this.setPage} />
+          ) : null}
+          {this.state.page === "addpayment" ? (
+            <BookingPayment setPage={this.setPage} />
+          ) : null}
         </Box>
       </div>
     );

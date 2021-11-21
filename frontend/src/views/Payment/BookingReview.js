@@ -107,148 +107,134 @@ export default class BookingReview extends React.Component {
     return (
       <>
         {redirectVar}{" "}
-        <div
-          style={{
-            "padding-top": "100px",
-            "align-items": "center",
-            "justify-content": "center",
-          }}
-        >
-          <Card>
-            <Card.Header>Flight Details</Card.Header>
+        <Card>
+          <Card.Header>Flight Details</Card.Header>
+          <Card.Body>
             <Card.Body>
-              <Card.Body>
-                <Row>
-                  <Col>
-                    Flight Name: <b>{flightDetails.flightName}</b>
-                  </Col>
-                  <Col>
-                    Number of stops: <b>{flightDetails.stops}</b>
-                  </Col>
-                  <Col>
-                    Duration: <b>{flightDetails.duration}</b>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    Departure Date:{" "}
-                    <b>
-                      {new Date(flightDetails.departureTime).toLocaleString()}
-                    </b>
-                  </Col>
-                  <Col>
-                    Arrival Date:{" "}
-                    <b>
-                      {new Date(flightDetails.arrivalTime).toLocaleString()}
-                    </b>
-                  </Col>
-                  <Col>
-                    Price:{" $"}
-                    <b>{flightDetails.price}</b>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card.Body>
-          </Card>
-          &nbsp;
-          <Card>
-            <Card.Header>Passenger Details</Card.Header>
-            <Card.Body>
-              {" "}
               <Row>
                 <Col>
-                  <b>First Name</b>
+                  Flight Name: <b>{flightDetails.flightName}</b>
                 </Col>
                 <Col>
-                  <b>Last Name</b>
+                  Number of stops: <b>{flightDetails.stops}</b>
                 </Col>
                 <Col>
-                  <b>Government ID</b>
-                </Col>
-                <Col>
-                  <b>Government ID Number</b>
+                  Duration: <b>{flightDetails.duration}</b>
                 </Col>
               </Row>
-              {passengerDetails}
-            </Card.Body>
-          </Card>
-          &nbsp;
-          <Card>
-            <Card.Header>Payment Details</Card.Header>
-            <Card.Body>
-              {paymentDetails.payment_type === "Credit Card" && (
-                <Row>
-                  <Col>
-                    Card Number:{" "}
-                    <b>
-                      {paymentDetails.firstFour}
-                      {"-"}
-                      {paymentDetails.secondFour}
-                      {"-"}
-                      {paymentDetails.middleFour}
-                      {"-"}
-                      {paymentDetails.lastFour}
-                    </b>
-                  </Col>
-                  <Col>
-                    Name on Card: <b>{paymentDetails.nameOnCard}</b>
-                  </Col>
-                  <Col>
-                    Valid thru(mm/yy):{" "}
-                    <b>
-                      {paymentDetails.month}
-                      {"/"}
-                      {paymentDetails.year}
-                    </b>
-                  </Col>
-                  <Col>
-                    CVV: <b>{paymentDetails.cvv}</b>
-                  </Col>
-                </Row>
-              )}
-              {paymentDetails.payment_type === "Bank Account" && (
-                <Row>
-                  <Col>
-                    Bank Name: <b>{paymentDetails.bankName}</b>
-                  </Col>
-                  <Col>
-                    Account Number: <b>{paymentDetails.accNumber}</b>
-                  </Col>
-                  <Col>
-                    IFSC Code: <b>{paymentDetails.ifscCode}</b>
-                  </Col>
-                  <Col>
-                    CVV: <b>{paymentDetails.cvv}</b>
-                  </Col>
-                </Row>
-              )}
-              <br />
               <Row>
                 <Col>
-                  <h5>Amount to be paid:</h5>
+                  Departure Date:{" "}
+                  <b>
+                    {new Date(flightDetails.departureTime).toLocaleString()}
+                  </b>
                 </Col>
                 <Col>
-                  <h5>{flightDetails.price}</h5>
+                  Arrival Date:{" "}
+                  <b>{new Date(flightDetails.arrivalTime).toLocaleString()}</b>
+                </Col>
+                <Col>
+                  Price:{" $"}
+                  <b>{flightDetails.price}</b>
                 </Col>
               </Row>
             </Card.Body>
-          </Card>
-          &nbsp;
-          <div>
-            <Form>
-              <Button variant="danger" type="submit" onClick={this.handleBack}>
-                <ChevronLeftIcon />
-                Edit Payment
-              </Button>{" "}
-              <Button
-                variant="danger"
-                type="submit"
-                onClick={this.handleSubmit}
-              >
-                Confirm Booking
-              </Button>{" "}
-            </Form>
-          </div>
+          </Card.Body>
+        </Card>
+        &nbsp;
+        <Card>
+          <Card.Header>Passenger Details</Card.Header>
+          <Card.Body>
+            {" "}
+            <Row>
+              <Col>
+                <b>First Name</b>
+              </Col>
+              <Col>
+                <b>Last Name</b>
+              </Col>
+              <Col>
+                <b>Government ID</b>
+              </Col>
+              <Col>
+                <b>Government ID Number</b>
+              </Col>
+            </Row>
+            {passengerDetails}
+          </Card.Body>
+        </Card>
+        &nbsp;
+        <Card>
+          <Card.Header>Payment Details</Card.Header>
+          <Card.Body>
+            {paymentDetails.payment_type === "Credit Card" && (
+              <Row>
+                <Col>
+                  Card Number:{" "}
+                  <b>
+                    {paymentDetails.firstFour}
+                    {"-"}
+                    {paymentDetails.secondFour}
+                    {"-"}
+                    {paymentDetails.middleFour}
+                    {"-"}
+                    {paymentDetails.lastFour}
+                  </b>
+                </Col>
+                <Col>
+                  Name on Card: <b>{paymentDetails.nameOnCard}</b>
+                </Col>
+                <Col>
+                  Valid thru(mm/yy):{" "}
+                  <b>
+                    {paymentDetails.month}
+                    {"/"}
+                    {paymentDetails.year}
+                  </b>
+                </Col>
+                <Col>
+                  CVV: <b>{paymentDetails.cvv}</b>
+                </Col>
+              </Row>
+            )}
+            {paymentDetails.payment_type === "Bank Account" && (
+              <Row>
+                <Col>
+                  Bank Name: <b>{paymentDetails.bankName}</b>
+                </Col>
+                <Col>
+                  Account Number: <b>{paymentDetails.accNumber}</b>
+                </Col>
+                <Col>
+                  IFSC Code: <b>{paymentDetails.ifscCode}</b>
+                </Col>
+                <Col>
+                  CVV: <b>{paymentDetails.cvv}</b>
+                </Col>
+              </Row>
+            )}
+            <br />
+            <Row>
+              <Col>
+                <h5>Amount to be paid:</h5>
+              </Col>
+              <Col>
+                <h5>{flightDetails.price}</h5>
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
+        &nbsp;
+        <div>
+          <Form>
+            <Button variant="danger" type="submit" onClick={this.handleBack}>
+              <ChevronLeftIcon />
+              Edit Payment
+            </Button>{" "}
+            <Button variant="danger" type="submit" onClick={this.handleSubmit}>
+              Confirm Booking
+            </Button>{" "}
+          </Form>
         </div>
       </>
     );
