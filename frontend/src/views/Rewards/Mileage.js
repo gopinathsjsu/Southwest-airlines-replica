@@ -15,12 +15,13 @@ class Mileage extends React.Component {
     super();
     this.state = {
       page: "default",
-      userId: "",
+      user: JSON.parse(localStorage.getItem("user")),
       userMileageProfile: "",
     };
   }
 
   componentDidMount() {
+    this.setState({ user: JSON.parse(localStorage.getItem("user")) });
     this.getMileage();
   }
 
@@ -57,27 +58,29 @@ class Mileage extends React.Component {
               <Row>
                 <Col md={5}>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    Hi! User
+                    Hi! {this.state.user.first_name}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 13 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    Mileage Rewards {this.state.userMileageProfile.mileage.id}
+                    Mileage Rewards ID: {this.state.user.mileage.id}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 13 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    Mileage rewards member since{" "}
-                    {this.state.userMileageProfile.mileage.memberSince}
-                    <Button size="small" sx={{ fontSize: 11 }}>
-                      View Profile
-                      <ChevronRightIcon />
-                    </Button>
+                    Member since{" "}
+                    {new Date(
+                      this.state.user.mileage.memberSince
+                    ).toLocaleDateString()}
                   </Typography>
+                  <Button size="small" sx={{ fontSize: 11 }}>
+                    View Profile
+                    <ChevronRightIcon />
+                  </Button>
                 </Col>
                 <Col md={4}>&nbsp;</Col>
                 <Col md={3}>
@@ -85,7 +88,7 @@ class Mileage extends React.Component {
                     Points
                   </Typography>
                   <Typography sx={{ fontSize: 24 }} color="text.secondary">
-                    {this.state.userMileageProfile.mileage.points}
+                    {this.state.user.mileage.availableRewards}
                   </Typography>
                   <Button
                     size="small"

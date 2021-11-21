@@ -1,12 +1,14 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Divider from "@mui/material/Divider";
+import backendServer from "../../webConfig";
+import axios from "axios";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
@@ -26,8 +28,36 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 class Summary extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = { bookingId: "" };
   }
+
+  handleAvailBooking = (e) => {
+    e.preventDefault();
+    const { bookingId } = this.state;
+    const booking = {
+      bookingId: bookingId,
+    };
+    console.log(booking);
+    axios
+      .post(`${backendServer}/availBooking`, booking)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            user: response.data,
+            redirectFlag: true,
+          });
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
+  };
+  handleBookingId = (e) => {
+    this.setState({ bookingId: e.target.value });
+  };
   render() {
     return (
       <>
@@ -172,8 +202,14 @@ class Summary extends React.Component {
                       placeholder="Booking ID"
                       aria-label="Booking ID"
                       aria-describedby="basic-addon2"
+                      value={this.state.bookingId}
+                      onChange={this.handleBookingId}
                     />
-                    <Button variant="outline-secondary" id="button-addon2">
+                    <Button
+                      variant="outline-secondary"
+                      id="button-addon2"
+                      onClick={this.handleAvailBooking}
+                    >
                       Avail
                     </Button>
                   </InputGroup>

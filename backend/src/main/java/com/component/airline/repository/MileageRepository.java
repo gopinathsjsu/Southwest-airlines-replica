@@ -1,5 +1,7 @@
 package com.component.airline.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +21,6 @@ public interface MileageRepository extends JpaRepository<Mileage, Integer>{
 			@Param("tripSource") String tripSource, @Param("tripType") String tripType);
 
 	//Mileage findMileageByUserId(int id);
+	 @Query("SELECT p from Mileage p where p.user.Id =:user") 
+	 List<Mileage>getByUserId(@Param("user") int user);
 }
