@@ -12,7 +12,7 @@ export default class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
-      user: "",
+      user: localStorage.getItem("user"),
       userType: "Customer",
       redirectFlag: false,
     };
