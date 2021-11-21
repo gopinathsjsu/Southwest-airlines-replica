@@ -91,9 +91,9 @@ public class BookingDAOService {
 	}
 	
 //	@SuppressWarnings("deprecation")
-	/*public String availMileagePoints(int bookingId) {
+	public String availMileagePoints(int bookingId) {
 		Booking booking  = bookingRepository.getById(bookingId);
-		if(booking.getStatus().equals("Pending")) {
+		if(booking.getMileageStatus().equals("Pending")) {
 			booking.setMileageStatus("Availed");
 			bookingRepository.save(booking);
 			//bookingRepository.updateByBookingId(bookingId);
@@ -108,7 +108,5 @@ public class BookingDAOService {
 		}else {
 			return ("Mileage points already availed for: "+bookingId);
 		}
-		
-		
-	}*/
+	}
 }

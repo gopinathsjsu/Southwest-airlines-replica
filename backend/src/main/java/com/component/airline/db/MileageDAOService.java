@@ -38,4 +38,7 @@ public class MileageDAOService{
 		return mileage;
 	}
 	
+	public Object getMileage(int userId) {
+		return mileageRepository.getByUserId(userId);
+	}
 }

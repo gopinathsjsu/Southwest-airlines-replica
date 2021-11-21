@@ -16,5 +16,6 @@ import com.component.airline.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	 @Query(value ="SELECT * from user e where e.username =:username AND e.password =:password AND e.user_type =:userType",nativeQuery = true)
-	    User findUserByUsernameandPassword(@Param("username") String username,@Param("password") String password,@Param("userType") String userType); 
+	    User findUserByUsernameandPassword(@Param("username") String username,@Param("password") String password,@Param("userType") String userType);
+	 
 }

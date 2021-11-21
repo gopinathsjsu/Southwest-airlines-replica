@@ -2,8 +2,6 @@ package com.component.airline.models;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-
 public class UserRequestObject {
 
 	
