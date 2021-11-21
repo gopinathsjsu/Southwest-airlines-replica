@@ -41,7 +41,8 @@ export default class BookingPayment extends React.Component {
 
   handleBack = (e) => {
     e.preventDefault();
-    this.setState({ redirectBackFlag: true });
+    this.props.setPage("addpassenger");
+    //this.setState({ redirectBackFlag: true });
   };
 
   handleChange = (e) => {
