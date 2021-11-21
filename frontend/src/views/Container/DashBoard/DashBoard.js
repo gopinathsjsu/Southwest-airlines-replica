@@ -23,6 +23,7 @@ import SearchFlight from "../../Search/SearchFlight";
 import Payment from "../../Payment/Payment";
 import Booking from "../../Bookings/Booking";
 import Mileage from "../../Rewards/Mileage";
+import Profile from "../../Profile/Profile";
 //import Profile from "../../";
 const drawerWidth = 240;
 class DashBoard extends React.Component {
@@ -133,6 +134,7 @@ class DashBoard extends React.Component {
           {this.state.page === "search" ? <SearchFlight /> : null}
           {this.state.page === "payment" ? <Payment /> : null}
           {this.state.page === "booking" ? <Booking /> : null}
+          {this.state.page === "profile" ? <Profile /> : null}
           {this.state.page === "rewards" ? <Mileage /> : null}
         </Box>
       </div>
