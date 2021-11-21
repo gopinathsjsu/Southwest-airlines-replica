@@ -13,6 +13,7 @@ export default class Login extends React.Component {
       username: "",
       password: "",
       user: "",
+      userType: "Customer",
       redirectFlag: false,
     };
   }
@@ -24,6 +25,12 @@ export default class Login extends React.Component {
     });
   };
 
+  handleChange = (e) => {
+    this.setState({
+      userType: e.target.value,
+    });
+  };
+
   handlePassword = (e) => {
     e.preventDefault();
     this.setState({
@@ -31,10 +38,11 @@ export default class Login extends React.Component {
     });
   };
   handleLogin = (e) => {
-    const { username, password } = this.state;
+    const { username, password, userType } = this.state;
     const user = {
       username: username,
       password: password,
+      userType: userType,
     };
     console.log(user);
     axios
@@ -46,7 +54,7 @@ export default class Login extends React.Component {
             user: response.data,
             redirectFlag: true,
           });
-          window.sessionStorage.setItem("user", JSON.stringify(this.state.user));
+          localStorage.setItem("user", JSON.stringify(this.state.user));
         } else {
           this.setState({ errorMsg: response.data });
         }
@@ -101,7 +109,29 @@ export default class Login extends React.Component {
                     onChange={this.handlePassword}
                   />
                 </Form.Group>
-
+                <Form.Group className="mb-3">
+                  <Form.Check
+                    className="mr-sm-2"
+                    inline
+                    value="Customer"
+                    defaultChecked="true"
+                    label="Customer"
+                    name="userType"
+                    type="radio"
+                    id="Customer"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Check
+                    className="mr-sm-2"
+                    inline
+                    value="Employee"
+                    label="Employee"
+                    name="userType"
+                    type="radio"
+                    id="Employee"
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
                 <Button variant="primary" size="sm" onClick={this.handleLogin}>
                   Login
                 </Button>

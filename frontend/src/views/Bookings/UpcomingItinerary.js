@@ -11,6 +11,10 @@ import Landing from "@mui/icons-material/FlightLand";
 import Col from "react-bootstrap/Col";
 
 export default class UpcomingItinerary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { booking: props.data };
+  }
   render() {
     return (
       <>
@@ -26,27 +30,29 @@ export default class UpcomingItinerary extends React.Component {
                 <Avatar sx={{ width: 24, height: 24 }}>
                   <TakeOff fontSize="sm" />
                 </Avatar>
-                <Typography>SFO</Typography>
+                <Typography>{this.state.booking.flight.tripSource}</Typography>
               </Col>
               <Col md={3}>
                 <Avatar sx={{ width: 24, height: 24 }}>
                   <Landing fontSize="sm" />
                 </Avatar>
-                <Typography>BOM </Typography>
+                <Typography>
+                  {this.state.booking.flight.tripDestination}{" "}
+                </Typography>
               </Col>
               <Col md={4}>
                 {" "}
                 <Typography>Time</Typography>
-                <Typography>15h 35m</Typography>
+                <Typography> {this.state.booking.flight.duration}</Typography>
               </Col>
               <Col md={3}>
                 {" "}
                 <Typography>Status</Typography>
-                <Typography>Scheduled</Typography>
+                <Typography> {this.state.booking.status}</Typography>
               </Col>
             </AccordionSummary>
             <AccordionDetails>
-              <TripDetails />
+              <TripDetails data={this.state.booking} />
             </AccordionDetails>
           </Accordion>
         </div>

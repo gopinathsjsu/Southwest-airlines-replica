@@ -22,6 +22,7 @@ import com.component.airline.repository.MileageHistoryRepository;
 import com.component.airline.repository.PassengerRepository;
 import com.component.airline.repository.PaymentRepository;
 import com.component.airline.repository.TransactionRepository;
+import com.component.airline.repository.UserRepository;
 
 @Service
 public class BookingDAOService {
@@ -41,10 +42,13 @@ public class BookingDAOService {
 	@Autowired 
 	PassengerRepository passengerRepository;
 	
+	@Autowired 
+	UserRepository userRepository;
+	
 	
 	@Transactional
 	public Booking saveBooking(BookingRequestObject bookingReq){
-		
+		User user  =userRepository.getById(bookingReq.getUser().getId());
 		Payment payment = new Payment();
 		payment.setPayment_type(bookingReq.getPayment_type());
 		CardDetails card = new CardDetails();
@@ -53,31 +57,20 @@ public class BookingDAOService {
 		card.setExpirationDate(bookingReq.getExpirationDate());
 		payment.setCardDetails(card);
 		payment.setUser(bookingReq.getUser());
-		
-		Payment savedPayment = paymentRepository.save(payment);
-		
 		Transaction transaction = new Transaction();
-		transaction.setPayment(savedPayment);
+		transaction.setPayment(payment);
 		transaction.setTotal_amt(bookingReq.getFlight().getPrice());
 		Date sqlDate = new Date(System.currentTimeMillis());
 		transaction.setTran_date(sqlDate);
 		transaction.setUser(bookingReq.getUser());
-		Transaction savedTrans = transactionRepository.save(transaction);
-		
 		Booking booking = new Booking();
 		booking.setFlight(bookingReq.getFlight());
-		booking.setTransaction(savedTrans);
-		
+		booking.setTransaction(transaction);
 		Mileage m= payment.getUser().getMileage();
 		m.setAvailableRewards(m.getAvailableRewards()+bookingReq.getFlight().getPrice()/10.0);
-		Booking savedBooking = bookingRepository.save(booking);
-		
-		List<Passenger> passengers = bookingReq.getPassengers();
-		for(Passenger p : passengers) {
-			p.setBooking(savedBooking);
-			passengerRepository.save(p);
-		}
-		return savedBooking;
+		booking.setPassengers(bookingReq.getPassengers());
+		booking.setUser(user);
+		return bookingRepository.save(booking);
 	}
 	
 	public Booking getBookingById(int bookingId){
@@ -88,10 +81,10 @@ public class BookingDAOService {
 		return bookingRepository.findAll();
 	}
 	
-	/*
-	 * public Booking getBookingByUserId(int userId){ return
-	 * bookingRepository.findBookingByUser(userId); }
-	 */
+	
+	  public List<Booking> getBookingByUserId(int userId){ return
+	  bookingRepository.findByUserId(userId); }
+	 
 	public String deleteByID(int bookingId) {
 		bookingRepository.deleteById(bookingId);
 		return ("Booking deleted BookingID: "+bookingId);

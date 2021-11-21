@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.BookingDAOService;
 import com.component.airline.entity.Booking;
-import com.component.airline.models.AvailMileagePointsRequest;
 import com.component.airline.models.BookingRequestObject;
 
 @RestController
@@ -40,6 +39,13 @@ public class BookingController {
 	@ResponseBody
 	public List<Booking> findBookings() {
 		return  service.getBookings();
+		
+	}
+	
+	@GetMapping("/bookings/{id}")
+	@ResponseBody
+	public List<Booking> findUserBookings(@PathVariable int userId) {
+		return  service.getBookingByUserId(userId);
 		
 	}
 	
