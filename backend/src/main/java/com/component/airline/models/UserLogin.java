@@ -4,6 +4,8 @@ package com.component.airline.models;
 public class UserLogin {
 	private String username;
 	private String password;
+	private String userType;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -16,5 +18,11 @@ public class UserLogin {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	public String getUserType() {
+		return userType;
+	}
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+	
 }

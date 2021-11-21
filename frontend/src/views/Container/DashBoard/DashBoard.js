@@ -31,8 +31,16 @@ class DashBoard extends React.Component {
     super(props);
     this.state = {
       page: "search",
+      user: "",
     };
   }
+
+  componentDidMount = () => {
+    this.setState({
+      user: JSON.parse(localStorage.getItem("user")),
+    });
+    console.log(this.state.user.user_type);
+  };
   handlePageChange = (e) => {
     if (e.target.innerText === "My Profile") {
       this.setState({
@@ -76,42 +84,69 @@ class DashBoard extends React.Component {
           <Toolbar />
           <Box sx={{ overflow: "auto" }}>
             <List>
-              <ListItem button key="SearchFlight">
-                <ListItemIcon>
-                  <Search />
-                </ListItemIcon>
-                <ListItemText primary="Search Flight" />
-              </ListItem>
-              <ListItem button onClick={this.handlePageChange} key="MyProfile">
-                <ListItemIcon>
-                  <MyProfile />
-                </ListItemIcon>
-                <ListItemText primary="My Profile" />
-              </ListItem>
-              <ListItem button key="Rewards" onClick={this.handleRewards}>
-                <ListItemIcon>
-                  <Loyalty />
-                </ListItemIcon>
-                <ListItemText primary="Rewards" />
-              </ListItem>
-              <ListItem button key="MyBookings" onClick={this.handleBooking}>
-                <ListItemIcon>
-                  <MyBookings />
-                </ListItemIcon>
-                <ListItemText primary="My Bookings" />
-              </ListItem>
-              <ListItem button key="Payment" onClick={this.handlePayment}>
-                <ListItemIcon>
-                  <PaymentIcon />
-                </ListItemIcon>
-                <ListItemText primary="Payments" />
-              </ListItem>
-              <ListItem button key="Notifications">
-                <ListItemIcon>
-                  <NotificationsActiveIcon />
-                </ListItemIcon>
-                <ListItemText primary="Notifications" />
-              </ListItem>
+              {this.state.user.user_type === "Customer" ? (
+                <>
+                  <ListItem button key="SearchFlight">
+                    <ListItemIcon>
+                      <Search />
+                    </ListItemIcon>
+                    <ListItemText primary="Search Flight" />
+                  </ListItem>
+                  <ListItem
+                    button
+                    onClick={this.handlePageChange}
+                    key="MyProfile"
+                  >
+                    <ListItemIcon>
+                      <MyProfile />
+                    </ListItemIcon>
+                    <ListItemText primary="My Profile" />
+                  </ListItem>
+                  <ListItem button key="Rewards" onClick={this.handleRewards}>
+                    <ListItemIcon>
+                      <Loyalty />
+                    </ListItemIcon>
+                    <ListItemText primary="Rewards" />
+                  </ListItem>
+                  <ListItem
+                    button
+                    key="MyBookings"
+                    onClick={this.handleBooking}
+                  >
+                    <ListItemIcon>
+                      <MyBookings />
+                    </ListItemIcon>
+                    <ListItemText primary="My Bookings" />
+                  </ListItem>
+                  <ListItem button key="Payment" onClick={this.handlePayment}>
+                    <ListItemIcon>
+                      <PaymentIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Payments" />
+                  </ListItem>
+                  <ListItem button key="Notifications">
+                    <ListItemIcon>
+                      <NotificationsActiveIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Notifications" />
+                  </ListItem>
+                </>
+              ) : (
+                <>
+                  <ListItem button key="Add+Flight">
+                    <ListItemIcon>
+                      <Search />
+                    </ListItemIcon>
+                    <ListItemText primary="Add Flight" />
+                  </ListItem>
+                  <ListItem button key="EditFlight">
+                    <ListItemIcon>
+                      <Search />
+                    </ListItemIcon>
+                    <ListItemText primary="Edit Flight" />
+                  </ListItem>
+                </>
+              )}
             </List>
             <Divider />
             <List>

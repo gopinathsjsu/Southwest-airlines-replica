@@ -46,7 +46,9 @@ export default class HistoryItinerary extends React.Component {
               </Col>
             </AccordionSummary>
             <AccordionDetails>
-              <TripDetails />
+              <Col md={12}>
+                <TripDetails />
+              </Col>
             </AccordionDetails>
           </Accordion>
         </div>

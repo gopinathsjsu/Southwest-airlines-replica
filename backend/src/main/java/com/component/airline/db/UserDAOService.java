@@ -3,7 +3,6 @@ package com.component.airline.db;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Mileage;
@@ -49,7 +48,7 @@ public class UserDAOService {
   }
   
 	public Object loginUser(UserLogin userLogin){
-		User user =  UserService.findUserByUsernameandPassword(userLogin.getUsername(),userLogin.getPassword());
+		User user =  UserService.findUserByUsernameandPassword(userLogin.getUsername(),userLogin.getPassword(),userLogin.getUserType());
 		if(user==null) {
 			return null;
 		}else {
