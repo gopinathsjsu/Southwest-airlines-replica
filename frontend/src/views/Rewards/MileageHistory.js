@@ -12,6 +12,7 @@ class Summary extends React.Component {
     this.state = {
       userMileageProfile: null,
       user: JSON.parse(localStorage.getItem("user")),
+      bookings: [],
     };
   }
 

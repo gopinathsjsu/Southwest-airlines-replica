@@ -28,9 +28,17 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 class Summary extends React.Component {
   constructor() {
     super();
-    this.state = { bookingId: "" };
+    this.state = {
+      bookingId: "",
+      bookings: [],
+      user: JSON.parse(localStorage.getItem("user")),
+    };
   }
 
+  componentDidMount = () => {
+    this.setState({ user: JSON.parse(localStorage.getItem("user")) });
+    this.getBookings();
+  };
   handleAvailBooking = (e) => {
     e.preventDefault();
     const { bookingId } = this.state;
@@ -43,9 +51,23 @@ class Summary extends React.Component {
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
+  };
+
+  getBookings = () => {
+    axios
+      .get(`${backendServer}/bookings?userId=1`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
           this.setState({
-            user: response.data,
-            redirectFlag: true,
+            bookings: response.data,
           });
         } else {
           this.setState({ errorMsg: response.data });
@@ -55,6 +77,7 @@ class Summary extends React.Component {
         this.setState({ errorMsg: err });
       });
   };
+
   handleBookingId = (e) => {
     this.setState({ bookingId: e.target.value });
   };
@@ -81,7 +104,7 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    121213
+                    {this.state.user.mileage.id}
                   </Typography>{" "}
                   <Divider light />
                   <Typography
@@ -96,7 +119,7 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    12/07/2021
+                    {this.state.user.mileage.memberSince}
                   </Typography>
                 </Col>
 
@@ -113,15 +136,18 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till
+                    Valid Till {this.state.user.mileage.expDate}
                   </Typography>{" "}
-                  <BorderLinearProgress variant="determinate" value={50} />{" "}
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={this.state.bookings.length}
+                  />{" "}
                   <Typography
                     sx={{ fontSize: 10 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    50 out of 100 flights
+                    {this.state.bookings.length} out of 100 flights
                   </Typography>{" "}
                   &nbsp;
                   <Typography
@@ -129,15 +155,18 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till
+                    Valid Till {this.state.user.mileage.expDate}
                   </Typography>{" "}
-                  <BorderLinearProgress variant="determinate" value={50} />{" "}
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={this.state.user.mileage.availableRewards}
+                  />{" "}
                   <Typography
                     sx={{ fontSize: 10 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    50 out of 100 points
+                    {this.state.user.mileage.availableRewards} out of 100 points
                   </Typography>{" "}
                 </Col>
                 <Col md={4}>
@@ -145,7 +174,7 @@ class Summary extends React.Component {
                     sx={{ fontSize: 12 }}
                     color="text.secondary"
                     gutterBottom
-                  ></Typography>
+                  ></Typography>{" "}
                   <Typography
                     sx={{ fontSize: 14 }}
                     color="text.secondary"
@@ -158,15 +187,18 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till
+                    Valid Till {this.state.user.mileage.expDate}
                   </Typography>{" "}
-                  <BorderLinearProgress variant="determinate" value={50} />{" "}
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={this.state.user.mileage.availableRewards}
+                  />{" "}
                   <Typography
                     sx={{ fontSize: 10 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    50 out of 100 points
+                    {this.state.user.mileage.availableRewards} out of 100 points
                   </Typography>{" "}
                   &nbsp;
                   <Typography
@@ -176,13 +208,17 @@ class Summary extends React.Component {
                   >
                     Valid Till
                   </Typography>{" "}
-                  <BorderLinearProgress variant="determinate" value={50} />{" "}
+                  <BorderLinearProgress
+                    variant="determinate"
+                    value={this.state.user.mileage.availableRewards}
+                  />{" "}
                   <Typography
                     sx={{ fontSize: 10 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    50 out of 100 flights
+                    {this.state.user.mileage.availableRewards} out of 100
+                    flights
                   </Typography>{" "}
                 </Col>
               </Row>

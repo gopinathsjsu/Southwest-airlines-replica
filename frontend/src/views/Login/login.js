@@ -55,6 +55,7 @@ export default class Login extends React.Component {
             redirectFlag: true,
           });
           localStorage.setItem("user", JSON.stringify(this.state.user));
+          this.props.handleUser();
         } else {
           this.setState({ errorMsg: response.data });
         }

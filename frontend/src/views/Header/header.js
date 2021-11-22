@@ -9,13 +9,14 @@ import Typography from "@mui/material/Typography";
 import { Redirect } from "react-router";
 
 export default class Header extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      user: window.sessionStorage.getItem("user"),
+      user: props.user,
       redirectFlag: false,
     };
   }
+
   handleLogout = () => {
     window.sessionStorage.removeItem("user");
     this.setState({ redirectFlag: true });
@@ -59,15 +60,16 @@ export default class Header extends React.Component {
               <div>
                 <Dropdown>
                   <Dropdown.Toggle className="header-user" id="dropdown-basic">
-                    {user.firstName}
+                    {this.state.user !== undefined &&
+                      this.state.user.first_name}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
                     <Dropdown.Item href="/userprofile">
                       My Profile
                     </Dropdown.Item>
-                    <Dropdown.Item href="creategroup">
-                      Create Group
+                    <Dropdown.Item href="/userprofile">
+                      Mileage Profile
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.handleLogout}>
                       Logout
