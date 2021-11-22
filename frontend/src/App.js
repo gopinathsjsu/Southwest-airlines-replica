@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import "./App.css";
 import Header from "../src/views/Header/header";
 import DashBoard from "../src/views/Container/DashBoard/DashBoard";
-
+import React, { useState } from "react";
 import DisplayFlights from "../src/views/Search/DisplayFlights";
 import Login from "./views/Login/login";
 import SignUp from "./views/Registration/registration";
@@ -29,13 +29,17 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  const [state, setState] = React.useState({ user: null });
+  function handleUser() {
+    setState({ ...state, user: JSON.parse(localStorage.getItem("user")) });
+  }
   return (
     <Router>
       <div className="AirlineApp">
         {/* <Header isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} /> */}
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          <Header />
+          <Header user={state.user} />
           <Container fluid>
             <ThemeProvider theme={theme}>
               <Switch>
@@ -48,7 +52,11 @@ function App() {
                   path="/displayFlights"
                   render={(props) => <DisplayFlights {...props} />}
                 />
-                <Route path="/" exact component={() => <Login />} />
+                <Route
+                  path="/"
+                  exact
+                  component={() => <Login handleUser={handleUser} />}
+                />
                 <Route path="/signup" exact component={() => <SignUp />} />
                 <Route
                   path="/addpassenger"
