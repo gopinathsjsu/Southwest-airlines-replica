@@ -59,6 +59,29 @@ public class Mileage implements Serializable{
 	@Column(name = "member_since")
 	private Date memberSince;
 	
+	@Column(name = "earned_points",columnDefinition = "integer default 0")
+	private int earnedPoints;
+	
+	public int getPoints() {
+		return points;
+	}
+
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+
+
+	public int getEarnedPoints() {
+		return earnedPoints;
+	}
+
+
+	public void setEarnedPoints(int earnedPoints) {
+		this.earnedPoints = earnedPoints;
+	}
+
+
 	@JsonManagedReference
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<MileageHistory> transactions;
