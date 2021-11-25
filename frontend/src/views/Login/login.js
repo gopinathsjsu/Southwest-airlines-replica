@@ -5,6 +5,10 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import backendServer from "../../webConfig";
 import { Redirect } from "react-router";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
+import { ReactComponent as Logo } from "../../images.svg";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -15,6 +19,8 @@ export default class Login extends React.Component {
       user: localStorage.getItem("user"),
       userType: "Customer",
       redirectFlag: false,
+      successMsg: "",
+      errorMsg: "",
     };
   }
 
@@ -48,16 +54,16 @@ export default class Login extends React.Component {
     axios
       .post(`${backendServer}/v1/user/login`, user)
       .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
+        if (response.data.status === 200) {
+          console.log(response.data.entity);
+          localStorage.setItem("user", JSON.stringify(response.data.entity));
           this.setState({
-            user: response.data,
+            user: response.data.entity,
             redirectFlag: true,
           });
-          localStorage.setItem("user", JSON.stringify(this.state.user));
           this.props.handleUser();
         } else {
-          this.setState({ errorMsg: response.data });
+          this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
       })
       .catch((err) => {
@@ -88,55 +94,79 @@ export default class Login extends React.Component {
             }}
           >
             <Card.Body>
-              <Form>
-                <Form.Group className="mb-1" controlId="formBasicEmail">
-                  <Form.Label style={{ fontSize: "16px" }}>
-                    Email address
-                  </Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    size="sm"
-                    onChange={this.handleUsername}
-                  />
-                </Form.Group>
+              <Row>
+                <Col>
+                  <Logo />
+                </Col>
 
-                <Form.Group className="mb-1" controlId="formBasicPassword">
-                  <Form.Label style={{ fontSize: "16px" }}>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    size="sm"
-                    onChange={this.handlePassword}
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Check
-                    className="mr-sm-2"
-                    inline
-                    value="Customer"
-                    defaultChecked="true"
-                    label="Customer"
-                    name="userType"
-                    type="radio"
-                    id="Customer"
-                    onChange={this.handleChange}
-                  />
-                  <Form.Check
-                    className="mr-sm-2"
-                    inline
-                    value="Employee"
-                    label="Employee"
-                    name="userType"
-                    type="radio"
-                    id="Employee"
-                    onChange={this.handleChange}
-                  />
-                </Form.Group>
-                <Button variant="primary" size="sm" onClick={this.handleLogin}>
-                  Login
-                </Button>
-              </Form>
+                <Col>
+                  <Form>
+                    {this.state.successMsg !== undefined &&
+                    this.state.successMsg != null ? (
+                      <h4 style={{ color: "green" }}>
+                        {this.state.successMsg}
+                      </h4>
+                    ) : null}
+                    {this.state.errorMsg !== undefined &&
+                    this.state.errorMsg != null ? (
+                      <h4 style={{ color: "brown" }}>{this.state.errorMsg}</h4>
+                    ) : null}
+                    <Form.Group className="mb-1" controlId="formBasicEmail">
+                      <Form.Label style={{ fontSize: "16px" }}>
+                        Email address
+                      </Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        size="sm"
+                        onChange={this.handleUsername}
+                      />
+                    </Form.Group>
+
+                    <Form.Group className="mb-1" controlId="formBasicPassword">
+                      <Form.Label style={{ fontSize: "16px" }}>
+                        Password
+                      </Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Password"
+                        size="sm"
+                        onChange={this.handlePassword}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Check
+                        className="mr-sm-2"
+                        inline
+                        value="Customer"
+                        defaultChecked="true"
+                        label="Customer"
+                        name="userType"
+                        type="radio"
+                        id="Customer"
+                        onChange={this.handleChange}
+                      />
+                      <Form.Check
+                        className="mr-sm-2"
+                        inline
+                        value="Employee"
+                        label="Employee"
+                        name="userType"
+                        type="radio"
+                        id="Employee"
+                        onChange={this.handleChange}
+                      />
+                    </Form.Group>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={this.handleLogin}
+                    >
+                      Login
+                    </Button>
+                  </Form>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </div>

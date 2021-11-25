@@ -30,5 +30,8 @@ public interface FlightRepository extends JpaRepository<Flight, Integer>{
 			@Param("tripDuration") String tripDuration, @Param("flightName") String flightName,
 			@Param("tripStops") String tripStops, @Param("tripDestination") String tripDestination,
 			@Param("tripSource") String tripSource, @Param("tripType") String tripType);
+	
+	@Query("SELECT e from Flight e where e.tripSource =:tripSource AND e.tripDestination =:tripDestination AND date(e.departureTime) =:departureTime")
+	List<Flight> getFlightByCriteria( @Param("tripSource") String tripStops, @Param("tripDestination") String tripDestination,@Param("departureTime") Timestamp departureTime);
 
 }

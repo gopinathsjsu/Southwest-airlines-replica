@@ -1,6 +1,7 @@
 package com.component.airline.db;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import com.component.airline.repository.UserRepository;
 @Service
 public class UserDAOService {
 	@Autowired
-	UserRepository UserService;
+	UserRepository userService;
 	
 	
 	public Object registerUser(UserRequestObject newUser){
@@ -34,25 +35,29 @@ public class UserDAOService {
 		Mileage mileage = new Mileage();
 		mileage.setMemberSince(new Date(System.currentTimeMillis()));
 		user.setMileage(mileage);
-		return UserService.save(user);
+		return userService.save(user);
 	}
 	
 	//@Cacheable(value = "userCache")
 	public Object getUserById(int userId){
-		return UserService.findById(userId).orElseThrow(RuntimeException::new);
+		return userService.findById(userId).orElseThrow(RuntimeException::new);
 	}
 	
 	//@Cacheable(value = "userCache")
 	public Object updateUser(User user){
-		return UserService.save(user);
+		return userService.save(user);
   }
   
 	public Object loginUser(UserLogin userLogin){
-		User user =  UserService.findUserByUsernameandPassword(userLogin.getUsername(),userLogin.getPassword(),userLogin.getUserType());
+		User user =  userService.findUserByUsernameandPassword(userLogin.getUsername(),userLogin.getPassword(),userLogin.getUserType());
 		if(user==null) {
 			return null;
 		}else {
 			return user;
 		}
+	}
+	
+	public List<User> getUserByUserType(String userType){
+		return userService.getUserByUserType(userType);
 	}
 }

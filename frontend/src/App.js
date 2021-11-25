@@ -15,6 +15,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import AddPassenger from "../src/views/Passenger/AddPassenger";
 import BookingPayment from "../src/views/Payment/BookingPayment";
 import BookingReview from "../src/views/Payment/BookingReview";
+import FlightIcon from "@mui/icons-material/Flight";
 
 const theme = createMuiTheme({
   palette: {

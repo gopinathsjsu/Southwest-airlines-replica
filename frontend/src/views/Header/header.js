@@ -12,20 +12,19 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: props.user,
+      user: localStorage.getItem("user"),
       redirectFlag: false,
     };
   }
 
   handleLogout = () => {
-    window.sessionStorage.removeItem("user");
     this.setState({ redirectFlag: true });
   };
   render() {
     let redirectVar = null;
     const user = this.state.user;
     if (this.state.redirectFlag) {
-      redirectVar = <Redirect to={{ pathname: "/login" }} />;
+      redirectVar = <Redirect to={{ pathname: "/" }} />;
     }
     return (
       <>
@@ -41,20 +40,26 @@ export default class Header extends React.Component {
             </Typography>
             {user === null ? (
               <>
-                <Button
-                  size="small"
-                  sx={{ fontSize: 14 }}
-                  style={{ "padding-left": "700px" }}
-                >
-                  Login
-                </Button>
-                <Button
-                  size="small"
-                  sx={{ fontSize: 14 }}
-                  style={{ "padding-left": "20px" }}
-                >
-                  signup
-                </Button>
+                <div>
+                  <a
+                    size="medium"
+                    href="/"
+                    className="nav-link btn-green"
+                    type="button"
+                  >
+                    LOGIN
+                  </a>
+                </div>
+                <div>
+                  <a
+                    size="medium"
+                    href="/signup"
+                    className="nav-link btn-green"
+                    type="button"
+                  >
+                    SIGNUP
+                  </a>
+                </div>
               </>
             ) : (
               <div>
