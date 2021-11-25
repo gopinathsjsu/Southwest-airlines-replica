@@ -9,6 +9,9 @@ import Card from "react-bootstrap/Card";
 import AddCard from "./AddCard";
 import AddBank from "./AddBank";
 import { Redirect } from "react-router";
+import Switch from "@material-ui/core/Switch";
+import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
 
 export default class BookingPayment extends React.Component {
   constructor() {
@@ -20,6 +23,9 @@ export default class BookingPayment extends React.Component {
       redirectFlag: false,
       redirectBackFlag: false,
       paymentType: "Credit Card",
+      checked: false,
+      rewards: 0,
+      user: JSON.parse(localStorage.getItem("user")),
     };
   }
 
@@ -29,14 +35,20 @@ export default class BookingPayment extends React.Component {
 
   componentDidMount() {
     const flight = JSON.parse(localStorage.getItem("flight"));
+    const user = JSON.parse(localStorage.getItem("user"));
     const passengers = JSON.parse(localStorage.getItem("passengers"));
-    this.setState({ flightDetails: flight, passengers: passengers });
+    this.setState({
+      flightDetails: flight,
+      passengers: passengers,
+      user: user,
+    });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
-    this.setState({ redirectFlag: true });
+    this.props.setPage("reviewBooking");
+    //this.setState({ redirectFlag: true });
   };
 
   handleBack = (e) => {
@@ -48,6 +60,20 @@ export default class BookingPayment extends React.Component {
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+    });
+  };
+  handleMileage = (e) => {
+    var mileage = this.state.checked;
+    this.setState({ checked: !mileage });
+    if (this.state.checked === true) {
+      this.getRewards();
+    }
+  };
+
+  getRewards = () => {
+    let availRewards = this.state.user.mileage.availableRewards;
+    this.setState({
+      rewards: availRewards / 10,
     });
   };
 
@@ -150,31 +176,77 @@ export default class BookingPayment extends React.Component {
           <Card>
             <Card.Header>Payment Details</Card.Header>
             <Card.Body>
-              <Form.Check
-                className="mr-sm-2"
-                inline
-                value="Credit Card"
-                defaultChecked="true"
-                label="Credit Card"
-                name="paymentType"
-                type="radio"
-                id="Credit Card"
-                onChange={this.handleChange}
-              />
-              <Form.Check
-                className="mr-sm-2"
-                inline
-                value="Bank Account"
-                label="Bank Account"
-                name="paymentType"
-                type="radio"
-                id="Bank Account"
-                onChange={this.handleChange}
-              />
-              {showCard && <AddCard parentCallback={this.handleCallback} />}
-              {!showCard && (
-                <AddBank parentCallback={this.handleCallback}></AddBank>
-              )}
+              <Row>
+                <Col md={4}>
+                  Avail Mileage Points{" "}
+                  {this.state.user.mileage.availableRewards !== 0 ? (
+                    <Typography fontSize="12px" color="text.secondary">
+                      Available Rewards Points
+                      {this.state.user.mileage.availablerewards}
+                      (You can redeem upto 10% of Available Reward Points )
+                    </Typography>
+                  ) : (
+                    <Typography fontSize="12px" color="text.secondary">
+                      Available Points 0 (You can redeem upto 10% of Available
+                      Reward Points )
+                    </Typography>
+                  )}
+                </Col>
+
+                <Col md={4}>
+                  <Switch
+                    checked={this.state.checked}
+                    onChange={this.handleMileage}
+                    name="mileage"
+                  />
+                </Col>
+                <Col md={4}>
+                  {this.state.checked === true ? (
+                    <Typography>
+                      Points availed {this.state.rewards}
+                      <Typography fontSize="12px" color="text.secondary">
+                        (You will see final amount on payment review page
+                        {this.state.user.mileage.availablerewards})
+                      </Typography>
+                    </Typography>
+                  ) : (
+                    <Typography
+                      fontSize="12px"
+                      color="text.secondary"
+                    ></Typography>
+                  )}
+                </Col>
+              </Row>
+              <Row>&nbsp;</Row>
+              <Row>
+                <Col>
+                  <Form.Check
+                    className="mr-sm-2"
+                    inline
+                    value="Credit Card"
+                    defaultChecked="true"
+                    label="Credit Card"
+                    name="paymentType"
+                    type="radio"
+                    id="Credit Card"
+                    onChange={this.handleChange}
+                  />
+                  <Form.Check
+                    className="mr-sm-2"
+                    inline
+                    value="Bank Account"
+                    label="Bank Account"
+                    name="paymentType"
+                    type="radio"
+                    id="Bank Account"
+                    onChange={this.handleMileage}
+                  />
+                  {showCard && <AddCard parentCallback={this.handleCallback} />}
+                  {!showCard && (
+                    <AddBank parentCallback={this.handleCallback}></AddBank>
+                  )}
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </Form>
@@ -194,3 +266,4 @@ export default class BookingPayment extends React.Component {
     );
   }
 }
+BookingPayment.protoTypes = { setPage: PropTypes.func.isRequired };
