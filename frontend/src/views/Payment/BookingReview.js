@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import { Redirect } from "react-router";
 import axios from "axios";
 import backendServer from "../../webConfig";
+import PropTypes from "prop-types";
 
 export default class BookingReview extends React.Component {
   constructor() {
@@ -78,7 +79,8 @@ export default class BookingReview extends React.Component {
 
   handleBack = (e) => {
     e.preventDefault();
-    this.setState({ redirectBackFlag: true });
+    this.props.setPage("addpayment");
+    //this.setState({ redirectBackFlag: true });
   };
 
   render() {
@@ -240,3 +242,4 @@ export default class BookingReview extends React.Component {
     );
   }
 }
+BookingReview.protoTypes = { setPage: PropTypes.func.isRequired };

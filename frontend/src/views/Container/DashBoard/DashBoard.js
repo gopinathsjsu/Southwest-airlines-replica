@@ -24,14 +24,20 @@ import Profile from "../../Profile/Profile";
 import AddPassenger from "../../Passenger/AddPassenger";
 import BookingPayment from "../../Payment/BookingPayment";
 import { Redirect } from "react-router";
+import FlightIcon from "@mui/icons-material/Flight";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddFlight from "../../Flight/AddFlight";
+import EditFlight from "../../Flight/EditFlight";
+import BookingReview from "../../Payment/BookingReview";
 //import Profile from "../../";
 const drawerWidth = 240;
 class DashBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "search",
-      user: JSON.parse(localStorage.getItem("user")),
+      page: "",
+      user: "",
+      redirectFlag: false,
     };
   }
 
@@ -40,9 +46,20 @@ class DashBoard extends React.Component {
   };
 
   componentDidMount = () => {
-    this.setState({
-      user: JSON.parse(localStorage.getItem("user")),
-    });
+    if (localStorage.getItem("user") == null) {
+      this.setState({ redirectFlag: true });
+      return;
+    }
+
+    let user = JSON.parse(localStorage.getItem("user"));
+    let userType = user.user_type;
+    let page = "";
+    if (userType === "Customer") {
+      page = "search";
+    } else if (userType === "Employee") {
+      page = "addFlight";
+    }
+    this.setState({ user: user, page: page });
   };
   handlePageChange = (e) => {
     if (e.target.innerText === "My Profile") {
@@ -70,6 +87,18 @@ class DashBoard extends React.Component {
     });
   };
 
+  handleAddFlight = () => {
+    this.setState({
+      page: "addFlight",
+    });
+  };
+
+  handleEditFlight = () => {
+    this.setState({
+      page: "editFlight",
+    });
+  };
+
   handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("payment");
@@ -81,7 +110,7 @@ class DashBoard extends React.Component {
   render() {
     let redirectVar = null;
     if (this.state.redirectFlag) {
-      redirectVar = <Redirect to={{ pathname: "/login" }} />;
+      redirectVar = <Redirect to={{ pathname: "/" }} />;
     }
     return (
       <div>
@@ -150,15 +179,23 @@ class DashBoard extends React.Component {
                 </>
               ) : (
                 <>
-                  <ListItem button key="Add+Flight">
+                  <ListItem
+                    button
+                    key="Add+Flight"
+                    onClick={this.handleAddFlight}
+                  >
                     <ListItemIcon>
-                      <Search />
+                      <AddCircleOutlineIcon />
                     </ListItemIcon>
                     <ListItemText primary="Add Flight" />
                   </ListItem>
-                  <ListItem button key="EditFlight">
+                  <ListItem
+                    button
+                    key="EditFlight"
+                    onClick={this.handleEditFlight}
+                  >
                     <ListItemIcon>
-                      <Search />
+                      <FlightIcon />
                     </ListItemIcon>
                     <ListItemText primary="Edit Flight" />
                   </ListItem>
@@ -190,11 +227,16 @@ class DashBoard extends React.Component {
           {this.state.page === "booking" ? <Booking /> : null}
           {this.state.page === "profile" ? <Profile /> : null}
           {this.state.page === "rewards" ? <Mileage /> : null}
+          {this.state.page === "addFlight" ? <AddFlight /> : null}
+          {this.state.page === "editFlight" ? <EditFlight /> : null}
           {this.state.page === "addpassenger" ? (
             <AddPassenger setPage={this.setPage} />
           ) : null}
           {this.state.page === "addpayment" ? (
             <BookingPayment setPage={this.setPage} />
+          ) : null}
+          {this.state.page === "reviewBooking" ? (
+            <BookingReview setPage={this.setPage} />
           ) : null}
         </Box>
       </div>
