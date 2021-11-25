@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -79,6 +80,7 @@ public class User implements Serializable{
 	@OneToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "mileage_account", referencedColumnName = "id")
 	private Mileage mileage;
+	
 	
 	@Column(name = "frequent_flyer",columnDefinition = "boolean default False")
 	private boolean frequent_flyer;
@@ -187,6 +189,7 @@ public class User implements Serializable{
 	public void setFrequent_flyer(boolean frequent_flyer) {
 		this.frequent_flyer = frequent_flyer;
 	}
+	
 	@Override
 	public String toString() {
 		return "User [Id=" + Id + ", first_name=" + first_name + ", last_name=" + last_name + ", dob=" + dob

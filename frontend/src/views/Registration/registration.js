@@ -10,7 +10,104 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import axios from "axios";
+import backendServer from "../../webConfig";
+
 export default class Registration extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      username: "",
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      address1: "",
+      address2: "",
+      city: "",
+      zip: "",
+      state: "",
+      country: "",
+      userType: "",
+      user: "",
+      validated: false,
+    };
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleChangeUserType = (e) => {
+    this.setState({ userType: e.target.value });
+  };
+
+  handleChangeDateofBirth = (val) => {
+    this.setState({ dateOfBirth: val });
+  };
+
+  handleSubmit = (e) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    } else {
+      this.setState({ validated: true });
+
+      const {
+        username,
+        email,
+        password,
+        firstName,
+        lastName,
+        dateOfBirth,
+        address1,
+        address2,
+        city,
+        zip,
+        state,
+        country,
+        userType,
+      } = this.state;
+      const user = {
+        username: username,
+        email: email,
+        password: password,
+        first_name: firstName,
+        last_name: lastName,
+        dob: dateOfBirth,
+        add_line2: address2,
+        city: city,
+        add_line1: address1,
+        zip: zip,
+        state: state,
+        country: country,
+        user_type: userType,
+      };
+      console.log(user);
+      axios
+        .post(`${backendServer}/v1/user/register`, user)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            this.setState({
+              redirectFlag: true,
+              user: response.data,
+            });
+            localStorage.setItem("user", JSON.stringify(this.state.user));
+          } else {
+            this.setState({ errorMsg: response.data });
+          }
+        })
+        .catch((err) => {
+          this.setState({ errorMsg: err });
+        });
+    }
+  };
   render() {
     return (
       <div
@@ -30,15 +127,18 @@ export default class Registration extends React.Component {
           <Card.Body>
             <h5>New User</h5>
             &nbsp;
-            <Form noValidate>
+            <Form noValidate validated={this.state.validated}>
               <Row className="mb-3">
                 <Form.Group as={Col} md="4" controlId="validationCustom01">
                   <Form.Label>First name</Form.Label>
                   <Form.Control
                     required
                     type="text"
+                    name="firstName"
                     placeholder="First name"
                     size="sm"
+                    value={this.state.firstName}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -47,8 +147,11 @@ export default class Registration extends React.Component {
                   <Form.Control
                     required
                     type="text"
+                    name="lastName"
                     placeholder="Last name"
                     size="sm"
+                    value={this.state.lastName}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -59,10 +162,11 @@ export default class Registration extends React.Component {
                 >
                   <Form.Label>Date Of Birth</Form.Label>
                   <DatePicker
-                    selected={null}
-                    onChange={this.handleChangeArrDate}
-                    name="arrriveDate"
+                    selected={this.state.dateOfBirth}
+                    onChange={this.handleChangeDateofBirth}
+                    name="dateOfBirth"
                     dateFormat="MM/dd/yyyy"
+                    value={this.state.dateOfBirth}
                   />
                 </Form.Group>
               </Row>
@@ -73,7 +177,10 @@ export default class Registration extends React.Component {
                     type="text"
                     placeholder="Address Line 1"
                     required
+                    name="address1"
                     size="sm"
+                    value={this.state.address1}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid city.
@@ -85,7 +192,10 @@ export default class Registration extends React.Component {
                     type="text"
                     placeholder="Address Line 2"
                     required
+                    name="address2"
                     size="sm"
+                    value={this.state.address2}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid state.
@@ -96,8 +206,11 @@ export default class Registration extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="City"
+                    name="city"
                     required
                     size="sm"
+                    value={this.state.city}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid zip.
@@ -109,9 +222,12 @@ export default class Registration extends React.Component {
                   <Form.Label>State</Form.Label>
                   <Form.Control
                     type="text"
+                    name="state"
                     placeholder="State"
                     required
                     size="sm"
+                    value={this.state.state}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid city.
@@ -121,9 +237,12 @@ export default class Registration extends React.Component {
                   <Form.Label>Country</Form.Label>
                   <Form.Control
                     type="text"
+                    name="country"
                     placeholder="Country"
                     required
                     size="sm"
+                    value={this.state.country}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid state.
@@ -134,8 +253,11 @@ export default class Registration extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Zip"
+                    name="zip"
                     required
                     size="sm"
+                    value={this.state.zip}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid zip.
@@ -147,9 +269,12 @@ export default class Registration extends React.Component {
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
+                    name="username"
                     placeholder="Username"
                     required
                     size="sm"
+                    value={this.state.username}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid city.
@@ -159,9 +284,12 @@ export default class Registration extends React.Component {
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
+                    name="password"
                     placeholder="Password"
                     required
                     size="sm"
+                    value={this.state.password}
+                    onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">
                     Please provide a valid state.
@@ -174,14 +302,15 @@ export default class Registration extends React.Component {
                     row
                     aria-label="gender"
                     name="row-radio-buttons-group"
+                    onChange={this.handleChangeUserType}
                   >
                     <FormControlLabel
-                      value="customer"
+                      value="Customer"
                       control={<Radio size="small" />}
                       label="Customer"
                     />
                     <FormControlLabel
-                      value="employee"
+                      value="Employee"
                       control={<Radio size="small" />}
                       label="Employee"
                     />
@@ -189,7 +318,9 @@ export default class Registration extends React.Component {
                 </FormControl>
               </Row>
 
-              <Button type="submit">Register</Button>
+              <Button type="submit" onClick={this.handleSubmit}>
+                Register
+              </Button>
             </Form>
           </Card.Body>
         </Card>

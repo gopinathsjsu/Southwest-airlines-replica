@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Flight;
+import com.component.airline.entity.User;
+import com.component.airline.models.FlightAddRequest;
+import com.component.airline.models.FlightSearchObject;
 import com.component.airline.repository.FlightRepository;
+import com.component.airline.repository.UserRepository;
 import com.component.models.FlightRequestObject;
 
 @Service
@@ -14,6 +18,9 @@ public class FlightDAOService {
 
 	@Autowired
 	FlightRepository flightRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	public Object getFlightById(Flight flight){
 		return flightRepository.findById(flight.getId());
@@ -42,9 +49,20 @@ public class FlightDAOService {
 		return flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
 	}
 	
-	public Object addFlight(Flight flight){
-		System.out.println(flight);
-		return flightRepository.save(flight);
+	public Flight addFlight(FlightAddRequest flight){
+		User pilot1 = userRepository.getById(Integer.parseInt(flight.getPilot1()));
+		User pilot2 = userRepository.getById(Integer.parseInt(flight.getPilot2()));
+		Flight newFlight = new Flight();
+		newFlight.setArrivalTime(flight.getArrivalTime());
+		newFlight.setDepartureTime(flight.getDepartureTime());
+		newFlight.setFlightName(flight.getFlightName());
+		newFlight.setPrice(flight.getPrice());
+		newFlight.setStops(flight.getStops());
+		newFlight.setPilot1(pilot1);
+		newFlight.setPilot2(pilot2);
+		newFlight.setTripSource(flight.getTripSource());
+		newFlight.setTripDestination(flight.getTripDestination());
+		return flightRepository.save(newFlight);
 	}
 	
 	public Object updateFlight(Flight flight){
@@ -52,5 +70,18 @@ public class FlightDAOService {
 		return flightRepository.save(flight);
 	}
 	
+	public List<Flight> getFlightByCriteria(FlightSearchObject flightSearchObject){
+		return flightRepository.getFlightByCriteria(flightSearchObject.getTripSource(),flightSearchObject.getTripDestination(),flightSearchObject.getDepartureDate());
+	}
 	
+	public String cancelFlight(int id) {
+		Flight flight = flightRepository.getById(id);
+		if(flight!=null) {
+			flight.setStatus("Cancelled");
+			flightRepository.save(flight);
+			return "Flight Cancelled Successfully!";
+		}
+		
+		return "Error while cancelling flight";
+	}
 }

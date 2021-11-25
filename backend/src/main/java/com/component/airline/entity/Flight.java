@@ -1,18 +1,36 @@
 package com.component.airline.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Proxy;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "flight")
-public class Flight {
+@JsonSerialize
+@Proxy(lazy = false)
+public class Flight implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -45,6 +63,19 @@ public class Flight {
 	
 	@Column(name = "price")
 	public Double price;
+	
+	@JsonBackReference
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name = "pilot1", referencedColumnName = "id")
+	public User pilot1;
+	
+	@JsonBackReference
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name = "pilot2", referencedColumnName = "id")
+	public User pilot2;
+	
+	@Column(name = "status",columnDefinition = "varchar(255) default 'Scheduled'")
+	public String status;
 	
 	public Flight(Integer id, String flightName, Timestamp departureTime, Timestamp arrivalTime, String stops,
 			String duration, String tripType, String tripSource, String tripDestination, Double price) {
@@ -152,6 +183,30 @@ public class Flight {
 
 	public void setTripDestination(String tripDestination) {
 		this.tripDestination = tripDestination;
+	}
+
+	public User getPilot1() {
+		return pilot1;
+	}
+
+	public void setPilot1(User pilot1) {
+		this.pilot1 = pilot1;
+	}
+
+	public User getPilot2() {
+		return pilot2;
+	}
+
+	public void setPilot2(User pilot2) {
+		this.pilot2 = pilot2;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	
