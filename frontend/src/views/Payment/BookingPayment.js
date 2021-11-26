@@ -47,6 +47,7 @@ export default class BookingPayment extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
+    localStorage.setItem("rewards", this.state.rewards);
     this.props.setPage("reviewBooking");
     //this.setState({ redirectFlag: true });
   };
@@ -65,15 +66,16 @@ export default class BookingPayment extends React.Component {
   handleMileage = (e) => {
     var mileage = this.state.checked;
     this.setState({ checked: !mileage });
-    if (this.state.checked === true) {
+    if (!mileage) {
       this.getRewards();
     }
   };
 
   getRewards = () => {
     let availRewards = this.state.user.mileage.availableRewards;
+    console.log("availRewards: "+availRewards);
     this.setState({
-      rewards: availRewards / 10,
+      rewards: (availRewards / 10).toFixed(2)
     });
   };
 
@@ -189,8 +191,8 @@ export default class BookingPayment extends React.Component {
                   Avail Mileage Points{" "}
                   {this.state.user.mileage.availableRewards !== 0 ? (
                     <Typography fontSize="12px" color="text.secondary">
-                      Available Rewards Points
-                      {this.state.user.mileage.availablerewards}
+                      Available Rewards Points: {' '}
+                      {this.state.user.mileage.availableRewards}
                       (You can redeem upto 10% of Available Reward Points )
                     </Typography>
                   ) : (

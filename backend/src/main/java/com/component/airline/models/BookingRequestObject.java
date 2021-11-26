@@ -30,6 +30,8 @@ public class BookingRequestObject {
 	
 	private Double totalAmt;
 	
+	private Double rewards;
+	
 	
 	List<Passenger> passengers;
 
@@ -127,6 +129,14 @@ public class BookingRequestObject {
 
 	public void setTotalAmt(Double totalAmt) {
 		this.totalAmt = totalAmt;
+	}
+
+	public Double getRewards() {
+		return rewards;
+	}
+
+	public void setRewards(Double rewards) {
+		this.rewards = rewards;
 	}
 	
 	
