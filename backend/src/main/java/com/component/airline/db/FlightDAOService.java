@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Flight;
+import com.component.airline.entity.Seat;
 import com.component.airline.entity.User;
 import com.component.airline.models.FlightAddRequest;
 import com.component.airline.models.FlightSearchObject;
@@ -95,5 +96,10 @@ public class FlightDAOService {
 		long diff =end_date.getTime()-start_date.getTime();
 		 // gets month number, NOTE this is zero based!
 		return ""+((diff/60000)/60)+" 	hours";
+	}
+	
+	public List<Seat> getAvailableSeatsForFlight(Integer flightId){
+		System.out.println(flightId);
+		return flightRepository.getAvailableSeatsForFlight(flightId);
 	}
 }

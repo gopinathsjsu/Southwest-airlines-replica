@@ -104,6 +104,8 @@ export default class BookingReview extends React.Component {
         <Col>{pas.lastName}</Col>
         <Col>{pas.govtId}</Col>
         <Col>{pas.govtIdNum}</Col>
+        <Col>{pas.age}</Col>
+        <Col>{pas.seatNum}</Col>
       </Row>
     ));
     return (
@@ -161,6 +163,12 @@ export default class BookingReview extends React.Component {
               <Col>
                 <b>Government ID Number</b>
               </Col>
+              <Col>
+                  <b>Age</b>
+                </Col>
+                <Col>
+                  <b>Seat Number</b>
+                </Col>
             </Row>
             {passengerDetails}
           </Card.Body>

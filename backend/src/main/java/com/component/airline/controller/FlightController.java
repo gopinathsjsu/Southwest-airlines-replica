@@ -2,6 +2,7 @@ package com.component.airline.controller;
 
 import java.util.List;
 
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.component.airline.db.FlightDAOService;
 import com.component.airline.entity.Flight;
+import com.component.airline.entity.Seat;
 import com.component.airline.models.FlightAddRequest;
 import com.component.airline.models.FlightCancelObject;
 import com.component.airline.models.FlightSearchObject;
@@ -65,5 +67,11 @@ public class FlightController {
 	@ResponseBody
 	public String cancelFlight(@RequestBody FlightCancelObject flightSearchObject) {
 		return service.cancelFlight(flightSearchObject.getId());
+	}
+	
+	@GetMapping(path = "/seatsForFLight", produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Seat> getAvailableSeatsForFLight(@QueryParam(value = "flightId") int flightId) {
+		return service.getAvailableSeatsForFlight(flightId);
 	}
 }
