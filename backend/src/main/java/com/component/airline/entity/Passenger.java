@@ -44,6 +44,9 @@ public class Passenger {
 	@Column(name = "govtIdNum")
 	private String govtIdNum;
 	
+	@Column(name = "seatNumber")
+	private String seatNumber;
+	
 	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "booking", referencedColumnName = "id")
@@ -103,6 +106,14 @@ public class Passenger {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public String getSeatNumber() {
+		return seatNumber;
+	}
+
+	public void setSeatNumber(String seatNumber) {
+		this.seatNumber = seatNumber;
 	}
 	
 	

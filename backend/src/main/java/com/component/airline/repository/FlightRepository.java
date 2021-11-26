@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.component.airline.entity.Flight;
+import com.component.airline.entity.Seat;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer>{
@@ -33,5 +34,8 @@ public interface FlightRepository extends JpaRepository<Flight, Integer>{
 	
 	@Query("SELECT e from Flight e where e.tripSource =:tripSource AND e.tripDestination =:tripDestination AND date(e.departureTime) =:departureTime")
 	List<Flight> getFlightByCriteria( @Param("tripSource") String tripStops, @Param("tripDestination") String tripDestination,@Param("departureTime") Timestamp departureTime);
+	
+	@Query("SELECT s from Seat s where s.flight.id =:id and s.status=0")
+	List<Seat> getAvailableSeatsForFlight(@Param("id") Integer flightId);
 
 }

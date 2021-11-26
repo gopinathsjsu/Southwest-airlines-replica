@@ -25,6 +25,12 @@ public class Seat {
 	@Column(name = "seatNumber")
 	public String seatNumber;
 	
+	@Column(name = "type")
+	public String type;
+	
+	@Column(name = "rate")
+	public String rate;
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "flight", referencedColumnName = "id")
 	public Flight flight;
@@ -84,5 +90,22 @@ public class Seat {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+	
 	
 }

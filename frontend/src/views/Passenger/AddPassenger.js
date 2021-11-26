@@ -8,17 +8,20 @@ import Card from "react-bootstrap/Card";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
+import axios from "axios";
+import backendServer from "../../webConfig";
 
 export default class AddPassenger extends React.Component {
   constructor() {
     super();
     this.state = {
       passengers: [
-        { firstName: "", lastName: "", age: "", govtId: "", govtIdNum: "" },
+        { firstName: "", lastName: "", age: "", govtId: "", govtIdNum: "", seatNumber: "" },
       ],
       flightDetails: "",
       redirectFlag: "",
       redirectBackFlag: false,
+      seatList: []
     };
   }
 
@@ -26,9 +29,31 @@ export default class AddPassenger extends React.Component {
     const flight = JSON.parse(localStorage.getItem("flight"));
     const passengers = JSON.parse(localStorage.getItem("passengers"));
     this.setState({ flightDetails: flight });
+    const { seatList } = this.state;
     if (passengers != null && passengers !== undefined) {
       this.setState({ passengers: passengers });
     }
+    const flightId = flight.id;
+    console.log("flightId: "+flightId);
+    axios
+      .get(`${backendServer}/seatsForFLight`, {
+        params: {
+          flightId,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            seatList: seatList.concat(response.data),
+          });
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
   }
 
   handleChange(i, e) {
@@ -48,7 +73,7 @@ export default class AddPassenger extends React.Component {
     this.setState({
       passengers: [
         ...this.state.passengers,
-        { firstName: "", lastName: "", age: "", govtId: "", govtIdNum: "" },
+        { firstName: "", lastName: "", age: "", govtId: "", govtIdNum: "", seatNumber: "" },
       ],
     });
   }
@@ -67,7 +92,8 @@ export default class AddPassenger extends React.Component {
   };
 
   render() {
-    const { flightDetails, redirectFlag, redirectBackFlag } = this.state;
+    const { flightDetails, redirectFlag, redirectBackFlag, seatList } = this.state;
+    console.log(seatList);
     let redirectVar = null;
     if (redirectFlag) {
       redirectVar = <Redirect to="/bookingpayment" />;
@@ -194,6 +220,17 @@ export default class AddPassenger extends React.Component {
                           Looks good!
                         </Form.Control.Feedback>
                       </Form.Group>
+                      <Form.Label>Seat Number</Form.Label>
+                      <Form.Group as={Col}
+                        md="4"
+                        controlId="validationCustom01">
+                  <Form.Control as="select" name="seatNum" value={element.seatNum || ""} onChange={(e) => this.handleChange(index, e)}>
+                  <option value="" >Select Seat </option>
+                    {seatList.map(seat => {
+                      return <option value={seat.seatNumber+'-'+seat.rate}>{seat.seatNumber}{' - '}{seat.type}{' - Extra charges: $'}{seat.rate}</option>;
+                    })}
+                  </Form.Control>
+                </Form.Group>
                     </Row>
                     {index ? (
                       <Col>
