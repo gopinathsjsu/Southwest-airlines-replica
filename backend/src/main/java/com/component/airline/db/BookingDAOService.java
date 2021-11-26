@@ -19,6 +19,7 @@ import com.component.airline.entity.Payment;
 import com.component.airline.entity.Transaction;
 import com.component.airline.repository.BookingRepository;
 import com.component.airline.repository.MileageHistoryRepository;
+import com.component.airline.repository.MileageRepository;
 import com.component.airline.repository.PassengerRepository;
 import com.component.airline.repository.PaymentRepository;
 import com.component.airline.repository.TransactionRepository;
@@ -35,6 +36,9 @@ public class BookingDAOService {
 	
 	@Autowired
 	TransactionRepository transactionRepository;
+	
+	@Autowired
+	MileageRepository mileageRepository;
 	
 	@Autowired
 	MileageHistoryRepository mileageHistoryRepository;
@@ -59,18 +63,25 @@ public class BookingDAOService {
 		payment.setUser(bookingReq.getUser());
 		Transaction transaction = new Transaction();
 		transaction.setPayment(payment);
-		transaction.setTotal_amt(bookingReq.getFlight().getPrice());
+		transaction.setTotal_amt(bookingReq.getTotalAmt());
 		Date sqlDate = new Date(System.currentTimeMillis());
 		transaction.setTran_date(sqlDate);
 		transaction.setUser(bookingReq.getUser());
+		transaction.setCash(bookingReq.getTotalAmt());
 		Booking booking = new Booking();
 		booking.setFlight(bookingReq.getFlight());
 		booking.setTransaction(transaction);
 		Mileage m= payment.getUser().getMileage();
-		m.setAvailableRewards(m.getAvailableRewards()+bookingReq.getFlight().getPrice()/10.0);
-		booking.setPassengers(bookingReq.getPassengers());
+		m.setAvailableRewards(m.getAvailableRewards()+bookingReq.getTotalAmt()/10.0);
+		mileageRepository.save(m);
+		//booking.setPassengers(bookingReq.getPassengers());
 		booking.setUser(user);
-		return bookingRepository.save(booking);
+		Booking savedBooking = bookingRepository.save(booking);
+		for(Passenger p: bookingReq.getPassengers()) {
+			p.setBooking(savedBooking);
+		}
+		passengerRepository.saveAll(bookingReq.getPassengers());
+		return savedBooking;
 	}
 	
 	public Booking getBookingById(int bookingId){

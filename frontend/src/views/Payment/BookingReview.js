@@ -20,6 +20,8 @@ export default class BookingReview extends React.Component {
       redirectBackFlag: false,
       bookingConfirm: "",
       errorMsg: "",
+      seatCharges: 0.0,
+      totalAmt: 0.0
     };
   }
 
@@ -27,17 +29,29 @@ export default class BookingReview extends React.Component {
     const flight = JSON.parse(localStorage.getItem("flight"));
     const passengers = JSON.parse(localStorage.getItem("passengers"));
     const payment = JSON.parse(localStorage.getItem("payment"));
+    let {seatCharges, totalAmt } = this.state;
+    totalAmt = flight.price;
+    passengers.map((pas) => {
+      seatCharges += parseInt((pas.seatNumber).split('-')[1]);
+    })
+    totalAmt += seatCharges;
+    console.log(totalAmt);
     this.setState({
       flightDetails: flight,
       passengers: passengers,
       paymentDetails: payment,
+      seatCharges,
+      totalAmt
     });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { flightDetails, passengers, paymentDetails } = this.state;
+    const { flightDetails, passengers, paymentDetails, totalAmt } = this.state;
     const user = JSON.parse(localStorage.getItem("user"));
+    const passengersNew = passengers.map(o => ({ ...o, seatNumber: o.seatNumber.split('-')[0] }));
+    console.log("passengers :"+passengersNew[0].seatNumber);
+
     let inputData = "";
     if (paymentDetails.payment_type === "Credit Card") {
       inputData = {
@@ -54,7 +68,8 @@ export default class BookingReview extends React.Component {
         nameOnCard: paymentDetails.nameOnCard,
         expirationDate: paymentDetails.month + "/" + paymentDetails.year,
         user: user,
-        passengers,
+        passengers:passengersNew,
+        totalAmt
       };
     }
 
@@ -89,6 +104,8 @@ export default class BookingReview extends React.Component {
       passengers,
       paymentDetails,
       redirectBackFlag,
+      totalAmt,
+      seatCharges
     } = this.state;
     let redirectVar = null;
     console.log("redirectFlag" + redirectBackFlag);
@@ -105,7 +122,7 @@ export default class BookingReview extends React.Component {
         <Col>{pas.govtId}</Col>
         <Col>{pas.govtIdNum}</Col>
         <Col>{pas.age}</Col>
-        <Col>{pas.seatNum}</Col>
+        <Col>{pas.seatNumber.split('-')[0]}</Col>
       </Row>
     ));
     return (
@@ -226,10 +243,26 @@ export default class BookingReview extends React.Component {
             <br />
             <Row>
               <Col>
-                <h5>Amount to be paid:</h5>
+                <h5>Flight charges:</h5>
               </Col>
               <Col>
                 <h5>{flightDetails.price}</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <h5>Extra seat charges:</h5>
+              </Col>
+              <Col>
+                <h5>{seatCharges}</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <h5>Total Amount to pay:</h5>
+              </Col>
+              <Col>
+                <h5>{totalAmt}</h5>
               </Col>
             </Row>
           </Card.Body>

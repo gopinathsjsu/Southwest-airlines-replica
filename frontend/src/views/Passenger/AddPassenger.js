@@ -253,8 +253,8 @@ export default class AddPassenger extends React.Component {
                       >
                         <Form.Control
                           as="select"
-                          name="seatNum"
-                          value={element.seatNum || ""}
+                          name="seatNumber"
+                          value={element.seatNumber || ""}
                           onChange={(e) => this.handleChange(index, e)}
                         >
                           <option value="">Select Seat </option>
