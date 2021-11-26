@@ -1,5 +1,9 @@
 package com.component.airline.db;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +66,8 @@ public class FlightDAOService {
 		newFlight.setPilot2(pilot2);
 		newFlight.setTripSource(flight.getTripSource());
 		newFlight.setTripDestination(flight.getTripDestination());
+		newFlight.setStatus("Scheduled");
+		newFlight.setDuration(getTimeDiff(flight.getArrivalTime(),flight.getDepartureTime()));
 		return flightRepository.save(newFlight);
 	}
 	
@@ -83,5 +89,11 @@ public class FlightDAOService {
 		}
 		
 		return "Error while cancelling flight";
+	}
+	
+	public String getTimeDiff(Timestamp end_date,Timestamp start_date) {
+		long diff =end_date.getTime()-start_date.getTime();
+		 // gets month number, NOTE this is zero based!
+		return ""+((diff/60000)/60)+" 	hours";
 	}
 }

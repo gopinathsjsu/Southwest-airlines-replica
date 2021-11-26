@@ -31,6 +31,7 @@ export default class Registration extends React.Component {
       country: "",
       userType: "",
       user: "",
+      phone: "",
       validated: false,
     };
   }
@@ -49,64 +50,77 @@ export default class Registration extends React.Component {
     this.setState({ dateOfBirth: val });
   };
 
+  clear = () => {
+    this.setState({
+      username: "",
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      address1: "",
+      address2: "",
+      city: "",
+      zip: "",
+      state: "",
+      country: "",
+      userType: "",
+      phone: "",
+    });
+  };
   handleSubmit = (e) => {
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-      return;
-    } else {
-      this.setState({ validated: true });
 
-      const {
-        username,
-        email,
-        password,
-        firstName,
-        lastName,
-        dateOfBirth,
-        address1,
-        address2,
-        city,
-        zip,
-        state,
-        country,
-        userType,
-      } = this.state;
-      const user = {
-        username: username,
-        email: email,
-        password: password,
-        first_name: firstName,
-        last_name: lastName,
-        dob: dateOfBirth,
-        add_line2: address2,
-        city: city,
-        add_line1: address1,
-        zip: zip,
-        state: state,
-        country: country,
-        user_type: userType,
-      };
-      console.log(user);
-      axios
-        .post(`${backendServer}/v1/user/register`, user)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            this.setState({
-              redirectFlag: true,
-              user: response.data,
-            });
-            localStorage.setItem("user", JSON.stringify(this.state.user));
-          } else {
-            this.setState({ errorMsg: response.data });
-          }
-        })
-        .catch((err) => {
-          this.setState({ errorMsg: err });
-        });
-    }
+    const {
+      username,
+      email,
+      password,
+      firstName,
+      lastName,
+      dateOfBirth,
+      address1,
+      address2,
+      city,
+      zip,
+      state,
+      country,
+      userType,
+      phone,
+    } = this.state;
+    const user = {
+      username: username,
+      email: email,
+      password: password,
+      first_name: firstName,
+      last_name: lastName,
+      dob: dateOfBirth,
+      add_line2: address2,
+      city: city,
+      add_line1: address1,
+      zip: zip,
+      state: state,
+      country: country,
+      user_type: userType,
+      phone_number: phone,
+    };
+    console.log(user);
+    axios
+      .post(`${backendServer}/v1/user/register`, user)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            redirectFlag: true,
+            user: response.data,
+          });
+          localStorage.setItem("user", JSON.stringify(this.state.user));
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
   };
   render() {
     return (
@@ -265,6 +279,39 @@ export default class Registration extends React.Component {
                 </Form.Group>
               </Row>
               <Row className="mb-3">
+                <Form.Group as={Col} md="3" controlId="validationCustom05">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="email"
+                    name="email"
+                    required
+                    size="sm"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid zip.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="3" controlId="validationCustom03">
+                  <Form.Label>Phone</Form.Label>
+                  <Form.Control
+                    type="phone"
+                    name="phonenumber"
+                    placeholder="Phone"
+                    required
+                    size="sm"
+                    maxLength="20"
+                    value={this.state.phonenumber}
+                    onChange={this.handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid city.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
                 <Form.Group as={Col} md="6" controlId="validationCustom03">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
@@ -317,9 +364,12 @@ export default class Registration extends React.Component {
                   </RadioGroup>
                 </FormControl>
               </Row>
-
-              <Button type="submit" onClick={this.handleSubmit}>
+              <Button type="button" onClick={this.handleSubmit}>
                 Register
+              </Button>
+              &nbsp; &nbsp;
+              <Button type="button" onClick={this.clear}>
+                Clear
               </Button>
             </Form>
           </Card.Body>
