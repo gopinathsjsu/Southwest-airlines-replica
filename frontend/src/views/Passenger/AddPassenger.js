@@ -224,7 +224,7 @@ export default class AddPassenger extends React.Component {
                       <Form.Group as={Col}
                         md="4"
                         controlId="validationCustom01">
-                  <Form.Control as="select" name="seatNum" value={element.seatNum || ""} onChange={(e) => this.handleChange(index, e)}>
+                  <Form.Control as="select" name="seatNumber" value={element.seatNumber || ""} onChange={(e) => this.handleChange(index, e)}>
                   <option value="" >Select Seat </option>
                     {seatList.map(seat => {
                       return <option value={seat.seatNumber+'-'+seat.rate}>{seat.seatNumber}{' - '}{seat.type}{' - Extra charges: $'}{seat.rate}</option>;

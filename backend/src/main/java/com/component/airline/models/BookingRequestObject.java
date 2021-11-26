@@ -28,6 +28,8 @@ public class BookingRequestObject {
 	
 	private User user;
 	
+	private Double totalAmt;
+	
 	
 	List<Passenger> passengers;
 
@@ -117,6 +119,14 @@ public class BookingRequestObject {
 
 	public void setPassengers(List<Passenger> passengers) {
 		this.passengers = passengers;
+	}
+
+	public Double getTotalAmt() {
+		return totalAmt;
+	}
+
+	public void setTotalAmt(Double totalAmt) {
+		this.totalAmt = totalAmt;
 	}
 	
 	

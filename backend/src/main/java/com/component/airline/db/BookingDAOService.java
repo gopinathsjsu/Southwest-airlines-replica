@@ -59,7 +59,7 @@ public class BookingDAOService {
 		payment.setUser(bookingReq.getUser());
 		Transaction transaction = new Transaction();
 		transaction.setPayment(payment);
-		transaction.setTotal_amt(bookingReq.getFlight().getPrice());
+		transaction.setTotal_amt(bookingReq.getTotalAmt());
 		Date sqlDate = new Date(System.currentTimeMillis());
 		transaction.setTran_date(sqlDate);
 		transaction.setUser(bookingReq.getUser());
