@@ -29,7 +29,7 @@ public class Seat {
 	public String type;
 	
 	@Column(name = "rate")
-	public String rate;
+	public Double rate;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "flight", referencedColumnName = "id")
@@ -99,11 +99,11 @@ public class Seat {
 		this.type = type;
 	}
 
-	public String getRate() {
+	public Double getRate() {
 		return rate;
 	}
 
-	public void setRate(String rate) {
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
 	

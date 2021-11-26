@@ -67,13 +67,24 @@ public class BookingDAOService {
 		Date sqlDate = new Date(System.currentTimeMillis());
 		transaction.setTran_date(sqlDate);
 		transaction.setUser(bookingReq.getUser());
-		transaction.setCash(bookingReq.getTotalAmt());
+		transaction.setCash(bookingReq.getTotalAmt()-bookingReq.getRewards());
+		transaction.setRewards(bookingReq.getRewards());
+		System.out.println(bookingReq.getRewards());
+		Mileage m= payment.getUser().getMileage();
+		
+		mileageRepository.save(m);
+		if(bookingReq.getRewards() != 0) {
+			MileageHistory mileageHistory =  new MileageHistory();
+			mileageHistory.setMileage(m);
+			mileageHistory.setPoints(bookingReq.getRewards());
+			mileageHistory.setRemiaingPoints(m.getAvailableRewards()-bookingReq.getRewards());
+			mileageHistoryRepository.save(mileageHistory);
+		}
+		m.setAvailableRewards((m.getAvailableRewards()+bookingReq.getTotalAmt()/10.0)-bookingReq.getRewards());
 		Booking booking = new Booking();
 		booking.setFlight(bookingReq.getFlight());
 		booking.setTransaction(transaction);
-		Mileage m= payment.getUser().getMileage();
-		m.setAvailableRewards(m.getAvailableRewards()+bookingReq.getTotalAmt()/10.0);
-		mileageRepository.save(m);
+		
 		//booking.setPassengers(bookingReq.getPassengers());
 		booking.setUser(user);
 		Booking savedBooking = bookingRepository.save(booking);

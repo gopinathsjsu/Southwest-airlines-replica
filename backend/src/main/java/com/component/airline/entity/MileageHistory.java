@@ -36,16 +36,16 @@ public class MileageHistory implements Serializable{
 	private Date date_exp;
 	
 	@Column(name = "points")
-	private int points;
+	private double points;
 	
 	@Column(name = "rem_points",columnDefinition = "integer default 0")
-	private int remiaingPoints;
+	private double remiaingPoints;
 	
 	@Column(name = "status",columnDefinition = "varchar(255) default 'Availed'")
 	private String status;
 	
 	@JsonBackReference
-	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE)
 	@JoinColumn(name = "mileage_account", referencedColumnName = "id")
 	private Mileage mileage;
 	
@@ -73,11 +73,11 @@ public class MileageHistory implements Serializable{
 		this.date_exp = date_exp;
 	}
 
-	public int getPoints() {
+	public double getPoints() {
 		return points;
 	}
 
-	public void setPoints(int points) {
+	public void setPoints(double points) {
 		this.points = points;
 	}
 
@@ -89,11 +89,11 @@ public class MileageHistory implements Serializable{
 		this.status = status;
 	}
 
-	public int getRemiaingPoints() {
+	public double getRemiaingPoints() {
 		return remiaingPoints;
 	}
 
-	public void setRemiaingPoints(int remiaingPoints) {
+	public void setRemiaingPoints(double remiaingPoints) {
 		this.remiaingPoints = remiaingPoints;
 	}
 

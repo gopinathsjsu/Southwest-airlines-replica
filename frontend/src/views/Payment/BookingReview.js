@@ -21,7 +21,8 @@ export default class BookingReview extends React.Component {
       bookingConfirm: "",
       errorMsg: "",
       seatCharges: 0.0,
-      totalAmt: 0.0
+      totalAmt: 0.0,
+      rewards: 0.0
     };
   }
 
@@ -29,25 +30,28 @@ export default class BookingReview extends React.Component {
     const flight = JSON.parse(localStorage.getItem("flight"));
     const passengers = JSON.parse(localStorage.getItem("passengers"));
     const payment = JSON.parse(localStorage.getItem("payment"));
+    const rewards = localStorage.getItem("rewards");
     let {seatCharges, totalAmt } = this.state;
     totalAmt = flight.price;
     passengers.map((pas) => {
       seatCharges += parseInt((pas.seatNumber).split('-')[1]);
     })
     totalAmt += seatCharges;
+    totalAmt -= parseFloat(rewards);
     console.log(totalAmt);
     this.setState({
       flightDetails: flight,
       passengers: passengers,
       paymentDetails: payment,
       seatCharges,
-      totalAmt
+      totalAmt,
+      rewards
     });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { flightDetails, passengers, paymentDetails, totalAmt } = this.state;
+    const { flightDetails, passengers, paymentDetails, totalAmt, rewards } = this.state;
     const user = JSON.parse(localStorage.getItem("user"));
     const passengersNew = passengers.map(o => ({ ...o, seatNumber: o.seatNumber.split('-')[0] }));
     console.log("passengers :"+passengersNew[0].seatNumber);
@@ -69,7 +73,8 @@ export default class BookingReview extends React.Component {
         expirationDate: paymentDetails.month + "/" + paymentDetails.year,
         user: user,
         passengers:passengersNew,
-        totalAmt
+        totalAmt,
+        rewards
       };
     }
 
@@ -105,10 +110,11 @@ export default class BookingReview extends React.Component {
       paymentDetails,
       redirectBackFlag,
       totalAmt,
-      seatCharges
+      seatCharges,
+      rewards
     } = this.state;
     let redirectVar = null;
-    console.log("redirectFlag" + redirectBackFlag);
+    console.log("rewards" + rewards);
     if (redirectBackFlag) {
       redirectVar = <Redirect to="/bookingpayment" />;
     }
@@ -255,6 +261,14 @@ export default class BookingReview extends React.Component {
               </Col>
               <Col>
                 <h5>{seatCharges}</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <h5>Availed reward points:</h5>
+              </Col>
+              <Col>
+                <h5>{rewards}</h5>
               </Col>
             </Row>
             <Row>
