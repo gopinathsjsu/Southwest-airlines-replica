@@ -49,6 +49,9 @@ export default class BookingReview extends React.Component {
     e.preventDefault();
     const { flightDetails, passengers, paymentDetails, totalAmt } = this.state;
     const user = JSON.parse(localStorage.getItem("user"));
+    const passengersNew = passengers.map(o => ({ ...o, seatNumber: o.seatNumber.split('-')[0] }));
+    console.log("passengers :"+passengersNew[0].seatNumber);
+
     let inputData = "";
     if (paymentDetails.payment_type === "Credit Card") {
       inputData = {
@@ -65,7 +68,7 @@ export default class BookingReview extends React.Component {
         nameOnCard: paymentDetails.nameOnCard,
         expirationDate: paymentDetails.month + "/" + paymentDetails.year,
         user: user,
-        passengers,
+        passengers:passengersNew,
         totalAmt
       };
     }
@@ -119,7 +122,7 @@ export default class BookingReview extends React.Component {
         <Col>{pas.govtId}</Col>
         <Col>{pas.govtIdNum}</Col>
         <Col>{pas.age}</Col>
-        <Col>{pas.seatNum.split('-')[0]}</Col>
+        <Col>{pas.seatNumber.split('-')[0]}</Col>
       </Row>
     ));
     return (
