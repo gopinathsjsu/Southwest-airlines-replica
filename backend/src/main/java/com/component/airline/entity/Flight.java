@@ -64,12 +64,12 @@ public class Flight implements Serializable{
 	@Column(name = "price")
 	public Double price;
 	
-	@JsonBackReference
+	@JsonBackReference(value="pilot1")
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "pilot1", referencedColumnName = "id")
 	public User pilot1;
 	
-	@JsonBackReference
+	@JsonBackReference(value="pilot2")
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "pilot2", referencedColumnName = "id")
 	public User pilot2;
