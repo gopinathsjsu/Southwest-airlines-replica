@@ -16,12 +16,19 @@ export default class AddPassenger extends React.Component {
     super();
     this.state = {
       passengers: [
-        { firstName: "", lastName: "", age: "", govtId: "", govtIdNum: "", seatNumber: "" },
+        {
+          firstName: "",
+          lastName: "",
+          age: "",
+          govtId: "",
+          govtIdNum: "",
+          seatNumber: "",
+        },
       ],
       flightDetails: "",
       redirectFlag: "",
       redirectBackFlag: false,
-      seatList: []
+      seatList: [],
     };
   }
 
@@ -34,7 +41,7 @@ export default class AddPassenger extends React.Component {
       this.setState({ passengers: passengers });
     }
     const flightId = flight.id;
-    console.log("flightId: "+flightId);
+    console.log("flightId: " + flightId);
     axios
       .get(`${backendServer}/seatsForFLight`, {
         params: {
@@ -73,7 +80,14 @@ export default class AddPassenger extends React.Component {
     this.setState({
       passengers: [
         ...this.state.passengers,
-        { firstName: "", lastName: "", age: "", govtId: "", govtIdNum: "", seatNumber: "" },
+        {
+          firstName: "",
+          lastName: "",
+          age: "",
+          govtId: "",
+          govtIdNum: "",
+          seatNumber: "",
+        },
       ],
     });
   }
@@ -92,7 +106,12 @@ export default class AddPassenger extends React.Component {
   };
 
   render() {
-    const { flightDetails, redirectFlag, redirectBackFlag, seatList } = this.state;
+    const {
+      flightDetails,
+      redirectFlag,
+      redirectBackFlag,
+      seatList,
+    } = this.state;
     console.log(seatList);
     let redirectVar = null;
     if (redirectFlag) {
@@ -188,15 +207,24 @@ export default class AddPassenger extends React.Component {
                         controlId="validationCustom01"
                       >
                         <Form.Label>ID</Form.Label>
-                        <Form.Control
+                        <select
+                          className="form-control"
                           name="govtId"
-                          value={element.govtId || ""}
                           onChange={(e) => this.handleChange(index, e)}
-                          required
-                          type="text"
-                          placeholder="ID"
-                          size="sm"
-                        />
+                        >
+                          <option key="0" value="">
+                            Select Pilot 1
+                          </option>
+                          <option key="passport" value="">
+                            Passport
+                          </option>
+                          <option key="realid" value="">
+                            Real ID
+                          </option>
+                          <option key="drivinglicense" value="">
+                            Driving License
+                          </option>
+                        </select>
                         <Form.Control.Feedback>
                           Looks good!
                         </Form.Control.Feedback>
@@ -216,21 +244,33 @@ export default class AddPassenger extends React.Component {
                           placeholder="ID Number"
                           size="sm"
                         />
-                        <Form.Control.Feedback>
-                          Looks good!
-                        </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Label>Seat Number</Form.Label>
-                      <Form.Group as={Col}
+                      <Form.Group
+                        as={Col}
                         md="4"
-                        controlId="validationCustom01">
-                  <Form.Control as="select" name="seatNum" value={element.seatNum || ""} onChange={(e) => this.handleChange(index, e)}>
-                  <option value="" >Select Seat </option>
-                    {seatList.map(seat => {
-                      return <option value={seat.seatNumber+'-'+seat.rate}>{seat.seatNumber}{' - '}{seat.type}{' - Extra charges: $'}{seat.rate}</option>;
-                    })}
-                  </Form.Control>
-                </Form.Group>
+                        controlId="validationCustom01"
+                      >
+                        <Form.Control
+                          as="select"
+                          name="seatNum"
+                          value={element.seatNum || ""}
+                          onChange={(e) => this.handleChange(index, e)}
+                        >
+                          <option value="">Select Seat </option>
+                          {seatList.map((seat) => {
+                            return (
+                              <option value={seat.seatNumber + "-" + seat.rate}>
+                                {seat.seatNumber}
+                                {" - "}
+                                {seat.type}
+                                {" - Extra charges: $"}
+                                {seat.rate}
+                              </option>
+                            );
+                          })}
+                        </Form.Control>
+                      </Form.Group>
                     </Row>
                     {index ? (
                       <Col>
