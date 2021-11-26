@@ -109,7 +109,7 @@ export default class BookingPayment extends React.Component {
         <Col>{pas.govtId}</Col>
         <Col>{pas.govtIdNum}</Col>
         <Col>{pas.age}</Col>
-        <Col>{pas.seatNum}</Col>
+        <Col>{pas.seatNum.split('-')[0]}</Col>
       </Row>
     ));
     return (
