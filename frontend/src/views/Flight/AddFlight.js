@@ -13,7 +13,7 @@ export default class AddFlight extends React.Component {
     this.state = {
       source: "",
       destination: "",
-      airline: "",
+      airline: "Southwest",
       departDate: "",
       arriveDate: "",
       duration: "",
@@ -74,7 +74,7 @@ export default class AddFlight extends React.Component {
     this.setState({
       source: "",
       destination: "",
-      airline: "",
+
       departDate: "",
       arriveDate: "",
       stops: "",
@@ -96,6 +96,13 @@ export default class AddFlight extends React.Component {
       pilot1,
       pilot2,
     } = this.state;
+
+    if (source === destination) {
+      this.setState({ errorMsg: "Source and destination cant be same!" });
+      return;
+    } else {
+      this.setState({ errorMsg: "" });
+    }
     const flight = {
       tripSource: source,
       tripDestination: destination,
@@ -146,11 +153,15 @@ export default class AddFlight extends React.Component {
           <Card.Body>
             {this.state.successMsg !== undefined &&
             this.state.successMsg != null ? (
-              <h4 style={{ color: "green" }}>{this.state.successMsg}</h4>
+              <h4 style={{ color: "green", fontSize: "14px" }}>
+                {this.state.successMsg}
+              </h4>
             ) : null}
             {this.state.errorMsg !== undefined &&
             this.state.errorMsg != null ? (
-              <h4 style={{ color: "brown" }}>{this.state.errorMsg}</h4>
+              <h4 style={{ color: "brown", fontSize: "14px" }}>
+                {this.state.errorMsg}
+              </h4>
             ) : null}
             <Row>
               <Col md={3}>
@@ -192,6 +203,7 @@ export default class AddFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.airline}
                     placeholder="Airline"
+                    disabled
                   />
                 </Form.Group>
               </Col>
@@ -262,7 +274,6 @@ export default class AddFlight extends React.Component {
                   className="form-control"
                   name="pilot2"
                   onChange={this.handleInputChange}
-                  value=""
                 >
                   <option key="0" value="">
                     Select Pilot 2
@@ -307,6 +318,10 @@ export default class AddFlight extends React.Component {
               <Col md={3}>
                 <Button variant="danger" type="submit" onClick={this.handleAdd}>
                   Add
+                </Button>
+                &nbsp; &nbsp;
+                <Button variant="danger" type="submit" onClick={this.clear}>
+                  Clear
                 </Button>
               </Col>
             </Row>

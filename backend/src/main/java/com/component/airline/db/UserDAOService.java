@@ -21,6 +21,7 @@ public class UserDAOService {
 	public Object registerUser(UserRequestObject newUser){
 		User user = new User();
 		user.setFirst_name(newUser.getFirst_name());
+		user.setUser_type(newUser.getUser_type());
 		user.setLast_name(newUser.getLast_name());
 		user.setAdd_line1(newUser.getAdd_line1());
 		user.setAdd_line2(newUser.getAdd_line2());

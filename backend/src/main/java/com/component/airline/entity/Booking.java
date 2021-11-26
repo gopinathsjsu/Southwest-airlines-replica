@@ -46,7 +46,7 @@ public class Booking implements Serializable{
 	@Column(name = "travel_date")
 	private Date date;
 	
-	@JsonBackReference
+	@JsonBackReference()
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;

@@ -36,6 +36,10 @@ export default class FlightDetails extends React.Component {
         this.setState({ errorMsg: err });
       });
   };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
   render() {
     return (
       <>
