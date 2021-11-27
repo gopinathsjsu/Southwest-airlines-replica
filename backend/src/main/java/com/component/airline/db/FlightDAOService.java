@@ -45,12 +45,12 @@ public class FlightDAOService {
 		flight.setArrivalTime(flightReq.getArrivalTime());
 		flight.setDepartureTime(flightReq.getDepartureTime());
 		
-		if(flight.tripType.equals("Round trip")) {
-			List<Flight> deptFlights = flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
-			List<Flight> arrFlights = flightRepository.findReturnFlights(flight.tripSource, flight.tripDestination, flight.arrivalTime, flightReq.adults, flightReq.children);
-			deptFlights.addAll(arrFlights);
-			return deptFlights;
-		}
+//		if(flight.tripType.equals("Round trip")) {
+//			List<Flight> deptFlights = flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
+//			List<Flight> arrFlights = flightRepository.findReturnFlights(flight.tripSource, flight.tripDestination, flight.arrivalTime, flightReq.adults, flightReq.children);
+//			deptFlights.addAll(arrFlights);
+//			return deptFlights;
+//		}
 		return flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
 	}
 	

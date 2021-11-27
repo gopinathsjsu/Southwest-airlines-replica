@@ -15,7 +15,7 @@ class SearchFlight extends React.Component {
     this.state = {
       source: "",
       destination: "",
-      tripType: "Round trip",
+      tripType: "One-way",
       errorMsg: "",
       departDate: "",
       arriveDate: "",
@@ -24,6 +24,7 @@ class SearchFlight extends React.Component {
       successMsg: "",
       flightList: [],
       redirectFlag: false,
+      errors: {},
     };
   }
 
@@ -31,15 +32,31 @@ class SearchFlight extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    this.setState({
+      errors: {},
+    });
   };
 
   handleChangeDeptDate = (val) => {
     this.setState({ departDate: val });
+    this.setState({
+      errors: {},
+    });
   };
 
   handleChangeArrDate = (val) => {
     this.setState({ arriveDate: val });
   };
+
+  findFormErrors = () => {
+    const { source, destination, departDate, adults, errors } = this.state;
+    if (!source || source === '') errors.source = 'Source cannot be blank';
+    if (!destination || destination === '') errors.destination = 'Destination cannot be blank';
+    if (!departDate || departDate === '' || departDate === null) errors.departDate = 'Please select departure date';
+    if (!adults || adults === 0) errors.adults = 'Number of adults should not be zero';
+    
+    return errors;
+  }
 
   onSelect = (flight) => {
     localStorage.setItem("flight", JSON.stringify(flight));
@@ -49,41 +66,49 @@ class SearchFlight extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {
-      source,
-      destination,
-      tripType,
-      departDate,
-      arriveDate,
-      flightList,
-      adults,
-      children,
-    } = this.state;
-    const flight = {
-      tripSource: source,
-      tripDestination: destination,
-      tripType,
-      adults: parseInt(adults),
-      children: parseInt(children),
-      departureTime: departDate,
-      arrivalTime: arriveDate,
-    };
-    console.log(flight);
-    axios
-      .post(`${backendServer}/searchFlights`, flight)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-          this.setState({
-            flightList: flightList.concat(response.data),
-          });
-        } else {
-          this.setState({ errorMsg: response.data });
-        }
-      })
-      .catch((err) => {
-        this.setState({ errorMsg: err });
+    const newErrors = this.findFormErrors();
+    if (Object.keys(newErrors).length > 0) {
+      this.setState({
+        errors: newErrors,
       });
+    } else {
+      const {
+        source,
+        destination,
+        tripType,
+        departDate,
+        arriveDate,
+        flightList,
+        adults,
+        children,
+      } = this.state;
+      const flight = {
+        tripSource: source,
+        tripDestination: destination,
+        tripType,
+        adults: parseInt(adults),
+        children: parseInt(children),
+        departureTime: departDate,
+        arrivalTime: arriveDate,
+      };
+      console.log(flight);
+      axios
+        .post(`${backendServer}/searchFlights`, flight)
+        .then((response) => {
+          if (response.data.length > 0) {
+            console.log(response.data);
+            this.setState({
+              flightList: flightList.concat(response.data),
+              errorMsg: ''
+            });
+          } else {
+            this.setState({ errorMsg: "No results found" });
+          }
+        })
+        .catch((err) => {
+          this.setState({ errorMsg: err });
+        });
+      }
   };
 
   render() {
@@ -99,6 +124,7 @@ class SearchFlight extends React.Component {
       successMsg,
       adults,
       children,
+      errors
     } = this.state;
     // const request = {
     //   source,
@@ -120,7 +146,7 @@ class SearchFlight extends React.Component {
     const arrDetails = flightList.filter(
       (flight) => flight.tripSource === destination
     );
-    console.log(deptDetails);
+    console.log(errors.departDate);
     console.log(arrDetails);
 
     const deptDetailsDisplay = deptDetails.map((flight) => (
@@ -198,7 +224,7 @@ class SearchFlight extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  <Form.Group className="mb-3">
+                  {/* <Form.Group className="mb-3">
                     <Form.Check
                       className="mr-sm-2"
                       inline
@@ -220,7 +246,7 @@ class SearchFlight extends React.Component {
                       id="One-way"
                       onChange={this.handleChange}
                     />
-                  </Form.Group>
+                  </Form.Group> */}
                   <Col>Number of adults</Col>
                   <Col>
                     <Form.Group className="mb-3">
@@ -231,7 +257,11 @@ class SearchFlight extends React.Component {
                         onChange={this.handleChange}
                         value={adults}
                         placeholder="Number of adults"
+                        isInvalid={!!errors.adults}
                       />
+                      <Form.Control.Feedback type="invalid">
+                    { errors.adults }
+                  </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
                   <Col>Number of children</Col>
@@ -259,7 +289,11 @@ class SearchFlight extends React.Component {
                       onChange={this.handleChange}
                       value={source}
                       placeholder="Depart"
+                      isInvalid={!!errors.source}
                     />
+                    <Form.Control.Feedback type="invalid">
+                    { errors.source }
+                  </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
                 <Col>
@@ -271,7 +305,11 @@ class SearchFlight extends React.Component {
                       onChange={this.handleChange}
                       value={destination}
                       placeholder="Arrive"
+                      isInvalid={!!errors.destination}
                     />
+                    <Form.Control.Feedback type="invalid">
+                    { errors.destination }
+                  </Form.Control.Feedback>
                   </Form.Group>
                 </Col>
               </Row>
@@ -285,10 +323,12 @@ class SearchFlight extends React.Component {
                       name="departDate"
                       dateFormat="MM/dd/yyyy"
                       label="Depart Date"
+                      isInvalid={!!errors.departDate}
                     />
+                    <span style={{color: "#de404d"}}> { errors.departDate }</span>
                   </Form.Group>
                 </Col>
-                <Col>
+                {/* <Col>
                   <Form.Group className="mb-3">
                     Arrive Date
                     <DatePicker
@@ -298,7 +338,7 @@ class SearchFlight extends React.Component {
                       dateFormat="MM/dd/yyyy"
                     />
                   </Form.Group>
-                </Col>
+                </Col> */}
               </Row>
               <Row>
                 <Col>
