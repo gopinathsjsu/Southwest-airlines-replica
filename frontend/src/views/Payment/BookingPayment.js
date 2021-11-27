@@ -249,7 +249,7 @@ export default class BookingPayment extends React.Component {
                     name="paymentType"
                     type="radio"
                     id="Bank Account"
-                    onChange={this.handleMileage}
+                    onChange={this.handleChange}
                   />
                   {showCard && <AddCard parentCallback={this.handleCallback} />}
                   {!showCard && (

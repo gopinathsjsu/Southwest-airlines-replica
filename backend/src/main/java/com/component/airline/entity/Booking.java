@@ -67,7 +67,7 @@ public class Booking implements Serializable{
 	private String status;
 
 	@Column(name = "mileage_points")
-	private int mileagePoints;
+	private double mileagePoints;
 
 	@Column(name = "mileage_status", columnDefinition = "varchar(255) default 'Pending'")
 	private String mileageStatus;
@@ -113,11 +113,11 @@ public class Booking implements Serializable{
 		this.status = status;
 	}
 
-	public int getMileagePoints() {
+	public double getMileagePoints() {
 		return mileagePoints;
 	}
 
-	public void setMileagePoints(int mileagePoints) {
+	public void setMileagePoints(double mileagePoints) {
 		this.mileagePoints = mileagePoints;
 	}
 
