@@ -50,24 +50,28 @@ export default class AddCard extends React.Component {
                 <FormControl
                   aria-label="firstFour"
                   name="firstFour"
+                  type="number"
                   value={firstFour}
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="secondFour"
                   name="secondFour"
+                  type="number"
                   value={secondFour}
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="middleFour"
                   name="middleFour"
+                  type="number"
                   value={middleFour}
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="lastFour"
                   name="lastFour"
+                  type="number"
                   value={lastFour}
                   onChange={this.handleChange}
                 />
@@ -90,12 +94,14 @@ export default class AddCard extends React.Component {
                 <FormControl
                   aria-label="month"
                   name="month"
+                  type="number"
                   value={month}
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="year"
                   name="year"
+                  type="number"
                   value={year}
                   onChange={this.handleChange}
                 />
@@ -106,6 +112,7 @@ export default class AddCard extends React.Component {
                   aria-label="Small"
                   aria-describedby="inputGroup-sizing-sm"
                   name="cvv"
+                  type="number"
                   value={cvv}
                   onChange={this.handleChange}
                 />
