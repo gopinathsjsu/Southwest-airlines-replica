@@ -20,10 +20,14 @@ export default class AddCard extends React.Component {
   }
 
   handleChange = (e) => {
+    
     this.setState({
       [e.target.name]: e.target.value,
     });
-    this.props.parentCallback(this.state);
+    const payment = this.state;
+    const name = e.target.name;
+    payment[name] = e.target.value;
+    this.props.parentCallback(payment);
   };
 
   render() {
@@ -52,6 +56,7 @@ export default class AddCard extends React.Component {
                   name="firstFour"
                   type="number"
                   value={firstFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
                 <FormControl
@@ -59,6 +64,7 @@ export default class AddCard extends React.Component {
                   name="secondFour"
                   type="number"
                   value={secondFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
                 <FormControl
@@ -66,6 +72,7 @@ export default class AddCard extends React.Component {
                   name="middleFour"
                   type="number"
                   value={middleFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
                 <FormControl
@@ -73,6 +80,7 @@ export default class AddCard extends React.Component {
                   name="lastFour"
                   type="number"
                   value={lastFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
               </InputGroup>
@@ -96,6 +104,7 @@ export default class AddCard extends React.Component {
                   name="month"
                   type="number"
                   value={month}
+                  placeholder="mm"
                   onChange={this.handleChange}
                 />
                 <FormControl
@@ -103,6 +112,7 @@ export default class AddCard extends React.Component {
                   name="year"
                   type="number"
                   value={year}
+                  placeholder="yy"
                   onChange={this.handleChange}
                 />
               </InputGroup>
@@ -114,6 +124,7 @@ export default class AddCard extends React.Component {
                   name="cvv"
                   type="number"
                   value={cvv}
+                  placeholder="xxx"
                   onChange={this.handleChange}
                 />
               </InputGroup>

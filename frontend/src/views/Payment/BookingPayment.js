@@ -26,6 +26,7 @@ export default class BookingPayment extends React.Component {
       checked: false,
       rewards: 0,
       user: JSON.parse(localStorage.getItem("user")),
+      errors: '',
     };
   }
 
@@ -46,10 +47,39 @@ export default class BookingPayment extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
-    localStorage.setItem("rewards", this.state.rewards);
-    this.props.setPage("reviewBooking");
-    //this.setState({ redirectFlag: true });
+    const { paymentDetails} = this.state;
+    if(paymentDetails === ""){
+      this.setState({errors : "Please enter payment details"})
+    }
+    else if(paymentDetails.payment_type === 'Bank Account'){
+      if(paymentDetails.bankName === '' ||
+         paymentDetails.accNumber === '' ||
+         paymentDetails.ifscCode === '' ||
+         paymentDetails.cvv === '' || paymentDetails.cvv.length !==3){
+          this.setState({errors : "Invalid Bank account"})
+        }else{
+            localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
+            localStorage.setItem("rewards", this.state.rewards);
+            this.props.setPage("reviewBooking");
+            //this.setState({ redirectFlag: true });
+        }
+    }
+    else if(paymentDetails.payment_type === 'Credit Card'){
+      if(paymentDetails.firstFour === '' || paymentDetails.firstFour.length !== 4 ||
+         paymentDetails.secondFour === '' || paymentDetails.secondFour.length !== 4 ||
+         paymentDetails.middleFour === '' || paymentDetails.middleFour.length !==4 ||
+         paymentDetails.lastFour === '' || paymentDetails.lastFour.length !== 4 ||
+         paymentDetails.nameOnCard === '' || paymentDetails.month === '' ||
+         paymentDetails.year === '' || paymentDetails.year.length !==2 ||
+         paymentDetails.cvv === '' || paymentDetails.cvv.length !==3){
+          this.setState({errors : "Invalid card details"})
+        }else{
+            localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
+            localStorage.setItem("rewards", this.state.rewards);
+            this.props.setPage("reviewBooking");
+            //this.setState({ redirectFlag: true });
+        }
+    }
   };
 
   handleBack = (e) => {
@@ -86,6 +116,7 @@ export default class BookingPayment extends React.Component {
       redirectFlag,
       redirectBackFlag,
       paymentType,
+      errors
     } = this.state;
     let showCard = false;
     if (paymentType === "Credit Card") {
@@ -251,6 +282,7 @@ export default class BookingPayment extends React.Component {
                     id="Bank Account"
                     onChange={this.handleChange}
                   />
+                  <span style={{color: "#de404d"}}>{errors}</span>
                   {showCard && <AddCard parentCallback={this.handleCallback} />}
                   {!showCard && (
                     <AddBank parentCallback={this.handleCallback}></AddBank>
