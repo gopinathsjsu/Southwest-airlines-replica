@@ -29,7 +29,7 @@ public class Transaction {
 	
 	
 	@Column(name = "Rewards")
-	private int Rewards;
+	private double Rewards;
 	
 	@Column(name = "Cash")
 	private double Cash;
@@ -73,11 +73,11 @@ public class Transaction {
 	 * public void setPayment_id(int payment_id) { Payment_id = payment_id; }
 	 */
 
-	public int getRewards() {
+	public double getRewards() {
 		return Rewards;
 	}
 
-	public void setRewards(int rewards) {
+	public void setRewards(double rewards) {
 		Rewards = rewards;
 	}
 

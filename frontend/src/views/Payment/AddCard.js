@@ -20,10 +20,14 @@ export default class AddCard extends React.Component {
   }
 
   handleChange = (e) => {
+    
     this.setState({
       [e.target.name]: e.target.value,
     });
-    this.props.parentCallback(this.state);
+    const payment = this.state;
+    const name = e.target.name;
+    payment[name] = e.target.value;
+    this.props.parentCallback(payment);
   };
 
   render() {
@@ -50,25 +54,33 @@ export default class AddCard extends React.Component {
                 <FormControl
                   aria-label="firstFour"
                   name="firstFour"
+                  type="number"
                   value={firstFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="secondFour"
                   name="secondFour"
+                  type="number"
                   value={secondFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="middleFour"
                   name="middleFour"
+                  type="number"
                   value={middleFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="lastFour"
                   name="lastFour"
+                  type="number"
                   value={lastFour}
+                  placeholder="xxxx"
                   onChange={this.handleChange}
                 />
               </InputGroup>
@@ -90,13 +102,17 @@ export default class AddCard extends React.Component {
                 <FormControl
                   aria-label="month"
                   name="month"
+                  type="number"
                   value={month}
+                  placeholder="mm"
                   onChange={this.handleChange}
                 />
                 <FormControl
                   aria-label="year"
                   name="year"
+                  type="number"
                   value={year}
+                  placeholder="yy"
                   onChange={this.handleChange}
                 />
               </InputGroup>
@@ -106,7 +122,9 @@ export default class AddCard extends React.Component {
                   aria-label="Small"
                   aria-describedby="inputGroup-sizing-sm"
                   name="cvv"
+                  type="number"
                   value={cvv}
+                  placeholder="xxx"
                   onChange={this.handleChange}
                 />
               </InputGroup>

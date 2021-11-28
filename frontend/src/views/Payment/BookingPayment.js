@@ -26,6 +26,7 @@ export default class BookingPayment extends React.Component {
       checked: false,
       rewards: 0,
       user: JSON.parse(localStorage.getItem("user")),
+      errors: '',
     };
   }
 
@@ -46,9 +47,39 @@ export default class BookingPayment extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
-    this.props.setPage("reviewBooking");
-    //this.setState({ redirectFlag: true });
+    const { paymentDetails} = this.state;
+    if(paymentDetails === ""){
+      this.setState({errors : "Please enter payment details"})
+    }
+    else if(paymentDetails.payment_type === 'Bank Account'){
+      if(paymentDetails.bankName === '' ||
+         paymentDetails.accNumber === '' ||
+         paymentDetails.ifscCode === '' ||
+         paymentDetails.cvv === '' || paymentDetails.cvv.length !==3){
+          this.setState({errors : "Invalid Bank account"})
+        }else{
+            localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
+            localStorage.setItem("rewards", this.state.rewards);
+            this.props.setPage("reviewBooking");
+            //this.setState({ redirectFlag: true });
+        }
+    }
+    else if(paymentDetails.payment_type === 'Credit Card'){
+      if(paymentDetails.firstFour === '' || paymentDetails.firstFour.length !== 4 ||
+         paymentDetails.secondFour === '' || paymentDetails.secondFour.length !== 4 ||
+         paymentDetails.middleFour === '' || paymentDetails.middleFour.length !==4 ||
+         paymentDetails.lastFour === '' || paymentDetails.lastFour.length !== 4 ||
+         paymentDetails.nameOnCard === '' || paymentDetails.month === '' ||
+         paymentDetails.year === '' || paymentDetails.year.length !==2 ||
+         paymentDetails.cvv === '' || paymentDetails.cvv.length !==3){
+          this.setState({errors : "Invalid card details"})
+        }else{
+            localStorage.setItem("payment", JSON.stringify(this.state.paymentDetails));
+            localStorage.setItem("rewards", this.state.rewards);
+            this.props.setPage("reviewBooking");
+            //this.setState({ redirectFlag: true });
+        }
+    }
   };
 
   handleBack = (e) => {
@@ -65,15 +96,16 @@ export default class BookingPayment extends React.Component {
   handleMileage = (e) => {
     var mileage = this.state.checked;
     this.setState({ checked: !mileage });
-    if (this.state.checked === true) {
+    if (!mileage) {
       this.getRewards();
     }
   };
 
   getRewards = () => {
     let availRewards = this.state.user.mileage.availableRewards;
+    console.log("availRewards: "+availRewards);
     this.setState({
-      rewards: availRewards / 10,
+      rewards: (availRewards / 10).toFixed(2)
     });
   };
 
@@ -84,6 +116,7 @@ export default class BookingPayment extends React.Component {
       redirectFlag,
       redirectBackFlag,
       paymentType,
+      errors
     } = this.state;
     let showCard = false;
     if (paymentType === "Credit Card") {
@@ -189,8 +222,8 @@ export default class BookingPayment extends React.Component {
                   Avail Mileage Points{" "}
                   {this.state.user.mileage.availableRewards !== 0 ? (
                     <Typography fontSize="12px" color="text.secondary">
-                      Available Rewards Points
-                      {this.state.user.mileage.availablerewards}
+                      Available Rewards Points: {' '}
+                      {this.state.user.mileage.availableRewards}
                       (You can redeem upto 10% of Available Reward Points )
                     </Typography>
                   ) : (
@@ -247,8 +280,9 @@ export default class BookingPayment extends React.Component {
                     name="paymentType"
                     type="radio"
                     id="Bank Account"
-                    onChange={this.handleMileage}
+                    onChange={this.handleChange}
                   />
+                  <span style={{color: "#de404d"}}>{errors}</span>
                   {showCard && <AddCard parentCallback={this.handleCallback} />}
                   {!showCard && (
                     <AddBank parentCallback={this.handleCallback}></AddBank>

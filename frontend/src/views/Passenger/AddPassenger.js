@@ -29,11 +29,12 @@ export default class AddPassenger extends React.Component {
       redirectFlag: "",
       redirectBackFlag: false,
       seatList: [],
+      errors: "",
     };
   }
 
   componentDidMount() {
-    const flight = JSON.parse(localStorage.getItem("flight"));
+    const flight = JSON.parses(localStorage.getItem("flight"));
     const passengers = JSON.parse(localStorage.getItem("passengers"));
     this.setState({ flightDetails: flight });
     const { seatList } = this.state;
@@ -68,7 +69,34 @@ export default class AddPassenger extends React.Component {
     console.log(passengers);
     passengers[i][e.target.name] = e.target.value;
     this.setState({ passengers });
+    this.setState({
+      errors: "",
+    });
   }
+
+  findFormErrors = () => {
+    let { passengers, errors } = this.state;
+    passengers.map((pas) => {
+      if (
+        !pas.firstName ||
+        pas.firstName === "" ||
+        !pas.lastName ||
+        pas.lastName === "" ||
+        !pas.age ||
+        pas.age === "" ||
+        !pas.govtId ||
+        pas.govtId === "" ||
+        !pas.govtIdNum ||
+        pas.govtIdNum === "" ||
+        !pas.seatNumber ||
+        pas.seatNumber === ""
+      ) {
+        errors = "Please enter all the required passenger information";
+      }
+    });
+
+    return errors;
+  };
 
   handleBack = (e) => {
     e.preventDefault();
@@ -100,9 +128,16 @@ export default class AddPassenger extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("passengers", JSON.stringify(this.state.passengers));
-    this.props.setPage("addpayment");
-    //this.setState({ redirectFlag: true });
+    const newErrors = this.findFormErrors();
+    if (Object.keys(newErrors).length > 0) {
+      this.setState({
+        errors: newErrors,
+      });
+    } else {
+      localStorage.setItem("passengers", JSON.stringify(this.state.passengers));
+      this.props.setPage("addpayment");
+      //this.setState({ redirectFlag: true });
+    }
   };
 
   render() {
@@ -111,6 +146,7 @@ export default class AddPassenger extends React.Component {
       redirectFlag,
       redirectBackFlag,
       seatList,
+      errors,
     } = this.state;
     console.log(seatList);
     let redirectVar = null;
@@ -155,9 +191,12 @@ export default class AddPassenger extends React.Component {
         </Card>
         &nbsp;
         <Card>
-          <Card.Header>Add Passenger Details</Card.Header>
+          <Card.Header>
+            Add Passenger Details<small>(*All fields are mandatory)</small>
+          </Card.Header>
           <Card.Body>
             {" "}
+            <span style={{ color: "#de404d" }}>{errors}</span>
             <Form>
               {this.state.passengers.map((element, index) => (
                 <div key={index}>
@@ -195,7 +234,7 @@ export default class AddPassenger extends React.Component {
                         value={element.age || ""}
                         onChange={(e) => this.handleChange(index, e)}
                         required
-                        type="text"
+                        type="number"
                         placeholder="Age"
                         size="sm"
                       />

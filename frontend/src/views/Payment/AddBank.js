@@ -17,7 +17,10 @@ export default class AddBank extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    this.props.parentCallback(this.state);
+    const payment = this.state;
+    const name = e.target.name;
+    payment[name] = e.target.value;
+    this.props.parentCallback(payment);
   }
   render() {
     const { bankName, accNumber, ifscCode, cvv } = this.state;

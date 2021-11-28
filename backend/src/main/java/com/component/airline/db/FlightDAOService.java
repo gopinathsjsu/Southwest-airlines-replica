@@ -2,6 +2,7 @@ package com.component.airline.db;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.component.airline.entity.User;
 import com.component.airline.models.FlightAddRequest;
 import com.component.airline.models.FlightSearchObject;
 import com.component.airline.repository.FlightRepository;
+import com.component.airline.repository.SeatRepository;
 import com.component.airline.repository.UserRepository;
 import com.component.models.FlightRequestObject;
 
@@ -26,6 +28,9 @@ public class FlightDAOService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	SeatRepository seatRepository;
 	
 	public Object getFlightById(Flight flight){
 		return flightRepository.findById(flight.getId());
@@ -45,12 +50,12 @@ public class FlightDAOService {
 		flight.setArrivalTime(flightReq.getArrivalTime());
 		flight.setDepartureTime(flightReq.getDepartureTime());
 		
-		if(flight.tripType.equals("Round trip")) {
-			List<Flight> deptFlights = flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
-			List<Flight> arrFlights = flightRepository.findReturnFlights(flight.tripSource, flight.tripDestination, flight.arrivalTime, flightReq.adults, flightReq.children);
-			deptFlights.addAll(arrFlights);
-			return deptFlights;
-		}
+//		if(flight.tripType.equals("Round trip")) {
+//			List<Flight> deptFlights = flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
+//			List<Flight> arrFlights = flightRepository.findReturnFlights(flight.tripSource, flight.tripDestination, flight.arrivalTime, flightReq.adults, flightReq.children);
+//			deptFlights.addAll(arrFlights);
+//			return deptFlights;
+//		}
 		return flightRepository.findBySourceAndDestination(flight.tripSource, flight.tripDestination, flight.departureTime, flightReq.adults, flightReq.children);
 	}
 	
@@ -69,7 +74,39 @@ public class FlightDAOService {
 		newFlight.setTripDestination(flight.getTripDestination());
 		newFlight.setStatus("Scheduled");
 		newFlight.setDuration(getTimeDiff(flight.getArrivalTime(),flight.getDepartureTime()));
-		return flightRepository.save(newFlight);
+		Flight savedFlight = flightRepository.save(newFlight);
+		List<Seat> seatList = new ArrayList<Seat>();
+		int seats = flight.getSeats();
+		System.out.println("seats: "+seats);
+		char[] ch = {'A', 'B', 'C', 'D', 'E', 'F'};
+		int row = 0;
+		int rowNum = 0;
+		for(int i=1; i<= seats; i++) {
+			if(i % 6 == 1) {
+				row++;
+				rowNum = 0;
+			}else {
+				rowNum++;
+			}
+			Seat seat = new Seat();
+			seat.setFlight(savedFlight);
+			seat.setRowValue(row);
+			seat.setSeatNumber(row+""+ch[rowNum]);
+			seat.setStatus(0);
+			if(row ==1 || row ==2) {
+				seat.setType("Business");
+				seat.setRate(100.0);
+			}else {
+				seat.setType("Economy");
+				seat.setRate(0.0);
+			}
+			System.out.println("ro num :"+seat.getRowValue());
+			System.out.println("seat num :"+seat.getSeatNumber());
+			seatList.add(seat);
+		}
+		
+		seatRepository.saveAll(seatList);
+		return savedFlight;
 	}
 	
 	public Object updateFlight(Flight flight){

@@ -18,11 +18,17 @@ export default class Header extends React.Component {
   }
 
   handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("payment");
+    localStorage.removeItem("passengers");
+    localStorage.removeItem("flight");
+    this.setState({ user: null });
     this.setState({ redirectFlag: true });
   };
   render() {
     let redirectVar = null;
     const user = this.state.user;
+    console.log("user: "+user);
     if (this.state.redirectFlag) {
       redirectVar = <Redirect to={{ pathname: "/" }} />;
     }

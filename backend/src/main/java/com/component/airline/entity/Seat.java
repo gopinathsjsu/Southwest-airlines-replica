@@ -20,7 +20,7 @@ public class Seat {
     private Integer id;
 	
 	@Column(name = "rowValue")
-	public String rowValue;
+	public int rowValue;
 	
 	@Column(name = "seatNumber")
 	public String seatNumber;
@@ -29,7 +29,7 @@ public class Seat {
 	public String type;
 	
 	@Column(name = "rate")
-	public String rate;
+	public Double rate;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "flight", referencedColumnName = "id")
@@ -42,7 +42,7 @@ public class Seat {
 		
 	}
 	
-	public Seat(Integer id, String rowValue, String seatNumber, Flight flightId, Integer status) {
+	public Seat(Integer id, int rowValue, String seatNumber, Flight flightId, Integer status) {
 		super();
 		this.id = id;
 		this.rowValue = rowValue;
@@ -59,11 +59,11 @@ public class Seat {
 		this.id = id;
 	}
 
-	public String getRowValue() {
+	public int getRowValue() {
 		return rowValue;
 	}
 
-	public void setRowValue(String rowValue) {
+	public void setRowValue(int rowValue) {
 		this.rowValue = rowValue;
 	}
 
@@ -99,11 +99,11 @@ public class Seat {
 		this.type = type;
 	}
 
-	public String getRate() {
+	public Double getRate() {
 		return rate;
 	}
 
-	public void setRate(String rate) {
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
 	
