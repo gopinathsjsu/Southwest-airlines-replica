@@ -95,6 +95,7 @@ export default class AddFlight extends React.Component {
       price,
       pilot1,
       pilot2,
+      seats
     } = this.state;
 
     if (source === destination) {
@@ -113,6 +114,7 @@ export default class AddFlight extends React.Component {
       price: parseFloat(price),
       pilot1: pilot1,
       pilot2: pilot2,
+      seats:  parseInt(seats)
     };
     console.log(flight);
     axios
@@ -288,7 +290,7 @@ export default class AddFlight extends React.Component {
                 <Form.Group className="mb-3">
                   <Form.Control
                     name="seats"
-                    type="text"
+                    type="number"
                     className="mr-sm-2"
                     onChange={this.handleChange}
                     value={this.state.seats}

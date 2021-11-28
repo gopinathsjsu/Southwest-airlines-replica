@@ -33,6 +33,8 @@ public class FlightAddRequest {
 	
 	public String pilot2;
 	
+	public int seats;
+	
 	public String getFlightName() {
 		return flightName;
 	}
@@ -119,6 +121,14 @@ public class FlightAddRequest {
 
 	public void setPilot2(String pilot2) {
 		this.pilot2 = pilot2;
+	}
+
+	public int getSeats() {
+		return seats;
+	}
+
+	public void setSeats(int seats) {
+		this.seats = seats;
 	}
 	
 	
