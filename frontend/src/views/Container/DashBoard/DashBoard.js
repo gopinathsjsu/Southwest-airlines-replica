@@ -29,6 +29,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddFlight from "../../Flight/AddFlight";
 import EditFlight from "../../Flight/EditFlight";
 import BookingReview from "../../Payment/BookingReview";
+import Header from "../../Header/header";
 //import Profile from "../../";
 const drawerWidth = 240;
 class DashBoard extends React.Component {
@@ -65,6 +66,11 @@ class DashBoard extends React.Component {
     if (e.target.innerText === "My Profile") {
       this.setState({
         page: "profile",
+      });
+    }
+    if (e.target.innerText === "Search Flight") {
+      this.setState({
+        page: "search",
       });
     }
   };
@@ -104,6 +110,7 @@ class DashBoard extends React.Component {
     localStorage.removeItem("payment");
     localStorage.removeItem("passengers");
     localStorage.removeItem("flight");
+    this.setState({ user: null });
     this.setState({ redirectFlag: true });
   };
 
@@ -115,6 +122,7 @@ class DashBoard extends React.Component {
     return (
       <div>
         {redirectVar}
+        <Header></Header>
         <Drawer
           variant="permanent"
           sx={{
@@ -132,7 +140,7 @@ class DashBoard extends React.Component {
               {this.state.user !== null &&
               this.state.user.user_type === "Customer" ? (
                 <>
-                  <ListItem button key="SearchFlight">
+                  <ListItem button key="SearchFlight" onClick={this.handlePageChange}>
                     <ListItemIcon>
                       <Search />
                     </ListItemIcon>
