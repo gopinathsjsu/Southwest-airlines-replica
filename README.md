@@ -3,7 +3,7 @@ team-project-the-team created by GitHub Classroom
 
 ## Team Members
 Akash Kuratkar
-Sherin Thlakulathielias
+Sherin Thlakulathil Elias
 Veena Mamidi
 Sai Sravani Chalasani
 
