@@ -11,7 +11,7 @@ Sai Sravani Chalasani
 
 
 ### Frontend
-HYML/CSS
+HTML/CSS
 ReactJS
 Redux
 
