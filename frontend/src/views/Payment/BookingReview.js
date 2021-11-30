@@ -87,7 +87,9 @@ export default class BookingReview extends React.Component {
           this.setState({
             bookingConfirm: response.data,
           });
-          alert("booking success ");
+          console.log("Booking confirm: "+response.data);
+          localStorage.setItem("bookingid", JSON.stringify(response.data.id));
+          this.props.setPage("bookingSuccess");
         } else {
           this.setState({ errorMsg: response.data });
         }
