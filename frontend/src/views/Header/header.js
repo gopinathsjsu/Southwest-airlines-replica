@@ -12,11 +12,13 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: localStorage.getItem("user"),
+      user: JSON.parse(localStorage.getItem("user")),
       redirectFlag: false,
     };
   }
-
+  componentDidMount = () => {
+    this.setState({ user: JSON.parse(localStorage.getItem("user")) });
+  };
   handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("payment");
@@ -28,7 +30,7 @@ export default class Header extends React.Component {
   render() {
     let redirectVar = null;
     const user = this.state.user;
-    console.log("user: "+user);
+    console.log("user: " + user);
     if (this.state.redirectFlag) {
       redirectVar = <Redirect to={{ pathname: "/" }} />;
     }
@@ -70,7 +72,10 @@ export default class Header extends React.Component {
             ) : (
               <div>
                 <Dropdown>
-                  <Dropdown.Toggle className="header-user" id="dropdown-basic">
+                  <Dropdown.Toggle
+                    className="header-user Header-Dashboard"
+                    id="dropdown-basic"
+                  >
                     {this.state.user !== undefined &&
                       this.state.user.first_name}
                   </Dropdown.Toggle>
