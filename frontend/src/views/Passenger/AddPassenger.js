@@ -34,7 +34,7 @@ export default class AddPassenger extends React.Component {
   }
 
   componentDidMount() {
-    const flight = JSON.parses(localStorage.getItem("flight"));
+    const flight = JSON.parse(localStorage.getItem("flight"));
     const passengers = JSON.parse(localStorage.getItem("passengers"));
     this.setState({ flightDetails: flight });
     const { seatList } = this.state;
@@ -252,15 +252,15 @@ export default class AddPassenger extends React.Component {
                           onChange={(e) => this.handleChange(index, e)}
                         >
                           <option key="0" value="">
-                            Select Pilot 1
+                            Select Government ID
                           </option>
-                          <option key="passport" value="">
+                          <option key="passport" value="Passport">
                             Passport
                           </option>
-                          <option key="realid" value="">
+                          <option key="realid" value="Real ID">
                             Real ID
                           </option>
-                          <option key="drivinglicense" value="">
+                          <option key="drivinglicense" value="Driving License">
                             Driving License
                           </option>
                         </select>
