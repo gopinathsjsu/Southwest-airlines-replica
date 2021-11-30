@@ -66,10 +66,10 @@ class Summary extends React.Component {
     axios
       .post(`${backendServer}/availBooking`, booking)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.data.status === 200) {
           console.log(response.data);
         } else {
-          this.setState({ errorMsg: response.data });
+          this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
       })
       .catch((err) => {

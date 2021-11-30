@@ -51,7 +51,7 @@ public class Booking implements Serializable{
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private Flight flight;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -60,7 +60,7 @@ public class Booking implements Serializable{
 
 
 	@JsonManagedReference
-	@OneToMany(mappedBy="booking")
+	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Passenger> passengers;
 	 
 	@Column(name = "status", columnDefinition = "varchar(20) default 'Scheduled'")

@@ -17,12 +17,15 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "flight")
 @JsonSerialize
+@Proxy(lazy = false)
 public class Flight implements Serializable{
 
 	/**
@@ -72,13 +75,13 @@ public class Flight implements Serializable{
 	
 	@NotNull
 	@JsonBackReference(value="pilot1")
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "pilot1", referencedColumnName = "id")
 	public User pilot1;
 	
 	@NotNull
 	@JsonBackReference(value="pilot2")
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "pilot2", referencedColumnName = "id")
 	public User pilot2;
 	
@@ -86,7 +89,7 @@ public class Flight implements Serializable{
 	public String status;
 	
 	public Flight(Integer id, String flightName, Timestamp departureTime, Timestamp arrivalTime, String stops,
-			String duration, String tripType, String tripSource, String tripDestination, Double price, User pilot1, User pilot2) {
+			String duration, String tripType, String tripSource, String tripDestination, Double price) {
 		super();
 		this.id = id;
 		this.flightName = flightName;
@@ -98,8 +101,6 @@ public class Flight implements Serializable{
 		this.tripSource = tripSource;
 		this.tripDestination = tripDestination;
 		this.price = price;
-		this.pilot1=pilot1;
-		this.pilot2=pilot2;
 	}
 
 	public Double getPrice() {
@@ -113,15 +114,15 @@ public class Flight implements Serializable{
 	public Flight(){
 		
 	}
-
-
+	
 	@Override
 	public String toString() {
 		return "Flight [id=" + id + ", flightName=" + flightName + ", departureTime=" + departureTime + ", arrivalTime="
 				+ arrivalTime + ", stops=" + stops + ", duration=" + duration + ", tripType=" + tripType
-				+ ", tripSource=" + tripSource + ", tripDestination=" + tripDestination + ", price=" + price
-				+ ", pilot1=" + pilot1 + ", pilot2=" + pilot2 + ", status=" + status + "]";
+				+ ", tripSource=" + tripSource + ", tripDestination=" + tripDestination + "]";
 	}
+
+
 
 	public Integer getId() {
 		return id;

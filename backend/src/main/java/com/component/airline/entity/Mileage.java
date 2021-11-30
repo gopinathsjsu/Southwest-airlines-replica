@@ -15,13 +15,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.sun.istack.NotNull;
 
 @Entity
 @Table(name="mileage")
@@ -40,28 +38,23 @@ public class Mileage implements Serializable{
 	@SequenceGenerator(name = "mySeqGen", sequenceName = "mySeq", initialValue = 12312312)
     @GeneratedValue(generator = "mySeqGen")
 	@Column(name = "id")
-	@NotFound
     private Integer id;
 
 	@JsonBackReference
 	@OneToOne(cascade = CascadeType.ALL,mappedBy = "mileage")
 	private User user;
 	
-	@NotNull
 	@Column(name = "points",columnDefinition = "integer default 0")
 	private int points;
 	
-	@NotNull
 	@Column(name = "available_rewards")
 	private double availableRewards;
 	
-	@NotNull
 	@Column(name = "exp_date")
 	private Date expDate;
 	
 	@Column(name = "distance_travelled")
 	private long distance;
-	
 	
 	@Column(name = "member_since")
 	private Date memberSince;
