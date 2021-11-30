@@ -3,7 +3,7 @@ team-project-the-team created by GitHub Classroom
 
 ## Team Members
 Akash Kuratkar
-Sherin Thlakulathielias
+Sherin Thlakulathil Elias
 Veena Mamidi
 Sai Sravani Chalasani
 
@@ -11,7 +11,7 @@ Sai Sravani Chalasani
 
 
 ### Frontend
-HYML/CSS
+HTML/CSS
 ReactJS
 Redux
 
