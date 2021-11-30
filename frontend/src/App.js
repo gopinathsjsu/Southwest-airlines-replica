@@ -16,6 +16,7 @@ import AddPassenger from "../src/views/Passenger/AddPassenger";
 import BookingPayment from "../src/views/Payment/BookingPayment";
 import BookingReview from "../src/views/Payment/BookingReview";
 import FlightIcon from "@mui/icons-material/Flight";
+import BookingSuccess from "./views/Bookings/BookingSucess";
 
 const theme = createMuiTheme({
   palette: {
@@ -68,6 +69,11 @@ function App() {
                   path="/bookingpayment"
                   exact
                   component={() => <BookingPayment />}
+                />
+                <Route
+                  path="/bookingSuccess"
+                  exact
+                  component={() => <BookingSuccess />}
                 />
 
                 <Route

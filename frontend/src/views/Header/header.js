@@ -24,6 +24,7 @@ export default class Header extends React.Component {
     localStorage.removeItem("payment");
     localStorage.removeItem("passengers");
     localStorage.removeItem("flight");
+    localStorage.removeItem("bookingid");
     this.setState({ user: null });
     this.setState({ redirectFlag: true });
   };

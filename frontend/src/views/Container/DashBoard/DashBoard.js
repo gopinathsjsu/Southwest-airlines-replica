@@ -30,6 +30,7 @@ import AddFlight from "../../Flight/AddFlight";
 import EditFlight from "../../Flight/EditFlight";
 import BookingReview from "../../Payment/BookingReview";
 import Header from "../../Header/header";
+import BookingSuccess from "../../Bookings/BookingSucess";
 //import Profile from "../../";
 const drawerWidth = 240;
 class DashBoard extends React.Component {
@@ -110,6 +111,7 @@ class DashBoard extends React.Component {
     localStorage.removeItem("payment");
     localStorage.removeItem("passengers");
     localStorage.removeItem("flight");
+    localStorage.removeItem("bookingid");
     this.setState({ user: null });
     this.setState({ redirectFlag: true });
   };
@@ -245,6 +247,9 @@ class DashBoard extends React.Component {
           ) : null}
           {this.state.page === "reviewBooking" ? (
             <BookingReview setPage={this.setPage} />
+          ) : null}
+          {this.state.page === "bookingSuccess" ? (
+            <BookingSuccess setPage={this.setPage} />
           ) : null}
         </Box>
       </div>
