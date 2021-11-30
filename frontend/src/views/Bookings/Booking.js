@@ -7,7 +7,10 @@ import backendServer from "../../webConfig";
 export default class Booking extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bookings: [], user: "" };
+    this.state = {
+      bookings: [],
+      user: JSON.parse(localStorage.getItem("user")),
+    };
   }
   componentDidMount = () => {
     this.setState({
@@ -17,7 +20,7 @@ export default class Booking extends React.Component {
   };
   getBookings = () => {
     axios
-      .get(`${backendServer}/bookings?userId=1`)
+      .get(`${backendServer}/bookings?userId=${this.state.user.id}`)
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);

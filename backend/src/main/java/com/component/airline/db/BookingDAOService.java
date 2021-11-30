@@ -117,6 +117,7 @@ public class BookingDAOService {
 	
 //	@SuppressWarnings("deprecation")
 	public String availMileagePoints(int bookingId) {
+		try {
 		Booking booking  = bookingRepository.getById(bookingId);
 		if(booking.getMileageStatus().equals("Pending")) {
 			booking.setMileageStatus("Availed");
@@ -132,6 +133,9 @@ public class BookingDAOService {
 			return ("Mileage points availed for: "+bookingId);
 		}else {
 			return ("Mileage points already availed for: "+bookingId);
+		}
+		}catch(Exception e) {
+			return e.getMessage();
 		}
 	}
 }

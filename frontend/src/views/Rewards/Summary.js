@@ -31,6 +31,8 @@ class Summary extends React.Component {
     this.state = {
       bookingId: "",
       bookings: [],
+      errorMsg: "",
+      successMsg: "",
       user: JSON.parse(localStorage.getItem("user")),
     };
   }
@@ -40,10 +42,25 @@ class Summary extends React.Component {
     this.getBookings();
   };
   handleAvailBooking = (e) => {
+    if (
+      this.state.bookingId.length === 0 ||
+      this.state.bookingId.trim().length === 0 ||
+      this.state.bookingId === null ||
+      this.state.bookingId.match("^[0-9]*$") === null
+    ) {
+      this.setState({
+        errorMsg: "Invalid Booking ID",
+      });
+      return;
+    } else {
+      this.setState({
+        errorMsg: "",
+      });
+    }
     e.preventDefault();
     const { bookingId } = this.state;
     const booking = {
-      bookingId: bookingId,
+      bookingId: parseInt(bookingId),
     };
     console.log(booking);
     axios
@@ -79,7 +96,15 @@ class Summary extends React.Component {
   };
 
   handleBookingId = (e) => {
-    this.setState({ bookingId: e.target.value });
+    if (e.target.value.match("^[0-9]*$") != null) {
+      this.setState({ bookingId: e.target.value, errorMsg: "" });
+    } else {
+      this.setState({
+        bookingId: e.target.value,
+        errorMsg: "Invalid Booking ID",
+      });
+    }
+    // this.setState({ bookingId: e.target.value });
   };
   render() {
     return (
@@ -112,6 +137,21 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
+                    Total Earned Points till now
+                  </Typography>{" "}
+                  <Typography
+                    sx={{ fontSize: 12 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    {this.state.user.mileage.id}
+                  </Typography>{" "}
+                  <Divider light />
+                  <Typography
+                    sx={{ fontSize: 12 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
                     Valid Till
                   </Typography>
                   <Typography
@@ -119,11 +159,13 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    {this.state.user.mileage.memberSince}
+                    {new Date(
+                      this.state.user.mileage.memberSince
+                    ).toLocaleDateString()}
                   </Typography>
                 </Col>
 
-                <Col md={4}>
+                <Col md={5}>
                   <Typography
                     sx={{ fontSize: 14 }}
                     color="text.secondary"
@@ -136,7 +178,7 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till {this.state.user.mileage.expDate}
+                    Earn while you fly!
                   </Typography>{" "}
                   <BorderLinearProgress
                     variant="determinate"
@@ -147,7 +189,7 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    {this.state.bookings.length} out of 100 flights
+                    {this.state.bookings.length % 10} out of 10 flights
                   </Typography>{" "}
                   &nbsp;
                   <Typography
@@ -155,7 +197,7 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till {this.state.user.mileage.expDate}
+                    Get points and earn more!
                   </Typography>{" "}
                   <BorderLinearProgress
                     variant="determinate"
@@ -180,45 +222,35 @@ class Summary extends React.Component {
                     color="text.secondary"
                     gutterBottom
                   >
-                    Look at your Companion Pass progress.
+                    Want more rewards! Here's how you can get.
                   </Typography>
                   <Typography
                     sx={{ fontSize: 12 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till {this.state.user.mileage.expDate}
+                    * Get 10% rewards of your booking price on every booking.
                   </Typography>{" "}
-                  <BorderLinearProgress
-                    variant="determinate"
-                    value={this.state.user.mileage.availableRewards}
-                  />{" "}
-                  <Typography
-                    sx={{ fontSize: 10 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    {this.state.user.mileage.availableRewards} out of 100 points
-                  </Typography>{" "}
-                  &nbsp;
                   <Typography
                     sx={{ fontSize: 12 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    Valid Till
+                    * Earn extra 100 mileage point on after every 10 bookings
                   </Typography>{" "}
-                  <BorderLinearProgress
-                    variant="determinate"
-                    value={this.state.user.mileage.availableRewards}
-                  />{" "}
+                  <Typography
+                    sx={{ fontSize: 12 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    * 20% points on your travel aniversary with Southwest.
+                  </Typography>{" "}
                   <Typography
                     sx={{ fontSize: 10 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    {this.state.user.mileage.availableRewards} out of 100
-                    flights
+                    (*T&C apply)
                   </Typography>{" "}
                 </Col>
               </Row>
@@ -240,6 +272,7 @@ class Summary extends React.Component {
                       aria-describedby="basic-addon2"
                       value={this.state.bookingId}
                       onChange={this.handleBookingId}
+                      pattern="[0-9]*"
                     />
                     <Button
                       variant="outline-secondary"
@@ -252,6 +285,18 @@ class Summary extends React.Component {
                 </Col>
               </Row>
             </blockquote>
+            {this.state.successMsg !== undefined &&
+            this.state.successMsg != null ? (
+              <h4 style={{ color: "green", fontSize: "12px" }}>
+                {this.state.successMsg}
+              </h4>
+            ) : null}
+            {this.state.errorMsg !== undefined &&
+            this.state.errorMsg != null ? (
+              <h4 style={{ color: "brown", fontSize: "12px" }}>
+                {this.state.errorMsg}
+              </h4>
+            ) : null}
           </Card.Body>
         </Card>
       </>
