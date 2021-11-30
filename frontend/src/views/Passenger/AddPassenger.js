@@ -30,6 +30,7 @@ export default class AddPassenger extends React.Component {
       redirectBackFlag: false,
       seatList: [],
       errors: "",
+      errorMsg: ''
     };
   }
 
@@ -72,6 +73,29 @@ export default class AddPassenger extends React.Component {
     this.setState({
       errors: "",
     });
+  }
+
+  handleChangeSeat(i, e) {
+    let passengers = this.state.passengers;
+    console.log(passengers);
+    let errorFlag = false;
+    this.setState({errorMsg: ''});
+    passengers.some((pas) =>{
+      if(pas.seatNumber === e.target.value){
+        errorFlag = true;
+        this.setState({errorMsg: 'Please select different seats'});
+        passengers[i][e.target.name] = "";
+        this.setState({ passengers });
+      }
+    }
+    );
+    if(!errorFlag){
+      passengers[i][e.target.name] = e.target.value;
+      this.setState({ passengers });
+      this.setState({
+        errors: "",
+      });
+    }
   }
 
   findFormErrors = () => {
@@ -147,6 +171,7 @@ export default class AddPassenger extends React.Component {
       redirectBackFlag,
       seatList,
       errors,
+      errorMsg
     } = this.state;
     console.log(seatList);
     let redirectVar = null;
@@ -197,6 +222,7 @@ export default class AddPassenger extends React.Component {
           <Card.Body>
             {" "}
             <span style={{ color: "#de404d" }}>{errors}</span>
+            <span style={{ color: "#de404d" }}>{errorMsg}</span>
             <Form>
               {this.state.passengers.map((element, index) => (
                 <div key={index}>
@@ -294,7 +320,7 @@ export default class AddPassenger extends React.Component {
                           as="select"
                           name="seatNumber"
                           value={element.seatNumber || ""}
-                          onChange={(e) => this.handleChange(index, e)}
+                          onChange={(e) => this.handleChangeSeat(index, e)}
                         >
                           <option value="">Select Seat </option>
                           {seatList.map((seat) => {
