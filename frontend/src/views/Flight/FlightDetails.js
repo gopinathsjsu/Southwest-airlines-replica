@@ -12,7 +12,7 @@ import backendServer from "../../webConfig";
 export default class FlightDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { flight: props.data, pilots: [] };
+    this.state = { flight: props.data, pilots: props.pilots };
   }
 
   componentDidMount = () => {
@@ -142,7 +142,9 @@ export default class FlightDetails extends React.Component {
             >
               <option selected>{this.state.flight.pilot1}</option>
               {this.state.pilots.map((p) => {
-                <option value={p.id}>{p.first_name}</option>;
+                <option value={p.id}>
+                  {p.first_name} {p.last_name}
+                </option>;
               })}
             </select>
           </Col>
@@ -153,9 +155,11 @@ export default class FlightDetails extends React.Component {
               name="pilot2"
               onChange={this.handleInputChange}
             >
-              <option selected>{this.state.flight.pilot1}</option>
+              <option selected>{this.state.flight.pilot2}</option>
               {this.state.pilots.map((p) => {
-                <option value={p.id}>{p.first_name}</option>;
+                <option value={p.id}>
+                  {p.first_name} {p.last_name}
+                </option>;
               })}
             </select>
           </Col>

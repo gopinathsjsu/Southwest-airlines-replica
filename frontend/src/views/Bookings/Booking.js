@@ -43,22 +43,35 @@ export default class Booking extends React.Component {
       <>
         {" "}
         <div>Upcoming Trip</div>
-        {this.state.bookings.map((d) =>
-          d.status === "Scheduled" ? (
-            <>
-              <div>&nbsp;</div>
-              <UpcomingItinerary data={d} />
-            </>
-          ) : null
+        {this.state.bookings.length > 0 ? (
+          <>
+            {this.state.bookings.map((d) =>
+              d.status === "Scheduled" ? (
+                <>
+                  <div>&nbsp;</div>
+                  <UpcomingItinerary data={d} />
+                </>
+              ) : null
+            )}
+          </>
+        ) : (
+          "No Upcoming Flights"
         )}
         <div>&nbsp;</div>
         <div>Previous Trips</div>
-        {this.state.bookings.map((d) =>
-          d.status !== "Scheduled" ? (
-            <>
-              <HistoryItinerary data={d} />
-            </>
-          ) : null
+        {this.state.bookings.length > 0 ? (
+          <>
+            {this.state.bookings.map((d) =>
+              d.status !== "Scheduled" ? (
+                <>
+                  <div>&nbsp;</div>
+                  <HistoryItinerary data={d} />
+                </>
+              ) : null
+            )}{" "}
+          </>
+        ) : (
+          "No Previous Flights"
         )}
       </>
     );

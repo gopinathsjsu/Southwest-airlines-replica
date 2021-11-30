@@ -46,7 +46,7 @@ public class Booking implements Serializable{
 	@Column(name = "travel_date")
 	private Date date;
 	
-	@JsonBackReference()
+	@JsonBackReference
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
@@ -60,7 +60,7 @@ public class Booking implements Serializable{
 
 
 	@JsonManagedReference
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="booking")
 	private List<Passenger> passengers;
 	 
 	@Column(name = "status", columnDefinition = "varchar(20) default 'Scheduled'")

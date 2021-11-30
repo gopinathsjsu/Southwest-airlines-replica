@@ -3,6 +3,7 @@ package com.component.airline.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,8 +49,8 @@ public class Passenger {
 	private String seatNumber;
 	
 	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "booking", referencedColumnName = "id")
+	@ManyToOne
+    @JoinColumn(name="booking_id", nullable=false)
 	public Booking booking;
 
 	public Integer getId() {

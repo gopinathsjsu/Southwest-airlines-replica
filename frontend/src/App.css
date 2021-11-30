@@ -24,6 +24,10 @@
   color: white;
 }
 
+.Header-Dashboard{
+  background-color: "none";
+  color: "blueviolet" 
+}
 .App-link {
   color: #61dafb;
 }

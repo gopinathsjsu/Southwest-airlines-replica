@@ -24,8 +24,31 @@ export default class EditFlight extends React.Component {
       departDate: "",
       flights: [],
       page: "",
+      pilots: [],
     };
   }
+
+  componentDidMount = () => {
+    this.getPilot();
+  };
+
+  getPilot = () => {
+    axios
+      .get(`${backendServer}/v1/user/users?userType=Employee`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            pilots: response.data,
+          });
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
+  };
 
   handleChange = (e) => {
     this.setState({
@@ -226,7 +249,7 @@ export default class EditFlight extends React.Component {
                   <AccordionDetails>
                     {this.state.page === index ? (
                       <Col md={12}>
-                        <FlightDetails data={f} />
+                        <FlightDetails data={f} pilots={this.state.pilots} />
                       </Col>
                     ) : null}
                   </AccordionDetails>

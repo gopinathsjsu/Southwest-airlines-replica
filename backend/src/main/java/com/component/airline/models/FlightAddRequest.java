@@ -2,31 +2,35 @@ package com.component.airline.models;
 
 import java.sql.Timestamp;
 
+import com.sun.istack.NotNull;
+
 public class FlightAddRequest {
 	
+	@NotNull
 	public String flightName;
 	
-	
+	@NotNull
 	public Timestamp departureTime;
 	
-	
+	@NotNull
 	public Timestamp arrivalTime;
 	
-	
+	@NotNull
 	public String stops;
 	
-	
+	@NotNull
 	public String duration;
 	
-
+	@NotNull
 	public String tripType;
 	
-	
+	@NotNull
 	public String tripSource;
 	
-	
+	@NotNull
 	public String tripDestination;
 	
+	@NotNull
 	public Double price;
 
 	public String pilot1;

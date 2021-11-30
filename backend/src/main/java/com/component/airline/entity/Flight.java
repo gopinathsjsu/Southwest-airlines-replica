@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "flight")
@@ -37,38 +38,48 @@ public class Flight implements Serializable{
 	@Column(name = "id")
     private Integer id;
 	
+	@NotNull
 	@Column(name = "flightName")
 	public String flightName;
 	
+	@NotNull
 	@Column(name = "departureTime")
 	public Timestamp departureTime;
 	
+	@NotNull
 	@Column(name = "arrivalTime")
 	public Timestamp arrivalTime;
 	
+	@NotNull
 	@Column(name = "tripStops")
 	public String stops;
 	
+	@NotNull
 	@Column(name = "tripDuration")
 	public String duration;
 	
 	@Column(name = "tripType")
 	public String tripType;
 	
+	@NotNull
 	@Column(name = "tripSource")
 	public String tripSource;
 	
+	@NotNull
 	@Column(name = "tripDestination")
 	public String tripDestination;
 	
+	@NotNull
 	@Column(name = "price")
 	public Double price;
 	
+	@NotNull
 	@JsonBackReference(value="pilot1")
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "pilot1", referencedColumnName = "id")
 	public User pilot1;
 	
+	@NotNull
 	@JsonBackReference(value="pilot2")
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name = "pilot2", referencedColumnName = "id")
