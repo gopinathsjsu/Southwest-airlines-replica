@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Landing from "@mui/icons-material/FlightLand";
 import TakeOff from "@mui/icons-material/FlightTakeoff";
+import Alert from "react-bootstrap/Alert";
 
 export default class EditFlight extends React.Component {
   constructor() {
@@ -25,6 +26,8 @@ export default class EditFlight extends React.Component {
       flights: [],
       page: "",
       pilots: [],
+      errorMsg: "",
+      successMsg: "",
     };
   }
 
@@ -81,6 +84,9 @@ export default class EditFlight extends React.Component {
   };
 
   handleSearch = () => {
+    if (!this.validateForm()) {
+      return;
+    }
     const { source, destination, departDate } = this.state;
     const flight = {
       tripSource: source,
@@ -96,7 +102,6 @@ export default class EditFlight extends React.Component {
           this.setState({
             flights: response.data,
           });
-          this.props.handleUser();
         } else {
           this.setState({ errorMsg: response.data });
         }
@@ -110,13 +115,51 @@ export default class EditFlight extends React.Component {
     this.setState({ departDate: val });
   };
 
+  validateForm = () => {
+    const { source, destination, departDate } = this.state;
+
+    if (source === null || source === "") {
+      this.setState({ errorMsg: "Source can not be blank" });
+      return false;
+    } else if (source.match("^[a-zA-Z]{3}$") === null) {
+      this.setState({ errorMsg: "Please enter valid Source" });
+      return false;
+    }
+    if (destination === null || destination === "") {
+      this.setState({ errorMsg: "Destination can not be blank" });
+      return false;
+    } else if (destination.match("^[a-zA-Z]{3}$") === null) {
+      this.setState({ errorMsg: "Please enter valid Destination" });
+      return false;
+    }
+    if (departDate === null || departDate === "") {
+      this.setState({ errorMsg: "Departure date can not be blank" });
+      return false;
+    }
+    this.setState({ errorMsg: "" });
+    return true;
+  };
+
   render() {
     return (
       <>
         <Card>
           <Card.Header>Edit Flight</Card.Header>
           <Card.Body>
-            {" "}
+            {this.state.successMsg !== undefined &&
+            this.state.successMsg != null &&
+            this.state.successMsg !== "" ? (
+              <Alert variant="success" size="small">
+                {this.state.successMsg}
+              </Alert>
+            ) : null}
+            {this.state.errorMsg !== undefined &&
+            this.state.errorMsg != null &&
+            this.state.errorMsg !== "" ? (
+              <Alert variant="danger" size="sm">
+                {this.state.errorMsg}
+              </Alert>
+            ) : null}{" "}
             <Row>
               <Col md={3}>
                 {" "}

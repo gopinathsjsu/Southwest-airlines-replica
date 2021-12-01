@@ -75,13 +75,12 @@ export default class AddFlight extends React.Component {
     this.setState({
       source: "",
       destination: "",
-
       departDate: "",
       arriveDate: "",
       stops: "",
       price: "",
-      pilot1: "",
-      pilot2: "",
+      pilot1: "0",
+      pilot2: "0",
       seats: "",
     });
   };
@@ -154,33 +153,70 @@ export default class AddFlight extends React.Component {
       pilot2,
       seats,
     } = this.state;
-    if (
-      source === null ||
-      source === "" ||
-      destination === null ||
-      airline === "" ||
-      airline === null ||
-      departDate === "" ||
-      departDate === null ||
-      arriveDate === "" ||
-      arriveDate === null ||
-      stops === "" ||
-      stops === null ||
-      price === "" ||
-      price === null ||
-      pilot1 === "" ||
-      pilot1 === null ||
-      pilot2 === "" ||
-      pilot2 === null ||
-      seats === "" ||
-      seats === null
-    ) {
-      this.setState({ errorMsg: "Please enter correct data!" });
+
+    if (source === null || source === "") {
+      this.setState({ errorMsg: "Source can not be blank" });
       return false;
-    } else {
-      this.setState({ errorMsg: "" });
-      return true;
+    } else if (source.match("^[a-zA-Z]{3}$") === null) {
+      this.setState({ errorMsg: "Please enter valid Source" });
+      return false;
     }
+    if (destination === null || destination === "") {
+      this.setState({ errorMsg: "Destination can not be blank" });
+      return false;
+    } else if (destination.match("^[a-zA-Z]{3}$") === null) {
+      this.setState({ errorMsg: "Please enter valid Destination" });
+      return false;
+    }
+    if (departDate === null || departDate === "") {
+      this.setState({ errorMsg: "Departure date can not be blank" });
+      return false;
+    }
+    if (arriveDate === null || arriveDate === "") {
+      this.setState({ errorMsg: "Arrival date can not be blank" });
+      return false;
+    }
+    if (stops === null || stops === "") {
+      this.setState({ errorMsg: "Stops can not be blank" });
+      return false;
+    } else if (stops.match("^[0-9]$") === null) {
+      this.setState({ errorMsg: "Please enter valid stops" });
+      return false;
+    }
+    if (price === null || price === "") {
+      this.setState({ errorMsg: "Price can not be blank" });
+      return false;
+    } else if (price.match("^[0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid price" });
+      return false;
+    }
+    if (pilot1 === null || pilot1 === "" || pilot1 === "0") {
+      this.setState({ errorMsg: "Pilot1 can not be blank" });
+      return false;
+    } else if (pilot1.match("^[0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid pilot1" });
+      return false;
+    }
+    if (pilot2 === null || pilot2 === "" || pilot2 === "Select Pilot 2") {
+      this.setState({ errorMsg: "Pilot2 can not be blank" });
+      return false;
+    } else if (pilot2.match("^[0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid pilot2" });
+      return false;
+    }
+    if (seats === null || seats === "") {
+      this.setState({ errorMsg: "Seats can not be blank" });
+      return false;
+    } else if (seats.match("^[0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid seats" });
+      return false;
+    }
+    if (pilot1 === pilot2) {
+      this.setState({ errorMsg: "Pilot1 and Pilot2 can not be same" });
+      return false;
+    }
+    this.setState({ errorMsg: "" });
+    return true;
   };
   render() {
     const { pilots } = this.state;
