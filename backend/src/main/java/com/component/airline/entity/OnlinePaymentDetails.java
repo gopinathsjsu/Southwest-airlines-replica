@@ -15,7 +15,7 @@ public class OnlinePaymentDetails {
 	private String bankName;
 	
 	@Column(name = "ifsc_cd")
-	private long IFSCCode;
+	private String IFSCCode;
 	
 	@Column(name = "acnt_num")
 	private long accountNumber;
@@ -30,10 +30,10 @@ public class OnlinePaymentDetails {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	public long getIFSCCode() {
+	public String getIFSCCode() {
 		return IFSCCode;
 	}
-	public void setIFSCCode(long iFSCCode) {
+	public void setIFSCCode(String iFSCCode) {
 		IFSCCode = iFSCCode;
 	}
 	public long getAccountNumber() {

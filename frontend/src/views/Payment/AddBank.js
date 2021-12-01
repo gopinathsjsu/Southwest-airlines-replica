@@ -33,7 +33,7 @@ export default class AddBank extends React.Component {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Account Number</Form.Label>
-            <Form.Control type="text" placeholder="Account Number" size="sm" name="accNumber" value= {accNumber} onChange={this.handleChange} />
+            <Form.Control type="number" placeholder="Account Number" size="sm" name="accNumber" value= {accNumber} onChange={this.handleChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>IFSC Code</Form.Label>
