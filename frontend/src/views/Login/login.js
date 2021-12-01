@@ -7,7 +7,7 @@ import backendServer from "../../webConfig";
 import { Redirect } from "react-router";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-
+import Alert from "react-bootstrap/Alert";
 import { ReactComponent as Logo } from "../../images.svg";
 
 export default class Login extends React.Component {
@@ -102,14 +102,18 @@ export default class Login extends React.Component {
                 <Col>
                   <Form>
                     {this.state.successMsg !== undefined &&
-                    this.state.successMsg != null ? (
-                      <h4 style={{ color: "green" }}>
+                    this.state.successMsg != null &&
+                    this.state.successMsg !== "" ? (
+                      <Alert variant="success" size="sm">
                         {this.state.successMsg}
-                      </h4>
+                      </Alert>
                     ) : null}
                     {this.state.errorMsg !== undefined &&
-                    this.state.errorMsg != null ? (
-                      <h4 style={{ color: "brown" }}>{this.state.errorMsg}</h4>
+                    this.state.errorMsg != null &&
+                    this.state.errorMsg !== "" ? (
+                      <Alert variant="danger" size="sm">
+                        {this.state.errorMsg}
+                      </Alert>
                     ) : null}
                     <Form.Group className="mb-1" controlId="formBasicEmail">
                       <Form.Label style={{ fontSize: "16px" }}>

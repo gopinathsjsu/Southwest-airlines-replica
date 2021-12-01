@@ -131,7 +131,7 @@ public class BookingDAOService {
 			m.setAvailableRewards(m.getAvailableRewards()+booking.getMileagePoints());
 			MileageHistory mileageHistory = new MileageHistory();
 			mileageHistory.setPoints(booking.getMileagePoints());
-			mileageHistory.setRemiaingPoints(m.getAvailableRewards());
+			mileageHistory.setRemiaingPoints(m.getAvailableRewards()+booking.getMileagePoints());
 			mileageHistory.setMileage(m);
 			mileageHistory.setStatus("Availed");
 			Date date = new Date(System.currentTimeMillis());

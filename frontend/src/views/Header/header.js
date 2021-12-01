@@ -60,7 +60,7 @@ export default class Header extends React.Component {
               <>
                 <div>
                   <a
-                    size="medium"
+                    size="small"
                     href="/"
                     className="nav-link btn-green"
                     type="button"
@@ -70,7 +70,7 @@ export default class Header extends React.Component {
                 </div>
                 <div>
                   <a
-                    size="medium"
+                    size="small"
                     href="/signup"
                     className="nav-link btn-green"
                     type="button"
@@ -81,16 +81,18 @@ export default class Header extends React.Component {
               </>
             ) : (
               <div>
-                <Dropdown>
+                <Dropdown size="sm">
                   <Dropdown.Toggle
                     className="header-user Header-Dashboard"
                     id="dropdown-basic"
+                    style={{ "background-color": "white", color: "blue" }}
+                    size="sm"
                   >
                     {this.state.user !== undefined &&
                       this.state.user.first_name}
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu>
+                  <Dropdown.Menu size="sm">
                     <Dropdown.Item onClick={this.handlePage} value="profile">
                       My Profile
                     </Dropdown.Item>

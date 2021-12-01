@@ -129,6 +129,7 @@ export default class EditFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.source}
                     placeholder="Source"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
@@ -143,6 +144,7 @@ export default class EditFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.destination}
                     placeholder="Destination"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
@@ -160,6 +162,7 @@ export default class EditFlight extends React.Component {
                     name="departDate"
                     dateFormat="MM/dd/yyyy"
                     label="Depart Date"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
@@ -169,6 +172,8 @@ export default class EditFlight extends React.Component {
                   type="submit"
                   onClick={this.handleSearch}
                   style={{ "margin-top": "30px" }}
+                  fontSize="small"
+                  size="sm"
                 >
                   Search
                 </Button>
@@ -226,6 +231,7 @@ export default class EditFlight extends React.Component {
                           size="small"
                           style={{ width: "80px" }}
                           onClick={() => this.handleEdit(index)}
+                          fontSize="small"
                         >
                           Edit
                         </Button1>
@@ -239,6 +245,7 @@ export default class EditFlight extends React.Component {
                           size="small"
                           style={{ width: "80px" }}
                           onClick={() => this.handleCancel(f)}
+                          fontSize="small"
                         >
                           Cancel
                         </Button1>
