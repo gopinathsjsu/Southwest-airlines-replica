@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { ReactComponent as Logo } from "../../swa_logo_dark.svg";
-import Button from "@mui/material/Button";
+import Col from "react-bootstrap/Col";
 import Dropdown from "react-bootstrap/Dropdown";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -44,9 +44,12 @@ export default class Header extends React.Component {
           sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
           <Toolbar color="white">
-            <Typography variant="h6" noWrap component="div">
-              <Logo />
-            </Typography>
+            <Box display="flex" flexGrow={1}>
+              <Typography variant="h6" noWrap component="div">
+                <Logo />
+              </Typography>
+            </Box>
+
             {user === null ? (
               <>
                 <div>
