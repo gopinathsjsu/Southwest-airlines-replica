@@ -1,11 +1,10 @@
 package com.component.airline.db;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import com.component.airline.entity.Seat;
 import com.component.airline.entity.User;
 import com.component.airline.models.FlightAddRequest;
 import com.component.airline.models.FlightSearchObject;
+import com.component.airline.repository.BookingRepository;
 import com.component.airline.repository.FlightRepository;
 import com.component.airline.repository.SeatRepository;
 import com.component.airline.repository.UserRepository;
@@ -31,6 +31,9 @@ public class FlightDAOService {
 	
 	@Autowired
 	SeatRepository seatRepository;
+	
+	@Autowired
+	BookingRepository bookingRepository;
 	
 	public Object getFlightById(Flight flight){
 		return flightRepository.findById(flight.getId());
@@ -111,6 +114,11 @@ public class FlightDAOService {
 	
 	public Object updateFlight(Flight flight){
 		System.out.println(flight);
+		Flight oldFlight = flightRepository.getById(flight.getId());
+		if(oldFlight.getDepartureTime()!=flight.getDepartureTime() || oldFlight.getArrivalTime()!=flight.getArrivalTime()) {
+			flight.setStatus("Rescheduled");
+			bookingRepository.cancelBookingByFlightId(flight.getId(),"Reshceduled");
+		}
 		return flightRepository.save(flight);
 	}
 	
@@ -118,11 +126,13 @@ public class FlightDAOService {
 		return flightRepository.getFlightByCriteria(flightSearchObject.getTripSource(),flightSearchObject.getTripDestination(),flightSearchObject.getDepartureDate());
 	}
 	
+	@Transactional
 	public String cancelFlight(int id) {
 		Flight flight = flightRepository.getById(id);
 		if(flight!=null) {
 			flight.setStatus("Cancelled");
 			flightRepository.save(flight);
+			bookingRepository.cancelBookingByFlightId(flight.getId(),"Cancelled");
 			return "Flight Cancelled Successfully!";
 		}
 		

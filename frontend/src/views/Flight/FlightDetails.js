@@ -12,10 +12,13 @@ import backendServer from "../../webConfig";
 export default class FlightDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { flight: props.data, pilots: props.pilots };
+    this.state = { flight: props.data, newFlight: "", pilots: props.pilots };
   }
 
   componentDidMount = () => {
+    const newflight = this.state.flight;
+    this.setState({ pilots: this.props.pilots, newFlight: newflight });
+
     this.getPilot();
   };
 
@@ -38,8 +41,34 @@ export default class FlightDetails extends React.Component {
   };
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState((prevState) => {
+      let newFlight = Object.assign({}, prevState.flight);
+      newFlight[e.target.name] = e.target.value;
+      return { newFlight };
+    });
   };
+
+  handleSave = () => {
+    let flight = this.state.newFlight;
+    axios
+      .post(`${backendServer}/updateFlight`, flight)
+      .then((response) => {
+        if (response.data.status === 200) {
+          console.log(response.data.entity);
+          this.setState({
+            successMsg: response.data.statusInfo.reasonPhrase,
+            redirectFlag: true,
+          });
+          this.clear();
+        } else {
+          this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
+  };
+
   render() {
     return (
       <>
@@ -49,12 +78,13 @@ export default class FlightDetails extends React.Component {
             <Form.Group className="mb-3">
               <Form.Label>Source</Form.Label>
               <Form.Control
-                name="source"
+                name="tripSource"
                 type="text"
                 className="mr-sm-2"
                 onChange={this.handleChange}
-                value={this.state.flight.tripSource}
+                value={this.state.newFlight.tripSource}
                 placeholder="Source"
+                disabled="true"
               />
             </Form.Group>
           </Col>
@@ -63,12 +93,13 @@ export default class FlightDetails extends React.Component {
             <Form.Label>Destination</Form.Label>
             <Form.Group className="mb-3">
               <Form.Control
-                name="destination"
+                name="tripDestination"
                 type="text"
                 className="mr-sm-2"
                 onChange={this.handleChange}
-                value={this.state.flight.tripDestination}
+                value={this.state.newFlight.tripDestination}
                 placeholder="Destination"
+                disabled="true"
               />
             </Form.Group>
           </Col>
@@ -77,12 +108,13 @@ export default class FlightDetails extends React.Component {
             <Form.Label>Airline</Form.Label>
             <Form.Group className="mb-3">
               <Form.Control
-                name="airline"
+                name="flightName"
                 type="text"
                 className="mr-sm-2"
                 onChange={this.handleChange}
-                value={this.state.flight.flightName}
+                value={this.state.newFlight.flightName}
                 placeholder="Airline"
+                disabled="true"
               />
             </Form.Group>
           </Col>
@@ -94,7 +126,7 @@ export default class FlightDetails extends React.Component {
                 <DateTimePicker
                   label=""
                   name="departDate"
-                  value={this.state.flight.departDate}
+                  value={this.state.newFlight.departDate}
                   onChange={this.handleDepartDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -111,7 +143,7 @@ export default class FlightDetails extends React.Component {
                 <DateTimePicker
                   label=""
                   name="arriveDate"
-                  value={this.state.flight.arriveDate}
+                  value={this.state.newFlight.arriveDate}
                   onChange={this.handleArriveDate}
                   renderInput={(params) => <TextField {...params} />}
                   minDateTime={this.state.departDate}
@@ -128,8 +160,9 @@ export default class FlightDetails extends React.Component {
                 type="text"
                 className="mr-sm-2"
                 onChange={this.handleChange}
-                value={this.state.flight.stops}
+                value={this.state.newFlight.stops}
                 placeholder="Stops"
+                disabled="true"
               />
             </Form.Group>
           </Col>
@@ -140,7 +173,7 @@ export default class FlightDetails extends React.Component {
               name="pilot1"
               onChange={this.handleInputChange}
             >
-              <option selected>{this.state.flight.pilot1}</option>
+              <option selected>{this.state.newFlight.pilot1}</option>
               {this.state.pilots.map((p) => {
                 <option value={p.id}>
                   {p.first_name} {p.last_name}
@@ -155,7 +188,7 @@ export default class FlightDetails extends React.Component {
               name="pilot2"
               onChange={this.handleInputChange}
             >
-              <option selected>{this.state.flight.pilot2}</option>
+              <option selected>{this.state.newFlight.pilot2}</option>
               {this.state.pilots.map((p) => {
                 <option value={p.id}>
                   {p.first_name} {p.last_name}
@@ -166,19 +199,6 @@ export default class FlightDetails extends React.Component {
         </Row>
         <Row>
           <Col md={3}>
-            <Form.Label>Seats</Form.Label>
-            <Form.Group className="mb-3">
-              <Form.Control
-                name="seats"
-                type="text"
-                className="mr-sm-2"
-                onChange={this.handleChange}
-                value={this.state.flight.seats}
-                placeholder="Seats"
-              />
-            </Form.Group>
-          </Col>
-          <Col md={3}>
             {" "}
             <Form.Label>Price</Form.Label>
             <Form.Group className="mb-3">
@@ -187,7 +207,7 @@ export default class FlightDetails extends React.Component {
                 type="text"
                 className="mr-sm-2"
                 onChange={this.handleChange}
-                value={this.state.flight.price}
+                value={this.state.newFlight.price}
                 placeholder="Price"
               />
             </Form.Group>
@@ -197,7 +217,7 @@ export default class FlightDetails extends React.Component {
           <Col md={3}>&nbsp;</Col>
           <Col md={3}>&nbsp;</Col>
           <Col md={3}>
-            <Button variant="danger" type="submit" onClick={this.handleSubmit}>
+            <Button variant="danger" type="button" onClick={this.handleSave}>
               Save
             </Button>
           </Col>

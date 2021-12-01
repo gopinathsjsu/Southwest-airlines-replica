@@ -51,7 +51,7 @@ public class FlightController {
 		 }
 	}
 	
-	@PutMapping(path = "/updateFlight", produces=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "/updateFlight", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object updateFlight(@RequestBody Flight flight) {
 		return service.updateFlight(flight);

@@ -12,12 +12,14 @@ export default class Booking extends React.Component {
       user: JSON.parse(localStorage.getItem("user")),
     };
   }
+
   componentDidMount = () => {
     this.setState({
       user: JSON.parse(localStorage.getItem("user")),
     });
     this.getBookings();
   };
+
   getBookings = () => {
     axios
       .get(`${backendServer}/bookings?userId=${this.state.user.id}`)
@@ -41,6 +43,7 @@ export default class Booking extends React.Component {
       selectedTab: e,
     };
   };
+
   render() {
     return (
       <>

@@ -9,6 +9,8 @@ import FormControl from "react-bootstrap/FormControl";
 import Divider from "@mui/material/Divider";
 import backendServer from "../../webConfig";
 import axios from "axios";
+import PropTypes from "prop-types";
+
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
@@ -25,9 +27,9 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
   },
 }));
-class Summary extends React.Component {
-  constructor() {
-    super();
+export default class Summary extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       bookingId: "",
       bookings: [],
@@ -66,8 +68,10 @@ class Summary extends React.Component {
     axios
       .post(`${backendServer}/availBooking`, booking)
       .then((response) => {
-        if (response.data.status === 200) {
+        if (response.data.statusInfo === 200) {
+          // this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
           console.log(response.data);
+          this.props.getMileage();
         } else {
           this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
@@ -303,4 +307,4 @@ class Summary extends React.Component {
     );
   }
 }
-export default Summary;
+Summary.protoTypes = { setPage: PropTypes.func.isRequired };

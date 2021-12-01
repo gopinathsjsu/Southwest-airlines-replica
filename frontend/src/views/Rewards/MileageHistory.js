@@ -10,7 +10,7 @@ class Summary extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userMileageProfile: null,
+      userMileageProfile: [],
       user: JSON.parse(localStorage.getItem("user")),
       bookings: [],
     };
@@ -22,12 +22,14 @@ class Summary extends React.Component {
 
   getHistory = () => {
     axios
-      .get(`${backendServer}/getMileage?userId=${this.state.user.id}`)
+      .get(
+        `${backendServer}/getMileage?mileageId=${this.state.user.mileage.id}`
+      )
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
           this.setState({
-            userMileageProfile: response.data[0],
+            userMileageProfile: response.data,
           });
         } else {
           this.setState({ errorMsg: response.data });
@@ -42,7 +44,7 @@ class Summary extends React.Component {
       <>
         <Typography>Activities</Typography>
         {this.state.userMileageProfile !== null &&
-          this.state.userMileageProfile.transactions.map((p) => (
+          this.state.userMileageProfile.map((p) => (
             <Card>
               <Card.Body>
                 <Row>

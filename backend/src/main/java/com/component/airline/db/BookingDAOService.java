@@ -71,7 +71,9 @@ public class BookingDAOService {
 		transaction.setRewards(bookingReq.getRewards());
 		System.out.println(bookingReq.getRewards());
 		Mileage m= payment.getUser().getMileage();
-		
+		m.setEarnedPoints(m.getEarnedPoints()+((bookingReq.getTotalAmt()-bookingReq.getRewards())*0.1));
+		m.setPoints(m.getEarnedPoints()-bookingReq.getRewards());
+		mileageRepository.save(m);
 		if(bookingReq.getRewards() != 0) {
 			MileageHistory mileageHistory =  new MileageHistory();
 			mileageHistory.setMileage(m);
@@ -123,8 +125,13 @@ public class BookingDAOService {
 			booking.setMileageStatus("Availed");
 			bookingRepository.save(booking);
 			//bookingRepository.updateByBookingId(bookingId);
+			
+			Mileage m= booking.getUser().getMileage();
+			m.setAvailableRewards(m.getAvailableRewards()+booking.getMileagePoints());
 			MileageHistory mileageHistory = new MileageHistory();
 			mileageHistory.setPoints(booking.getMileagePoints());
+			mileageHistory.setMileage(m);
+			mileageHistory.setStatus("Availed");
 			Date date = new Date(System.currentTimeMillis());
 			mileageHistory.setDate_avl(date);
 			date.setMonth((date.getMonth() - 1 + 1) % 12 + 1);

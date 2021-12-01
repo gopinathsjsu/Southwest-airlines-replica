@@ -51,7 +51,8 @@ public class Booking implements Serializable{
 	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 
-	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(name = "flight_id", referencedColumnName = "id")
 	private Flight flight;
 
 	@ManyToOne(cascade = CascadeType.ALL)
