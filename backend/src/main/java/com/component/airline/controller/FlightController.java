@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,7 +53,12 @@ public class FlightController {
 	@PostMapping(path = "/updateFlight", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object updateFlight(@RequestBody Flight flight) {
-		return service.updateFlight(flight);
+		Object newFlight = service.updateFlight(flight);
+		if(newFlight!=null) {
+			 return Response.ok(newFlight).status(Response.Status.OK).status(200, "Flight Updated Successfully!").build();
+		}else{
+			 return Response.status(Response.Status.BAD_REQUEST).status(400, "Something Went Wrong").entity(flight).build();
+		 }
 	}
 	
 	@PostMapping(path = "/getFlightByCriteria", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -65,8 +69,10 @@ public class FlightController {
 	
 	@PostMapping(path = "/cancelFlight", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String cancelFlight(@RequestBody FlightCancelObject flightSearchObject) {
-		return service.cancelFlight(flightSearchObject.getId());
+	public Object cancelFlight(@RequestBody FlightCancelObject flightSearchObject) {
+		String status = service.cancelFlight(flightSearchObject.getId());
+		return Response.ok(flightSearchObject).status(Response.Status.OK).status(200, status).build();
+		
 	}
 	
 	@GetMapping(path = "/seatsForFLight", produces=MediaType.APPLICATION_JSON_VALUE)

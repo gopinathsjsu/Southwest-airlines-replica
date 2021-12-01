@@ -69,7 +69,6 @@ export default class FlightDetails extends React.Component {
             successMsg: response.data.statusInfo.reasonPhrase,
             redirectFlag: true,
           });
-          this.clear();
         } else {
           this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
@@ -77,6 +76,21 @@ export default class FlightDetails extends React.Component {
       .catch((err) => {
         this.setState({ errorMsg: err });
       });
+  };
+
+  handleDepartDate = (newValue) => {
+    const nFlight = this.state.newFlight;
+    nFlight.departureTime = newValue;
+    this.setState({
+      newFlight: nFlight,
+    });
+  };
+  handleArriveDate = (newValue) => {
+    const nFlight = this.state.newFlight;
+    nFlight.arrivalTime = newValue;
+    this.setState({
+      newFlight: nFlight,
+    });
   };
 
   render() {
@@ -150,7 +164,7 @@ export default class FlightDetails extends React.Component {
                 <DateTimePicker
                   label=""
                   name="departDate"
-                  value={this.state.newFlight.departDate}
+                  value={this.state.newFlight.departureTime}
                   onChange={this.handleDepartDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
@@ -167,7 +181,7 @@ export default class FlightDetails extends React.Component {
                 <DateTimePicker
                   label=""
                   name="arriveDate"
-                  value={this.state.newFlight.arriveDate}
+                  value={this.state.newFlight.arrivalTime}
                   onChange={this.handleArriveDate}
                   renderInput={(params) => <TextField {...params} />}
                   minDateTime={this.state.departDate}
@@ -195,7 +209,7 @@ export default class FlightDetails extends React.Component {
             <select
               className="form-control"
               name="pilot1"
-              onChange={this.handleInputChange}
+              onChange={this.handleChange}
             >
               <option selected>{this.state.newFlight.pilot1}</option>
               {this.state.pilots.map((p) => {
@@ -210,7 +224,7 @@ export default class FlightDetails extends React.Component {
             <select
               className="form-control"
               name="pilot2"
-              onChange={this.handleInputChange}
+              onChange={this.handleChange}
             >
               <option selected>{this.state.newFlight.pilot2}</option>
               {this.state.pilots.map((p) => {

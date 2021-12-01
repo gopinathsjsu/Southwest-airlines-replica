@@ -112,6 +112,7 @@ public class FlightDAOService {
 		return savedFlight;
 	}
 	
+	@Transactional
 	public Object updateFlight(Flight flight){
 		System.out.println(flight);
 		Flight oldFlight = flightRepository.getById(flight.getId());

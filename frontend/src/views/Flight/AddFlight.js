@@ -203,7 +203,7 @@ export default class AddFlight extends React.Component {
             {this.state.successMsg !== undefined &&
             this.state.successMsg != null &&
             this.state.successMsg !== "" ? (
-              <Alert variant="success" size="sm">
+              <Alert variant="success" size="small">
                 {this.state.successMsg}
               </Alert>
             ) : null}
@@ -271,9 +271,7 @@ export default class AddFlight extends React.Component {
                       name="departDate"
                       value={this.state.departDate}
                       onChange={this.handleDepartDate}
-                      renderInput={(params) => (
-                        <TextField {...params} size="sm" />
-                      )}
+                      renderInput={(params) => <TextField {...params} />}
                       style={{ "max-height": "12px" }}
                     />
                   </LocalizationProvider>
