@@ -76,6 +76,18 @@ export default class BookingReview extends React.Component {
         totalAmt,
         rewards
       };
+    }else{
+      inputData = {
+        flight: flightDetails,
+        payment_type: paymentDetails.payment_type,
+        bankName: paymentDetails.bankName, 
+        IFSCCode: paymentDetails.ifscCode,
+        accountNumber: parseInt(paymentDetails.accNumber),
+        user: user,
+        passengers:passengersNew,
+        totalAmt,
+        rewards
+      };
     }
 
     console.log(inputData);
@@ -88,7 +100,10 @@ export default class BookingReview extends React.Component {
             bookingConfirm: response.data,
           });
           console.log("Booking confirm: "+response.data);
-          localStorage.setItem("bookingid", JSON.stringify(response.data.id));
+          localStorage.removeItem("payment");
+          localStorage.removeItem("passengers");
+          localStorage.removeItem("flight");
+          localStorage.setItem("bookingid", JSON.stringify(response.data));
           this.props.setPage("bookingSuccess");
         } else {
           this.setState({ errorMsg: response.data });
