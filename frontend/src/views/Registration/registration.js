@@ -67,11 +67,13 @@ export default class Registration extends React.Component {
       state: "",
       country: "",
       userType: "",
-      phone: "",
+      phonenumber: "",
     });
   };
   handleSubmit = (e) => {
-    const form = e.currentTarget;
+    if (!this.validateForm()) {
+      return;
+    }
 
     const {
       username,
@@ -87,7 +89,7 @@ export default class Registration extends React.Component {
       state,
       country,
       userType,
-      phone,
+      phonenumber,
     } = this.state;
     const user = {
       username: username,
@@ -103,14 +105,14 @@ export default class Registration extends React.Component {
       state: state,
       country: country,
       user_type: userType,
-      phone_number: phone,
+      phone_number: phonenumber,
     };
     console.log(user);
     axios
       .post(`${backendServer}/v1/user/register`, user)
       .then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
+        if (response.data.status === 200) {
+          console.log(response.data.entity);
           this.setState({
             redirectFlag: true,
             user: response.data,
@@ -119,12 +121,109 @@ export default class Registration extends React.Component {
             successMsg: "User Registered Successfully! Please Login.",
           });
         } else {
-          this.setState({ errorMsg: response.data });
+          this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
       })
       .catch((err) => {
         this.setState({ errorMsg: err });
       });
+  };
+  validateForm = () => {
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      dateOfBirth,
+      address1,
+      city,
+      zip,
+      state,
+      country,
+      userType,
+      phonenumber,
+    } = this.state;
+    if (firstName === null || firstName === "") {
+      this.setState({ errorMsg: "First Name can not be blank" });
+      return false;
+    } else if (firstName.match("^[a-zA-Z]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid First Name" });
+      return false;
+    }
+    if (lastName === null || lastName === "") {
+      this.setState({ errorMsg: "Last Name date can not be blank" });
+      return false;
+    } else if (lastName.match("^[a-zA-Z]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid Last Name" });
+      return false;
+    }
+    if (dateOfBirth === null || dateOfBirth === "") {
+      this.setState({ errorMsg: "Date Of Birth date can not be blank" });
+      return false;
+    }
+    if (address1 === null || address1 === "") {
+      this.setState({ errorMsg: "Address1 can not be blank" });
+      return false;
+    } else if (address1.match("^[a-zA-Z0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid address" });
+      return false;
+    }
+    if (city === null || city === "") {
+      this.setState({ errorMsg: "City can not be blank" });
+      return false;
+    } else if (city.match("^[a-zA-Z]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid city" });
+      return false;
+    }
+    if (zip === null || zip === "" || zip === "0") {
+      this.setState({ errorMsg: "Zip can not be blank" });
+      return false;
+    } else if (zip.match("^[0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid zip" });
+      return false;
+    }
+    if (state === null || state === "" || state === "Select Pilot 2") {
+      this.setState({ errorMsg: "State can not be blank" });
+      return false;
+    } else if (state.match("^[a-zA-Z]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid state" });
+      return false;
+    }
+    if (country === null || country === "") {
+      this.setState({ errorMsg: "Country can not be blank" });
+      return false;
+    } else if (country.match("^[a-zA-Z]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid Country" });
+      return false;
+    }
+    if (email === null || email === "") {
+      this.setState({ errorMsg: "Email can not be blank" });
+      return false;
+    } else if (email.match("^[^@]+@[^@]+.[^@]+$") === null) {
+      this.setState({ errorMsg: "Please enter valid email" });
+      return false;
+    }
+    if (phonenumber === null || phonenumber === "" || zip === "0") {
+      this.setState({ errorMsg: "Phone Number can not be blank" });
+      return false;
+    } else if (phonenumber.match("^[0-9]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid phone number" });
+      return false;
+    }
+    if (password === null || password === "") {
+      this.setState({ errorMsg: "Password Name can not be blank" });
+      return false;
+    }
+    if (userType === null || userType === "") {
+      this.setState({ errorMsg: "Please select user type" });
+      return false;
+    } else if (userType.match("^[a-zA-Z]*$") === null) {
+      this.setState({ errorMsg: "Please enter valid user type" });
+      return false;
+    }
+
+    this.setState({ errorMsg: "" });
+    return true;
   };
   render() {
     return (
@@ -233,6 +332,8 @@ export default class Registration extends React.Component {
                     Please provide a valid state.
                   </Form.Control.Feedback>
                 </Form.Group>
+              </Row>
+              <Row className="mb-3">
                 <Form.Group as={Col} md="2" controlId="validationCustom05">
                   <Form.Label>City</Form.Label>
                   <Form.Control
@@ -248,8 +349,6 @@ export default class Registration extends React.Component {
                     Please provide a valid zip.
                   </Form.Control.Feedback>
                 </Form.Group>
-              </Row>
-              <Row className="mb-3">
                 <Form.Group as={Col} md="2" controlId="validationCustom03">
                   <Form.Label>State</Form.Label>
                   <Form.Control
@@ -328,23 +427,6 @@ export default class Registration extends React.Component {
                     Please provide a valid city.
                   </Form.Control.Feedback>
                 </Form.Group>
-              </Row>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="6" controlId="validationCustom03">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    required
-                    size="sm"
-                    value={this.state.username}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please provide a valid city.
-                  </Form.Control.Feedback>
-                </Form.Group>
                 <Form.Group as={Col} md="3" controlId="validationCustom04">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
@@ -360,9 +442,10 @@ export default class Registration extends React.Component {
                     Please provide a valid state.
                   </Form.Control.Feedback>
                 </Form.Group>
-                &nbsp;
+              </Row>
+              <Row className="mb-3">
                 <FormControl component="fieldset">
-                  <FormLabel component="legend"></FormLabel>
+                  <FormLabel component="legend">User Type</FormLabel>
                   <RadioGroup
                     row
                     aria-label="gender"

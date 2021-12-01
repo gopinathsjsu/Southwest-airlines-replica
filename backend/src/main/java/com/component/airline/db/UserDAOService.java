@@ -1,9 +1,13 @@
 package com.component.airline.db;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.component.airline.entity.Mileage;
@@ -18,7 +22,11 @@ public class UserDAOService {
 	UserRepository userService;
 	
 	
-	public Object registerUser(UserRequestObject newUser){
+	public Object registerUser(UserRequestObject newUser) throws SQLException{
+		User olduser = userService.getUserByEmail(newUser.getEmail());
+		if(olduser!=null) {
+			return null;
+		}
 		User user = new User();
 		user.setFirst_name(newUser.getFirst_name());
 		user.setUser_type(newUser.getUser_type());
@@ -37,6 +45,8 @@ public class UserDAOService {
 		mileage.setMemberSince(new Date(System.currentTimeMillis()));
 		user.setMileage(mileage);
 		return userService.save(user);
+		
+		
 	}
 	
 	//@Cacheable(value = "userCache")
