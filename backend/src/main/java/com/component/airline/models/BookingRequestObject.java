@@ -20,7 +20,7 @@ public class BookingRequestObject {
 	
 	private String bankName;
 	
-	private long IFSCCode;
+	private String IFSCCode;
 	
 	private long accountNumber;
 	
@@ -83,11 +83,11 @@ public class BookingRequestObject {
 		this.bankName = bankName;
 	}
 
-	public long getIFSCCode() {
+	public String getIFSCCode() {
 		return IFSCCode;
 	}
 
-	public void setIFSCCode(long iFSCCode) {
+	public void setIFSCCode(String iFSCCode) {
 		IFSCCode = iFSCCode;
 	}
 
