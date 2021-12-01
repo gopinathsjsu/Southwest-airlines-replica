@@ -48,11 +48,6 @@ public class Passenger {
 	@Column(name = "seatNumber")
 	private String seatNumber;
 	
-	@JsonBackReference
-	@ManyToOne
-    @JoinColumn(name="booking_id", nullable=false)
-	public Booking booking;
-
 	public Integer getId() {
 		return id;
 	}
@@ -91,14 +86,6 @@ public class Passenger {
 
 	public void setGovtIdNum(String govtIdNum) {
 		this.govtIdNum = govtIdNum;
-	}
-
-	public Booking getBooking() {
-		return booking;
-	}
-
-	public void setBooking(Booking booking) {
-		this.booking = booking;
 	}
 
 	public int getAge() {
