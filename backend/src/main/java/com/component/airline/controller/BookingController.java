@@ -2,6 +2,9 @@ package com.component.airline.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.ws.rs.core.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,9 +69,13 @@ public class BookingController {
 	
 	  @PostMapping("/availBooking")
 	  
-	  @ResponseBody public String availMileagePoints(@RequestBody AvailMileagePointsRequest request) { return
-	  service.availMileagePoints(request.getBookingId());
-	  
+	  @ResponseBody public Object availMileagePoints(@Valid @RequestBody AvailMileagePointsRequest request) { 
+	  String s = service.availMileagePoints(request.getBookingId());
+	  if(s.startsWith("Mileage points availed for")|| s.startsWith("Mileage points already availed for")){
+			 return Response.ok(s).build();
+			 }else{
+				 return Response.status(Response.Status.BAD_REQUEST).status(400, "Invalid Booking ID").entity(request).build();
+			 }
 	  }
 	 
 }

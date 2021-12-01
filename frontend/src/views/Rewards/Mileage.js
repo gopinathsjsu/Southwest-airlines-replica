@@ -29,13 +29,14 @@ class Mileage extends React.Component {
     //e.preventDefault();
     //const { userId } = this.state;
     axios
-      .get(`${backendServer}/v1/user/getUser?userId=1`)
+      .get(`${backendServer}/v1/user/getUser?userId=${this.state.user.id}`)
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
           this.setState({
-            userMileageProfile: response.data,
+            user: response.data,
           });
+          localStorage.setItem("user", JSON.stringify(this.state.user));
         } else {
           this.setState({ errorMsg: response.data });
         }
@@ -52,7 +53,7 @@ class Mileage extends React.Component {
   render() {
     return (
       <>
-        {this.state.userMileageProfile !== "" ? (
+        {this.state.user !== "" ? (
           <Card>
             <Card.Body>
               <Row>
@@ -108,7 +109,9 @@ class Mileage extends React.Component {
         {this.state.page === "activities" ? (
           <Activity data={this.state.userMileageProfile} />
         ) : null}
-        {this.state.page === "default" ? <Summary /> : null}
+        {this.state.page === "default" ? (
+          <Summary data={this.getMileage} />
+        ) : null}
       </>
     );
   }

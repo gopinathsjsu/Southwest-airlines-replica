@@ -45,7 +45,7 @@ public class Mileage implements Serializable{
 	private User user;
 	
 	@Column(name = "points",columnDefinition = "integer default 0")
-	private int points;
+	private double points;
 	
 	@Column(name = "available_rewards")
 	private double availableRewards;
@@ -60,24 +60,24 @@ public class Mileage implements Serializable{
 	private Date memberSince;
 	
 	@Column(name = "earned_points",columnDefinition = "integer default 0")
-	private int earnedPoints;
+	private double earnedPoints;
 	
-	public int getPoints() {
+	public double getPoints() {
 		return points;
 	}
 
 
-	public void setPoints(int points) {
+	public void setPoints(double points) {
 		this.points = points;
 	}
 
 
-	public int getEarnedPoints() {
+	public double getEarnedPoints() {
 		return earnedPoints;
 	}
 
 
-	public void setEarnedPoints(int earnedPoints) {
+	public void setEarnedPoints(double earnedPoints) {
 		this.earnedPoints = earnedPoints;
 	}
 

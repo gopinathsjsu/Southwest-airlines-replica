@@ -278,12 +278,12 @@ export default class AddPassenger extends React.Component {
                           onChange={(e) => this.handleChange(index, e)}
                         >
                           <option key="0" value="">
-                            Select Government ID
+                            Select ID
                           </option>
                           <option key="passport" value="Passport">
                             Passport
                           </option>
-                          <option key="realid" value="Real ID">
+                          <option key="realid" value="RealID">
                             Real ID
                           </option>
                           <option key="drivinglicense" value="Driving License">

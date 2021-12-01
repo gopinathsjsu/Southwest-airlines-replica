@@ -31,7 +31,7 @@ public class Seat {
 	@Column(name = "rate")
 	public Double rate;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "flight", referencedColumnName = "id")
 	public Flight flight;
 	

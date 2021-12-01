@@ -84,7 +84,11 @@ export default class AddFlight extends React.Component {
       seats: "",
     });
   };
+
   handleAdd = () => {
+    if (!this.validateForm()) {
+      return;
+    }
     const {
       source,
       destination,
@@ -95,7 +99,7 @@ export default class AddFlight extends React.Component {
       price,
       pilot1,
       pilot2,
-      seats
+      seats,
     } = this.state;
 
     if (source === destination) {
@@ -114,7 +118,7 @@ export default class AddFlight extends React.Component {
       price: parseFloat(price),
       pilot1: pilot1,
       pilot2: pilot2,
-      seats:  parseInt(seats)
+      seats: parseInt(seats),
     };
     console.log(flight);
     axios
@@ -134,6 +138,48 @@ export default class AddFlight extends React.Component {
       .catch((err) => {
         this.setState({ errorMsg: err });
       });
+  };
+
+  validateForm = () => {
+    const {
+      source,
+      destination,
+      airline,
+      departDate,
+      arriveDate,
+      stops,
+      price,
+      pilot1,
+      pilot2,
+      seats,
+    } = this.state;
+    if (
+      source === null ||
+      source === "" ||
+      destination === null ||
+      airline === "" ||
+      airline === null ||
+      departDate === "" ||
+      departDate === null ||
+      arriveDate === "" ||
+      arriveDate === null ||
+      stops === "" ||
+      stops === null ||
+      price === "" ||
+      price === null ||
+      pilot1 === "" ||
+      pilot1 === null ||
+      pilot2 === "" ||
+      pilot2 === null ||
+      seats === "" ||
+      seats === null
+    ) {
+      this.setState({ errorMsg: "Please enter correct data!" });
+      return false;
+    } else {
+      this.setState({ errorMsg: "" });
+      return true;
+    }
   };
   render() {
     const { pilots } = this.state;
