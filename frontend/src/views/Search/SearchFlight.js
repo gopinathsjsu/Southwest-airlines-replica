@@ -50,13 +50,16 @@ class SearchFlight extends React.Component {
 
   findFormErrors = () => {
     const { source, destination, departDate, adults, errors } = this.state;
-    if (!source || source === '') errors.source = 'Source cannot be blank';
-    if (!destination || destination === '') errors.destination = 'Destination cannot be blank';
-    if (!departDate || departDate === '' || departDate === null) errors.departDate = 'Please select departure date';
-    if (!adults || adults === 0) errors.adults = 'Number of adults should not be zero';
-    
+    if (!source || source === "") errors.source = "Source cannot be blank";
+    if (!destination || destination === "")
+      errors.destination = "Destination cannot be blank";
+    if (!departDate || departDate === "" || departDate === null)
+      errors.departDate = "Please select departure date";
+    if (!adults || adults === 0)
+      errors.adults = "Number of adults should not be zero";
+
     return errors;
-  }
+  };
 
   onSelect = (flight) => {
     localStorage.setItem("flight", JSON.stringify(flight));
@@ -99,7 +102,7 @@ class SearchFlight extends React.Component {
             console.log(response.data);
             this.setState({
               flightList: flightList.concat(response.data),
-              errorMsg: ''
+              errorMsg: "",
             });
           } else {
             this.setState({ errorMsg: "No results found" });
@@ -108,7 +111,7 @@ class SearchFlight extends React.Component {
         .catch((err) => {
           this.setState({ errorMsg: err });
         });
-      }
+    }
   };
 
   render() {
@@ -124,7 +127,7 @@ class SearchFlight extends React.Component {
       successMsg,
       adults,
       children,
-      errors
+      errors,
     } = this.state;
     // const request = {
     //   source,
@@ -207,7 +210,7 @@ class SearchFlight extends React.Component {
     return (
       <>
         {redirectVar}
-        <h2>Search Flight</h2>
+        <h4>Search Flight</h4>
         <div>
           <Container style={{ display: "flex", width: "75rem" }}>
             <br />
@@ -215,10 +218,14 @@ class SearchFlight extends React.Component {
               <Row>
                 <Col>
                   {successMsg !== undefined && successMsg != null ? (
-                    <h4 style={{ color: "green" }}>{successMsg}</h4>
+                    <h4 style={{ color: "green", fontSize: "16px" }}>
+                      {successMsg}
+                    </h4>
                   ) : null}
                   {errorMsg !== undefined && errorMsg != null ? (
-                    <h4 style={{ color: "brown" }}>{errorMsg}</h4>
+                    <h4 style={{ color: "brown", fontSize: "16px" }}>
+                      {errorMsg}
+                    </h4>
                   ) : null}
                 </Col>
               </Row>
@@ -247,72 +254,81 @@ class SearchFlight extends React.Component {
                       onChange={this.handleChange}
                     />
                   </Form.Group> */}
-                  <Col>Number of adults</Col>
-                  <Col>
-                    <Form.Group className="mb-3">
-                      <Form.Control
-                        name="adults"
-                        type="text"
-                        className="mr-sm-2"
-                        onChange={this.handleChange}
-                        value={adults}
-                        placeholder="Number of adults"
-                        isInvalid={!!errors.adults}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                    { errors.adults }
-                  </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-                  <Col>Number of children</Col>
-                  <Col>
-                    <Form.Group className="mb-3">
-                      <Form.Control
-                        name="children"
-                        type="text"
-                        className="mr-sm-2"
-                        onChange={this.handleChange}
-                        value={children}
-                        placeholder="Number of children"
-                      />
-                    </Form.Group>
-                  </Col>
+                  <Row>
+                    <Col>
+                      <Form.Label>Source</Form.Label>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          name="source"
+                          type="text"
+                          className="mr-sm-2"
+                          onChange={this.handleChange}
+                          value={source}
+                          placeholder="Depart"
+                          isInvalid={!!errors.source}
+                          size="sm"
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.source}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Label>Destination</Form.Label>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          name="destination"
+                          type="text"
+                          className="mr-sm-2"
+                          onChange={this.handleChange}
+                          value={destination}
+                          placeholder="Arrive"
+                          isInvalid={!!errors.destination}
+                          size="sm"
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.destination}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Form.Label>Adults</Form.Label>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          name="adults"
+                          type="text"
+                          className="mr-sm-2"
+                          onChange={this.handleChange}
+                          value={adults}
+                          placeholder="Number of adults"
+                          isInvalid={!!errors.adults}
+                          size="sm"
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {errors.adults}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Label>Childs</Form.Label>
+                      <Form.Group className="mb-3">
+                        <Form.Control
+                          name="children"
+                          type="text"
+                          className="mr-sm-2"
+                          onChange={this.handleChange}
+                          value={children}
+                          placeholder="Number of children"
+                          size="sm"
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      name="source"
-                      type="text"
-                      className="mr-sm-2"
-                      onChange={this.handleChange}
-                      value={source}
-                      placeholder="Depart"
-                      isInvalid={!!errors.source}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                    { errors.source }
-                  </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3">
-                    <Form.Control
-                      name="destination"
-                      type="text"
-                      className="mr-sm-2"
-                      onChange={this.handleChange}
-                      value={destination}
-                      placeholder="Arrive"
-                      isInvalid={!!errors.destination}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                    { errors.destination }
-                  </Form.Control.Feedback>
-                  </Form.Group>
-                </Col>
-              </Row>
+
               <Row>
                 <Col>
                   <Form.Group className="mb-3">
@@ -324,8 +340,12 @@ class SearchFlight extends React.Component {
                       dateFormat="MM/dd/yyyy"
                       label="Depart Date"
                       isInvalid={!!errors.departDate}
+                      size="sm"
                     />
-                    <span style={{color: "#de404d"}}> { errors.departDate }</span>
+                    <span style={{ color: "#de404d" }}>
+                      {" "}
+                      {errors.departDate}
+                    </span>
                   </Form.Group>
                 </Col>
                 {/* <Col>
@@ -346,6 +366,7 @@ class SearchFlight extends React.Component {
                     variant="primary"
                     type="submit"
                     onClick={this.handleSubmit}
+                    size="sm"
                   >
                     Search
                   </Button>

@@ -8,16 +8,26 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
 import backendServer from "../../webConfig";
+import Alert from "react-bootstrap/Alert";
 
 export default class FlightDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { flight: props.data, newFlight: "", pilots: props.pilots };
+    this.state = {
+      flight: props.data,
+      newFlight: "",
+      pilots: props.pilots,
+      successMsg: "",
+      errorMsg: "",
+    };
   }
 
   componentDidMount = () => {
     const newflight = this.state.flight;
-    this.setState({ pilots: this.props.pilots, newFlight: newflight });
+    this.setState({
+      pilots: this.props.pilots,
+      newFlight: newflight,
+    });
 
     this.getPilot();
   };
@@ -72,6 +82,20 @@ export default class FlightDetails extends React.Component {
   render() {
     return (
       <>
+        {this.state.successMsg !== undefined &&
+        this.state.successMsg != null &&
+        this.state.successMsg !== "" ? (
+          <Alert variant="success" size="sm">
+            {this.state.successMsg}
+          </Alert>
+        ) : null}
+        {this.state.errorMsg !== undefined &&
+        this.state.errorMsg != null &&
+        this.state.errorMsg !== "" ? (
+          <Alert variant="danger" size="sm">
+            {this.state.errorMsg}
+          </Alert>
+        ) : null}
         <Row>
           <Col md={3}>
             {" "}

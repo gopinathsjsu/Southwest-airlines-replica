@@ -12,7 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import axios from "axios";
 import backendServer from "../../webConfig";
-
+import Alert from "react-bootstrap/Alert";
 export default class Registration extends React.Component {
   constructor() {
     super();
@@ -33,6 +33,8 @@ export default class Registration extends React.Component {
       user: "",
       phone: "",
       validated: false,
+      errorMsg: "",
+      successMsg: "",
     };
   }
 
@@ -113,7 +115,9 @@ export default class Registration extends React.Component {
             redirectFlag: true,
             user: response.data,
           });
-          localStorage.setItem("user", JSON.stringify(this.state.user));
+          this.setState({
+            successMsg: "User Registered Successfully! Please Login.",
+          });
         } else {
           this.setState({ errorMsg: response.data });
         }
@@ -141,6 +145,20 @@ export default class Registration extends React.Component {
           <Card.Body>
             <h5>New User</h5>
             &nbsp;
+            {this.state.successMsg !== undefined &&
+            this.state.successMsg != null &&
+            this.state.successMsg !== "" ? (
+              <Alert variant="success" size="sm">
+                {this.state.successMsg}
+              </Alert>
+            ) : null}
+            {this.state.errorMsg !== undefined &&
+            this.state.errorMsg != null &&
+            this.state.errorMsg !== "" ? (
+              <Alert variant="danger" size="sm">
+                {this.state.errorMsg}
+              </Alert>
+            ) : null}
             <Form noValidate validated={this.state.validated}>
               <Row className="mb-3">
                 <Form.Group as={Col} md="4" controlId="validationCustom01">

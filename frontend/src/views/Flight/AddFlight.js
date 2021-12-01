@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 import backendServer from "../../webConfig";
+import Alert from "react-bootstrap/Alert";
 export default class AddFlight extends React.Component {
   constructor() {
     super();
@@ -200,21 +201,23 @@ export default class AddFlight extends React.Component {
           <Card.Header>Add Flight</Card.Header>
           <Card.Body>
             {this.state.successMsg !== undefined &&
-            this.state.successMsg != null ? (
-              <h4 style={{ color: "green", fontSize: "14px" }}>
+            this.state.successMsg != null &&
+            this.state.successMsg !== "" ? (
+              <Alert variant="success" size="sm">
                 {this.state.successMsg}
-              </h4>
+              </Alert>
             ) : null}
             {this.state.errorMsg !== undefined &&
-            this.state.errorMsg != null ? (
-              <h4 style={{ color: "brown", fontSize: "14px" }}>
+            this.state.errorMsg != null &&
+            this.state.errorMsg !== "" ? (
+              <Alert variant="danger" size="sm">
                 {this.state.errorMsg}
-              </h4>
+              </Alert>
             ) : null}
             <Row>
               <Col md={3}>
                 {" "}
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Label>Source</Form.Label>
                   <Form.Control
                     name="source"
@@ -223,13 +226,14 @@ export default class AddFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.source}
                     placeholder="Source"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 {" "}
                 <Form.Label>Destination</Form.Label>
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Control
                     name="destination"
                     type="text"
@@ -237,13 +241,14 @@ export default class AddFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.destination}
                     placeholder="Destination"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 {" "}
                 <Form.Label>Airline</Form.Label>
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Control
                     name="airline"
                     type="text"
@@ -252,12 +257,13 @@ export default class AddFlight extends React.Component {
                     value={this.state.airline}
                     placeholder="Airline"
                     disabled
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 {" "}
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Label>Depart Date</Form.Label>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
@@ -265,7 +271,10 @@ export default class AddFlight extends React.Component {
                       name="departDate"
                       value={this.state.departDate}
                       onChange={this.handleDepartDate}
-                      renderInput={(params) => <TextField {...params} />}
+                      renderInput={(params) => (
+                        <TextField {...params} size="sm" />
+                      )}
+                      style={{ "max-height": "12px" }}
                     />
                   </LocalizationProvider>
                 </Form.Group>
@@ -274,7 +283,7 @@ export default class AddFlight extends React.Component {
             <Row>
               <Col md={3}>
                 {" "}
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Label>Arrive Date</Form.Label>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
@@ -282,8 +291,11 @@ export default class AddFlight extends React.Component {
                       name="arriveDate"
                       value={this.state.arriveDate}
                       onChange={this.handleArriveDate}
-                      renderInput={(params) => <TextField {...params} />}
+                      renderInput={(params) => (
+                        <TextField {...params} size="sm" />
+                      )}
                       minDateTime={this.state.departDate}
+                      fontSize="small"
                     />
                   </LocalizationProvider>
                 </Form.Group>
@@ -291,7 +303,7 @@ export default class AddFlight extends React.Component {
               <Col md={3}>
                 {" "}
                 <Form.Label>Stops</Form.Label>
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Control
                     name="stops"
                     type="text"
@@ -299,6 +311,7 @@ export default class AddFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.stops}
                     placeholder="Stops"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
@@ -309,6 +322,7 @@ export default class AddFlight extends React.Component {
                   className="form-control"
                   name="pilot1"
                   onChange={this.handleInputChange}
+                  size="sm"
                 >
                   <option key="0" value="">
                     Select Pilot 1
@@ -322,6 +336,7 @@ export default class AddFlight extends React.Component {
                   className="form-control"
                   name="pilot2"
                   onChange={this.handleInputChange}
+                  size="sm"
                 >
                   <option key="0" value="">
                     Select Pilot 2
@@ -333,7 +348,7 @@ export default class AddFlight extends React.Component {
             <Row>
               <Col md={3}>
                 <Form.Label>Seats</Form.Label>
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Control
                     name="seats"
                     type="number"
@@ -341,13 +356,14 @@ export default class AddFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.seats}
                     placeholder="Seats"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
               <Col md={3}>
                 {" "}
                 <Form.Label>Price</Form.Label>
-                <Form.Group className="mb-3">
+                <Form.Group className="sm-3">
                   <Form.Control
                     name="price"
                     type="text"
@@ -355,6 +371,7 @@ export default class AddFlight extends React.Component {
                     onChange={this.handleChange}
                     value={this.state.price}
                     placeholder="Price"
+                    size="sm"
                   />
                 </Form.Group>
               </Col>
@@ -364,11 +381,21 @@ export default class AddFlight extends React.Component {
               <Col md={3}>&nbsp;</Col>
               <Col md={3}>&nbsp;</Col>
               <Col md={3}>
-                <Button variant="danger" type="submit" onClick={this.handleAdd}>
+                <Button
+                  variant="danger"
+                  type="submit"
+                  onClick={this.handleAdd}
+                  size="sm"
+                >
                   Add
                 </Button>
                 &nbsp; &nbsp;
-                <Button variant="danger" type="submit" onClick={this.clear}>
+                <Button
+                  variant="danger"
+                  type="submit"
+                  onClick={this.clear}
+                  size="sm"
+                >
                   Clear
                 </Button>
               </Col>
