@@ -90,13 +90,13 @@ public class BookingDAOService {
 		booking.setMileageStatus("Pending");
 		booking.setStatus("Scheduled");
 		
-		//booking.setPassengers(bookingReq.getPassengers());
+		booking.setPassengers(bookingReq.getPassengers());
 		booking.setUser(user);
 		Booking savedBooking = bookingRepository.save(booking);
-		for(Passenger p: bookingReq.getPassengers()) {
-			p.setBooking(savedBooking);
-		}
-		passengerRepository.saveAll(bookingReq.getPassengers());
+//		for(Passenger p: bookingReq.getPassengers()) {
+//			p.setBooking(savedBooking);
+//		}
+//		passengerRepository.saveAll(bookingReq.getPassengers());
 		return savedBooking;
 	}
 	
