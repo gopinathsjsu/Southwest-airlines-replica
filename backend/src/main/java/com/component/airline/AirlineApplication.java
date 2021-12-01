@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan
 @EnableAutoConfiguration
 @EntityScan("com.component.airline.entity")
-@EnableCaching
+@EnableCaching 	
 @EnableTransactionManagement
 public class AirlineApplication {
 

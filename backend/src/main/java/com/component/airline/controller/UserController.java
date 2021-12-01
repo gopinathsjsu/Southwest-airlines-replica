@@ -37,7 +37,16 @@ public class UserController {
 	@PostMapping(path = "/register", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object registerUser(@RequestBody UserRequestObject user) {
-		return service.registerUser(user);
+		try {
+		Object newUser =  service.registerUser(user);
+		 if(newUser!=null){
+			 return Response.ok(newUser).status(Response.Status.OK).status(200, "User Registered Successfully").build();
+			 }else{
+				 return Response.status(Response.Status.FORBIDDEN).status(403, "User Already Exist!").entity(user).build();
+			 }
+		}catch(Exception e) {
+			 return Response.status(Response.Status.FORBIDDEN).status(403, "Invalid Data").entity(user).build();
+		}
 		
 	}
 	
