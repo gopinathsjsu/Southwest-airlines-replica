@@ -37,7 +37,7 @@ class DashBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: "",
+      page: props.page,
       user: "",
       redirectFlag: false,
     };
@@ -142,7 +142,11 @@ class DashBoard extends React.Component {
               {this.state.user !== null &&
               this.state.user.user_type === "Customer" ? (
                 <>
-                  <ListItem button key="SearchFlight" onClick={this.handlePageChange}>
+                  <ListItem
+                    button
+                    key="SearchFlight"
+                    onClick={this.handlePageChange}
+                  >
                     <ListItemIcon>
                       <Search />
                     </ListItemIcon>
@@ -236,7 +240,9 @@ class DashBoard extends React.Component {
           {this.state.page === "payment" ? <Payment /> : null}
           {this.state.page === "booking" ? <Booking /> : null}
           {this.state.page === "profile" ? <Profile /> : null}
-          {this.state.page === "rewards" ? <Mileage /> : null}
+          {this.state.page === "rewards" ? (
+            <Mileage setPage={this.setPage} />
+          ) : null}
           {this.state.page === "addFlight" ? <AddFlight /> : null}
           {this.state.page === "editFlight" ? <EditFlight /> : null}
           {this.state.page === "addpassenger" ? (

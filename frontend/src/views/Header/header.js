@@ -7,6 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import { Redirect } from "react-router";
+import PropTypes from "prop-types";
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -16,8 +17,13 @@ export default class Header extends React.Component {
       redirectFlag: false,
     };
   }
+
   componentDidMount = () => {
     this.setState({ user: JSON.parse(localStorage.getItem("user")) });
+  };
+
+  handlePage = (e) => {
+    this.props.callPage(e.target.value);
   };
   handleLogout = () => {
     localStorage.removeItem("user");
@@ -85,10 +91,10 @@ export default class Header extends React.Component {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="/userprofile">
+                    <Dropdown.Item onClick={this.handlePage} value="profile">
                       My Profile
                     </Dropdown.Item>
-                    <Dropdown.Item href="/userprofile">
+                    <Dropdown.Item onClick={this.handlePage} value="rewards">
                       Mileage Profile
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.handleLogout}>
@@ -104,3 +110,4 @@ export default class Header extends React.Component {
     );
   }
 }
+Header.protoTypes = { setPage: PropTypes.func.isRequired };

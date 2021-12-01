@@ -68,9 +68,10 @@ export default class Summary extends React.Component {
     axios
       .post(`${backendServer}/availBooking`, booking)
       .then((response) => {
-        if (response.data.statusInfo === 200) {
+        if (response.data.status === 200) {
           // this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
           console.log(response.data);
+          this.setState({ successMsg: response.data.entity });
           this.props.getMileage();
         } else {
           this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
