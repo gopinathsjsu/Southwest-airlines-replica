@@ -79,7 +79,8 @@ public class BookingDAOService {
 			mileageHistory.setMileage(m);
 			mileageHistory.setPoints(bookingReq.getRewards());
 			mileageHistory.setRemiaingPoints(m.getAvailableRewards()-bookingReq.getRewards());
-			mileageHistory.setStatus("Redeem");
+			mileageHistory.setStatus("Redeemed");
+			mileageHistory.setDate_avl(new Date(System.currentTimeMillis()));
 			mileageHistoryRepository.save(mileageHistory);
 		}
 		//m.setAvailableRewards((m.getAvailableRewards()+bookingReq.getTotalAmt()/10.0)-bookingReq.getRewards());
@@ -130,6 +131,7 @@ public class BookingDAOService {
 			m.setAvailableRewards(m.getAvailableRewards()+booking.getMileagePoints());
 			MileageHistory mileageHistory = new MileageHistory();
 			mileageHistory.setPoints(booking.getMileagePoints());
+			mileageHistory.setRemiaingPoints(m.getAvailableRewards());
 			mileageHistory.setMileage(m);
 			mileageHistory.setStatus("Availed");
 			Date date = new Date(System.currentTimeMillis());

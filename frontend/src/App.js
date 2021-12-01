@@ -41,8 +41,9 @@ function App() {
         {/* <Header isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} /> */}
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          <Header user={state.user} />
+
           <Container fluid>
+            <Header user={state.user} />
             <ThemeProvider theme={theme}>
               <Switch>
                 <Route
