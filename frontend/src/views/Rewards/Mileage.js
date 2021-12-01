@@ -9,8 +9,9 @@ import Summary from "./Summary";
 import Activity from "./MileageHistory";
 import axios from "axios";
 import backendServer from "../../webConfig";
+import PropTypes from "prop-types";
 
-class Mileage extends React.Component {
+export default class Mileage extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -25,6 +26,9 @@ class Mileage extends React.Component {
     this.getMileage();
   }
 
+  handleProfile = () => {
+    this.props.setPage("profile");
+  };
   getMileage = () => {
     //e.preventDefault();
     //const { userId } = this.state;
@@ -78,7 +82,11 @@ class Mileage extends React.Component {
                       this.state.user.mileage.memberSince
                     ).toLocaleDateString()}
                   </Typography>
-                  <Button size="small" sx={{ fontSize: 11 }}>
+                  <Button
+                    size="small"
+                    sx={{ fontSize: 11 }}
+                    onClick={this.handleProfile}
+                  >
                     View Profile
                     <ChevronRightIcon />
                   </Button>
@@ -110,11 +118,11 @@ class Mileage extends React.Component {
           <Activity data={this.state.userMileageProfile} />
         ) : null}
         {this.state.page === "default" ? (
-          <Summary data={this.getMileage} />
+          <Summary getMileage={this.getMileage} />
         ) : null}
       </>
     );
   }
 }
 
-export default Mileage;
+Mileage.protoTypes = { setPage: PropTypes.func.isRequired };

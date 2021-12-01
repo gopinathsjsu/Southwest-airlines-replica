@@ -45,7 +45,7 @@ public class MileageHistory implements Serializable{
 	private String status;
 	
 	@JsonBackReference
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.MERGE)
 	@JoinColumn(name = "mileage_account", referencedColumnName = "id")
 	private Mileage mileage;
 	

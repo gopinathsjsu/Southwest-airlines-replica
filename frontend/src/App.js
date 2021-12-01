@@ -32,8 +32,12 @@ const theme = createMuiTheme({
 
 function App() {
   const [state, setState] = React.useState({ user: null });
+  const [page, setPage] = React.useState({ page: "search" });
   function handleUser() {
     setState({ ...state, user: JSON.parse(localStorage.getItem("user")) });
+  }
+  function callPage(page) {
+    setPage({ ...state, page: page });
   }
   return (
     <Router>
@@ -41,14 +45,15 @@ function App() {
         {/* <Header isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} /> */}
         <Box sx={{ display: "flex" }}>
           <CssBaseline />
-          <Header user={state.user} />
+
           <Container fluid>
+            <Header user={state.user} callPage={callPage} />
             <ThemeProvider theme={theme}>
               <Switch>
                 <Route
                   path="/dashboard"
                   exact
-                  component={() => <DashBoard />}
+                  component={() => <DashBoard page={page} />}
                 />
                 <Route
                   path="/displayFlights"
