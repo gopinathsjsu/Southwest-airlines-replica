@@ -45,11 +45,11 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
     const rewards = payment.user.mileage.points;
     const oldBookingId = JSON.parse(localStorage.getItem("bookingDetailsUpdateFlow")).id;
     let {seatCharges, totalAmt } = this.state;
+    const oldFlight = JSON.parse(localStorage.getItem("oldFlight"));
+    
     totalAmt = flight.price;
-    let {passengers } = this.state;    // passengers.map((pas) => {
-    //   seatCharges += parseInt((pas.seatNumber).split('-')[1]);
-    // })
-    // totalAmt += seatCharges;
+    totalAmt= totalAmt-oldFlight.price
+    let {passengers } = this.state;    
     oldPassengers.map((pas, i)=>{
       passengers[i].firstName =pas.firstName;
       passengers[i].lastName =pas.lastName;
@@ -59,10 +59,9 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
       passengers[i].seatNumber=pas.seatNumber;
       this.setState({ passengers });
     })
-    
-
     console.log(payment.cardDetails.nameOnCard);
     totalAmt -= parseFloat(rewards);
+    
     console.log(totalAmt);
     this.setState({
       flightDetails: flight,
@@ -75,16 +74,12 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
   }
   onEdit = (booking) => {
     localStorage.setItem("bookingDetailsUpdateFlow", JSON.stringify(booking));
-    //this.props.setPage("searchFlightUpdateFlow");
-    //this.setState({ redirectFlag: true });
-    //this.props.parentCallback("searchFlightUpdateFlow");
+    
   }
   handleSubmit = (e) => {
     e.preventDefault();
     const { flightDetails, passengers, paymentDetails, totalAmt, rewards } = this.state;
     const user = JSON.parse(localStorage.getItem("user"));
-   // console.log("passengers :"+passengersNew[0].seatNumber);
-
     let inputData = "";
     if (paymentDetails.payment_type === "Credit Card") {
       inputData = {
@@ -117,7 +112,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
           localStorage.removeItem("flight");
           localStorage.setItem("bookingLatest", JSON.stringify(response.data));
           this.props.setPage("successPage");
-          //alert("booking success ");
+         
         } else {
           this.setState({ errorMsg: response.data });
         }
@@ -130,7 +125,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
   handleBack = (e) => {
     e.preventDefault();
     this.props.setPage("addpayment");
-    //this.setState({ redirectBackFlag: true });
+    
   };
 
   render() {
@@ -147,7 +142,6 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
     let redirectVar = null;
     console.log("rewards" + rewards);
     const oldFlight = JSON.parse(localStorage.getItem("oldFlight"));
-
     if (redirectBackFlag) {
       redirectVar = <Redirect to="/bookingpayment" />;
     }
@@ -341,7 +335,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
                 <h5>Total Amount to pay:</h5>
               </Col>
               <Col>
-                <h5>{totalAmt-oldFlight.price}</h5>
+                <h5>{totalAmt}</h5>
               </Col>
             </Row>
           </Card.Body>

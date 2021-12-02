@@ -41,9 +41,11 @@ class Profile extends React.Component {
         this.setState({
           userDetails: response.data,
         });
+        
       } else {
         this.setState({ errorMsg: response.data });
       }
+     
     })
     .catch((err) => {
       this.setState({ errorMsg: err });
@@ -137,7 +139,21 @@ class Profile extends React.Component {
       username,
       password,
     };
-    console.log("inside submit: "+userDetails);
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(userDetails.first_name.length==0){
+      alert("First Name can't be empty");
+    }
+    else if(userDetails.email.length==0 || !userDetails.email.match(validRegex)){
+      alert("Email can't be empty or invalid email format");
+    }
+    else if(userDetails.username.length==0){
+      alert("Username can't be empty");
+    }
+    else if(userDetails.password.length==0){
+      alert("Password can't be empty");
+    }
+    else{
+      console.log("inside submit: "+userDetails);
     axios
       .post(`${backendServer}/v1/user/update`, userDetails)
       .then((response) => {
@@ -146,6 +162,7 @@ class Profile extends React.Component {
           this.setState({
             
           });
+          alert("Profile Changes Updated!");
         } else {
           this.setState({ errorMsg: response.data });
         }
@@ -153,6 +170,7 @@ class Profile extends React.Component {
       .catch((err) => {
         this.setState({ errorMsg: err });
       });
+    }
   };
 
 
