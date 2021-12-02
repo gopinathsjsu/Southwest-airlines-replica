@@ -42,7 +42,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
     const flight = JSON.parse(localStorage.getItem("latestFlight"));
     const oldPassengers = JSON.parse(localStorage.getItem("bookingDetailsUpdateFlow")).passengers;
     const payment = JSON.parse(localStorage.getItem("bookingDetailsUpdateFlow")).transaction.payment;
-    const rewards = payment.user.mileage.points;
+   // const rewards = payment.user.mileage.points;
     const oldBookingId = JSON.parse(localStorage.getItem("bookingDetailsUpdateFlow")).id;
     let {seatCharges, totalAmt } = this.state;
     const oldFlight = JSON.parse(localStorage.getItem("oldFlight"));
@@ -60,7 +60,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
       this.setState({ passengers });
     })
     console.log(payment.cardDetails.nameOnCard);
-    totalAmt -= parseFloat(rewards);
+    //totalAmt -= parseFloat(rewards);
     
     console.log(totalAmt);
     this.setState({
@@ -68,7 +68,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
       paymentDetails: payment,
       seatCharges,
       totalAmt,
-      rewards,
+     // rewards,
       oldBookingId :oldBookingId,
     });
   }
@@ -140,7 +140,7 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
       
     } = this.state;
     let redirectVar = null;
-    console.log("rewards" + rewards);
+    //console.log("rewards" + rewards);
     const oldFlight = JSON.parse(localStorage.getItem("oldFlight"));
     if (redirectBackFlag) {
       redirectVar = <Redirect to="/bookingpayment" />;
@@ -314,14 +314,14 @@ export default class ConfirmBookingUpdateFlow extends React.Component {
                 <h5>{seatCharges}</h5>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col>
                 <h5>Availed reward points:</h5>
               </Col>
               <Col>
                 <h5>{rewards}</h5>
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col>
                 <h5>Old Flight Charges:</h5>
