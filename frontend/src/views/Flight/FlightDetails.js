@@ -157,11 +157,11 @@ export default class FlightDetails extends React.Component {
     } else if (pilot2.match("^[0-9]*$") === null) {
       this.setState({ errorMsg: "Please enter valid pilot2" });
       return false;
-    }*/
+    }
     if (pilot1 === pilot2) {
       this.setState({ errorMsg: "Pilot1 and Pilot2 can not be same" });
       return false;
-    }
+    }*/
     this.setState({ errorMsg: "" });
     return true;
   };
@@ -277,38 +277,7 @@ export default class FlightDetails extends React.Component {
               />
             </Form.Group>
           </Col>
-          <Col md={3}>
-            <Form.Label>Pilot 1</Form.Label>
-            <select
-              className="form-control"
-              name="pilot1"
-              onChange={this.handleChange}
-            >
-              <option selected>{this.state.newFlight.pilot1}</option>
-              {this.state.pilots.map((p) => {
-                <option key={p.id} value={p.id}>
-                  {p.first_name} {p.last_name}
-                </option>;
-              })}
-            </select>
-          </Col>
-          <Col md={3}>
-            <Form.Label>Pilot 2</Form.Label>
-            <select
-              className="form-control"
-              name="pilot2"
-              onChange={this.handleChange}
-            >
-              <option selected>{this.state.newFlight.pilot2}</option>
-              {this.state.pilots.map((p) => {
-                <option key={p.id} value={p.id}>
-                  {p.first_name} {p.last_name}
-                </option>;
-              })}
-            </select>
-          </Col>
-        </Row>
-        <Row>
+
           <Col md={3}>
             {" "}
             <Form.Label>Price</Form.Label>
@@ -327,12 +296,12 @@ export default class FlightDetails extends React.Component {
         <Row>
           <Col md={3}>&nbsp;</Col>
           <Col md={3}>&nbsp;</Col>
+          <Col md={3}>&nbsp;</Col>
           <Col md={3}>
             <Button variant="danger" type="button" onClick={this.handleSave}>
               Save
             </Button>
           </Col>
-          <Col md={3}>&nbsp;</Col>
         </Row>
       </>
     );

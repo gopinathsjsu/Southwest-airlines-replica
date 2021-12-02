@@ -28,8 +28,12 @@ class Summary extends React.Component {
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
+          let history = response.data;
           this.setState({
-            userMileageProfile: response.data,
+            userMileageProfile: history.sort(
+              (a, b) =>
+                new Date(b.date_avl).getTime() - new Date(a.date_avl).getTime()
+            ),
           });
         } else {
           this.setState({ errorMsg: response.data });

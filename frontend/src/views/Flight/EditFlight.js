@@ -229,80 +229,124 @@ export default class EditFlight extends React.Component {
               <>
                 <div>&nbsp;</div>
                 <Accordion>
-                  <AccordionSummary>
-                    <Col md={1}>
-                      <Avatar sx={{ width: 24, height: 24 }}>
-                        <TakeOff fontSize="sm" />
-                      </Avatar>
-                      <Typography>{f.tripSource}</Typography>
-                    </Col>
-                    <Col md={1}>
-                      <Avatar sx={{ width: 24, height: 24 }}>
-                        <Landing fontSize="sm" />
-                      </Avatar>
-                      <Typography>{f.tripDestination}</Typography>
-                    </Col>
-                    <Col md={2}>
-                      {" "}
-                      <Typography>Departure</Typography>
-                      <Typography>
-                        {new Date(f.departureTime).toLocaleDateString()}
-                      </Typography>
-                    </Col>
-                    <Col md={2}>
-                      {" "}
-                      <Typography>Arrival</Typography>
-                      <Typography>
-                        {new Date(f.arrivalTime).toLocaleDateString()}
-                      </Typography>
-                    </Col>
-                    <Col md={1}>
-                      {" "}
-                      <Typography>Duration</Typography>
-                      <Typography>{f.duration}</Typography>
-                    </Col>
-                    <Col md={2}>
-                      {" "}
-                      <Typography>Status</Typography>
-                      <Typography>{f.status}</Typography>
-                    </Col>
-                    {f.status !== "Cancelled" ? (
-                      <Col md={2}>
-                        <Button1
-                          variant="contained"
-                          endIcon=""
-                          size="small"
-                          style={{ width: "80px" }}
-                          onClick={() => this.handleEdit(index)}
-                          fontSize="small"
-                        >
-                          Edit
-                        </Button1>
+                  {f.status !== "Cancelled" ? (
+                    <>
+                      <AccordionSummary>
+                        <Col md={1}>
+                          <Avatar sx={{ width: 24, height: 24 }}>
+                            <TakeOff fontSize="sm" />
+                          </Avatar>
+                          <Typography>{f.tripSource}</Typography>
+                        </Col>
+                        <Col md={1}>
+                          <Avatar sx={{ width: 24, height: 24 }}>
+                            <Landing fontSize="sm" />
+                          </Avatar>
+                          <Typography>{f.tripDestination}</Typography>
+                        </Col>
+                        <Col md={2}>
+                          {" "}
+                          <Typography>Departure</Typography>
+                          <Typography>
+                            {new Date(f.departureTime).toLocaleDateString()}
+                          </Typography>
+                        </Col>
+                        <Col md={2}>
+                          {" "}
+                          <Typography>Arrival</Typography>
+                          <Typography>
+                            {new Date(f.arrivalTime).toLocaleDateString()}
+                          </Typography>
+                        </Col>
+                        <Col md={1}>
+                          {" "}
+                          <Typography>Duration</Typography>
+                          <Typography>{f.duration}</Typography>
+                        </Col>
+                        <Col md={2}>
+                          {" "}
+                          <Typography>Status</Typography>
+                          <Typography>{f.status}</Typography>
+                        </Col>
+                        {f.status !== "Cancelled" ? (
+                          <Col md={2}>
+                            <Button1
+                              variant="contained"
+                              endIcon=""
+                              size="small"
+                              style={{ width: "80px" }}
+                              onClick={() => this.handleEdit(index)}
+                              fontSize="small"
+                            >
+                              Edit
+                            </Button1>
+                          </Col>
+                        ) : null}
+                        {f.status !== "Cancelled" ? (
+                          <Col md={2}>
+                            <Button1
+                              variant="contained"
+                              endIcon=""
+                              size="small"
+                              style={{ width: "80px" }}
+                              onClick={() => this.handleCancel(f)}
+                              fontSize="small"
+                            >
+                              Cancel
+                            </Button1>
+                          </Col>
+                        ) : null}
+                      </AccordionSummary>
+                    </>
+                  ) : (
+                    <AccordionSummary>
+                      <Col md={1}>
+                        <Avatar sx={{ width: 24, height: 24 }}>
+                          <TakeOff fontSize="sm" />
+                        </Avatar>
+                        <Typography>{f.tripSource}</Typography>
                       </Col>
-                    ) : null}
-                    {f.status !== "Cancelled" ? (
-                      <Col md={2}>
-                        <Button1
-                          variant="contained"
-                          endIcon=""
-                          size="small"
-                          style={{ width: "80px" }}
-                          onClick={() => this.handleCancel(f)}
-                          fontSize="small"
-                        >
-                          Cancel
-                        </Button1>
+                      <Col md={1}>
+                        <Avatar sx={{ width: 24, height: 24 }}>
+                          <Landing fontSize="sm" />
+                        </Avatar>
+                        <Typography>{f.tripDestination}</Typography>
                       </Col>
-                    ) : null}
-                  </AccordionSummary>
-
-                  <AccordionDetails>
-                    {this.state.page === index ? (
-                      <Col md={12}>
-                        <FlightDetails data={f} pilots={this.state.pilots} />
+                      <Col md={3}>
+                        {" "}
+                        <Typography>Departure</Typography>
+                        <Typography>
+                          {new Date(f.departureTime).toLocaleDateString()}
+                        </Typography>
                       </Col>
-                    ) : null}
-                  </AccordionDetails>
+                      <Col md={3}>
+                        {" "}
+                        <Typography>Arrival</Typography>
+                        <Typography>
+                          {new Date(f.arrivalTime).toLocaleDateString()}
+                        </Typography>
+                      </Col>
+                      <Col md={3}>
+                        {" "}
+                        <Typography>Duration</Typography>
+                        <Typography>{f.duration}</Typography>
+                      </Col>
+                      <Col md={3}>
+                        {" "}
+                        <Typography>Status</Typography>
+                        <Typography>{f.status}</Typography>
+                      </Col>
+                    </AccordionSummary>
+                  )}
+                  {f.status !== "Cancelled" ? (
+                    <AccordionDetails>
+                      {this.state.page === index && f.status !== "Cancelled" ? (
+                        <Col md={12}>
+                          <FlightDetails data={f} pilots={this.state.pilots} />
+                        </Col>
+                      ) : null}
+                    </AccordionDetails>
+                  ) : null}
                 </Accordion>
               </>
             ))

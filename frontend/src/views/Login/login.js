@@ -36,7 +36,20 @@ export default class Login extends React.Component {
       userType: e.target.value,
     });
   };
+  validateForm = () => {
+    const { username, password } = this.state;
+    if (username === null || username === "") {
+      this.setState({ errorMsg: "User Name can not be blank" });
+      return false;
+    }
+    if (password === null || password === "") {
+      this.setState({ errorMsg: "Password date can not be blank" });
+      return false;
+    }
 
+    this.setState({ errorMsg: "" });
+    return true;
+  };
   handlePassword = (e) => {
     e.preventDefault();
     this.setState({
@@ -44,6 +57,9 @@ export default class Login extends React.Component {
     });
   };
   handleLogin = (e) => {
+    if (!this.validateForm()) {
+      return;
+    }
     const { username, password, userType } = this.state;
     const user = {
       username: username,
