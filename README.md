@@ -15,9 +15,11 @@
 
 ## Architecture Diagram
 
+![help](images/Architecture_Diagram.png)
 
 ## Database Schema
 
+![help](images/Schema_Diagram.png)
 
 ## High-level Module Ownership
 * Akash Kuratkar - Mileage Account, Employee Portal(Add/Edit Flights)
