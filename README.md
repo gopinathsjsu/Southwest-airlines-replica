@@ -31,6 +31,8 @@
 ### Scrum Meeting - Every Friday
 
 ## Srcum Report
+### Cumulative flow diagram
+![help](images/Cumulative_Flow_Diagram_Of_Project_Task.png)
 ### Total Sprints 9 (10/01/2021 - 12/02/2021)
 * Sprint 1(10/01 - 10/08) -  
 * Sprint 2(10/09 - 10/15) -  
