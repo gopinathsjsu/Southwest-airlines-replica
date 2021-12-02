@@ -21,7 +21,7 @@
 
 ## High-level Module Ownership
 * Akash Kuratkar - Mileage Account, Employee Portal(Add/Edit Flights)
-* Sherin Thlakulathil Elias - Flight Search and booking flow.
+* Sherin Thlakulathil Elias - Flight Search, Purchase seats and book travel.
 * Veena Mamidi - Edit/Cancel Flight, User Profile
 * Sai Sravani Chalasani - User Login/Registration
 
