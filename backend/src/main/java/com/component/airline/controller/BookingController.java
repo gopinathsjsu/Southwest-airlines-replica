@@ -18,6 +18,8 @@ import com.component.airline.db.BookingDAOService;
 import com.component.airline.entity.Booking;
 import com.component.airline.models.AvailMileagePointsRequest;
 import com.component.airline.models.BookingRequestObject;
+import com.component.airline.models.DeleteBookingRequest;
+import com.component.airline.models.UpdateBookingRequestObject;
 
 @RestController
 public class BookingController {
@@ -31,7 +33,20 @@ public class BookingController {
 		return service.saveBooking(booking);
 		
 	}
-	
+	@PostMapping("/updateBooking")
+	@ResponseBody
+	public Booking updateBooking(@RequestBody UpdateBookingRequestObject booking) {
+		
+		return service.saveBookingUpdateFlow(booking);
+		
+	}
+	@PostMapping("/deleteBooking")
+	@ResponseBody
+	public void deleteBooking(@RequestBody DeleteBookingRequest deleteBookingRequest) {
+		
+		 service.deleteBooking(deleteBookingRequest);
+		
+	}
 	@GetMapping("/booking/{Id}")
 	@ResponseBody
 	public Booking findBookingById(@PathVariable int bookingId) {
@@ -52,13 +67,6 @@ public class BookingController {
 		return  service.getBookingByUserId(userId);
 		
 	}
-	
-	/*
-	 * @GetMapping("/booking/user/{userId}")
-	 * 
-	 * @ResponseBody public Booking findBookingByUserId(@PathVariable int userId) {
-	 * return service.getBookingById(userId); }
-	 */
 	
 	@DeleteMapping("/delete/{bookingId}")
 	@ResponseBody

@@ -15,8 +15,8 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import AddPassenger from "../src/views/Passenger/AddPassenger";
 import BookingPayment from "../src/views/Payment/BookingPayment";
 import BookingReview from "../src/views/Payment/BookingReview";
-import FlightIcon from "@mui/icons-material/Flight";
 import BookingSuccess from "./views/Bookings/BookingSucess";
+
 
 const theme = createMuiTheme({
   palette: {
@@ -87,6 +87,18 @@ function App() {
                   component={() => <BookingReview />}
                 />
 
+                {/* <Route
+                  path="/searchFlightUpdateFlow"
+                  exact
+                  component={() => <SearchFlightUpdateFlow />}
+                /> */}
+
+                {/* <Route
+                  path="/addFlightUpdateFlow"
+                  exact
+                  component={() => <AddFlightUpdateFlow />}
+                /> */}
+                
                 {/* <Route path='/home' exact component={() => <Home isLoggedIn={isLoggedIn} onIsLoggedIn={onIsLoggedIn} />} /> */}
               </Switch>
             </ThemeProvider>
