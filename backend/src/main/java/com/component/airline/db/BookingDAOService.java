@@ -199,7 +199,7 @@ public class BookingDAOService {
 			Date date = new Date(System.currentTimeMillis());
 			mileageHistory.setDate_avl(date);
 			date.setMonth((date.getMonth() - 1 + 1) % 12 + 1);
-			mileageHistory.setDate_avl(date);
+			mileageHistory.setDate_exp(date);
 			mileageHistoryRepository.save(mileageHistory);
 			
 			return ("Mileage points availed for: "+bookingId);
