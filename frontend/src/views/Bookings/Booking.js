@@ -3,6 +3,7 @@ import HistoryItinerary from "./HistoryItinerary";
 import UpcomingItinerary from "./UpcomingItinerary";
 import axios from "axios";
 import backendServer from "../../webConfig";
+import PropTypes from "prop-types";
 
 export default class Booking extends React.Component {
   constructor(props) {
@@ -38,6 +39,15 @@ export default class Booking extends React.Component {
       });
   };
 
+  //update flow
+  setPage = (page) => {
+    //this.setState({ page: this.props.setPage("searchFlightUpdateFlow") });
+    this.props.setPage(page);
+  };
+  
+    //this.setState({ page: this.props.setPage("searchFlightUpdateFlow") });
+ 
+  
   handleTabChange = (e) => {
     this.setState = {
       selectedTab: e,
@@ -55,7 +65,7 @@ export default class Booking extends React.Component {
               d.status === "Scheduled" ? (
                 <>
                   <div>&nbsp;</div>
-                  <UpcomingItinerary data={d} />
+                  <UpcomingItinerary data={d} setPage={this.setPage} getBookings={this.getBookings}/>
                 </>
               ) : null
             )}
@@ -71,7 +81,7 @@ export default class Booking extends React.Component {
               d.status !== "Scheduled" ? (
                 <>
                   <div>&nbsp;</div>
-                  <HistoryItinerary data={d} />
+                  <HistoryItinerary data={d} setPage={this.setPage} getBookings={this.getBookings}/>
                 </>
               ) : null
             )}{" "}
@@ -79,7 +89,9 @@ export default class Booking extends React.Component {
         ) : (
           "No Previous Flights"
         )}
+        
       </>
     );
   }
 }
+Booking.protoTypes = { setPage: PropTypes.func.isRequired ,getBookings: PropTypes.func.isRequired}

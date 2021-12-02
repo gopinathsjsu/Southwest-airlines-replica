@@ -8,10 +8,46 @@ import Row from "react-bootstrap/Row";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/EditRounded";
 import DeleteIcon from "@mui/icons-material/CancelOutlined";
-export default class TripDetails extends React.Component {
+import { Redirect } from "react-router";
+import PropTypes from "prop-types";
+import axios from "axios";
+import backendServer from "../../webConfig";
+export default class  TripDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { booking: props.data };
+    this.state = { 
+      booking: props.data, 
+      redirectFlag: false,
+      page:"",
+    };
+  }
+
+  getBookings= () => {
+    this.props.getBookings();
+  };
+  onEdit = (booking) => {
+    localStorage.setItem("bookingDetailsUpdateFlow", JSON.stringify(booking));
+    this.props.setPage("searchFlightUpdateFlow");
+    //this.setState({ redirectFlag: true });
+    //this.props.parentCallback("searchFlightUpdateFlow");
+  }
+  onCancel = (id) => {
+    let deleteBookingRequest={
+      id:id,
+    }
+    axios
+      .post(`${backendServer}/deleteBooking`, deleteBookingRequest)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.props.setPage("booking");
+          this.props.getBookings();
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      
+    
   }
   render() {
     return this.state.booking !== undefined ? (
@@ -25,6 +61,7 @@ export default class TripDetails extends React.Component {
               <TakeOff />
             </Avatar>
             <Typography fontSize="10px" color="text.secondary"></Typography>
+
 
             <div>&nbsp;</div>
             <div>&nbsp;</div>
@@ -123,6 +160,7 @@ export default class TripDetails extends React.Component {
               endIcon={<SendIcon size="small" />}
               size="small"
               style={{ width: "80px" }}
+              onClick={() => this.onEdit(this.state.booking)}
             >
               Edit
             </Button>
@@ -132,6 +170,7 @@ export default class TripDetails extends React.Component {
               variant="outlined"
               endIcon={<DeleteIcon size="small" />}
               style={{ width: "100px" }}
+              onClick={() => this.onCancel(this.state.booking.id)}
             >
               Cancel
             </Button>
@@ -141,3 +180,4 @@ export default class TripDetails extends React.Component {
     ) : null;
   }
 }
+TripDetails.protoTypes = { setPage: PropTypes.func.isRequired, getBookings: PropTypes.func.isRequired };

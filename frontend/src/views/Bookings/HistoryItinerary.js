@@ -9,12 +9,15 @@ import Typography from "@mui/material/Typography";
 import TripDetails from "./TripDetails";
 import Landing from "@mui/icons-material/FlightLand";
 import Col from "react-bootstrap/Col";
-
+import PropTypes from "prop-types";
 export default class HistoryItinerary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { booking: props.data };
   }
+  getBookings= () => {
+    this.props.getBookings();
+  };
   render() {
     return (
       <>
@@ -52,7 +55,7 @@ export default class HistoryItinerary extends React.Component {
               </Col>
             </AccordionSummary>
             <AccordionDetails>
-              <TripDetails data={this.state.booking} />
+              <TripDetails data={this.state.booking } getBookings={this.getBookings} />
             </AccordionDetails>
           </Accordion>
         </div>
@@ -60,3 +63,4 @@ export default class HistoryItinerary extends React.Component {
     );
   }
 }
+HistoryItinerary.protoTypes = { getBookings: PropTypes.func.isRequired}

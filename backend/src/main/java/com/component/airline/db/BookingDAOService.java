@@ -13,6 +13,8 @@ import com.component.airline.entity.Flight;
 import com.component.airline.entity.Mileage;
 import com.component.airline.entity.User;
 import com.component.airline.models.BookingRequestObject;
+import com.component.airline.models.DeleteBookingRequest;
+import com.component.airline.models.UpdateBookingRequestObject;
 import com.component.airline.entity.MileageHistory;
 import com.component.airline.entity.Passenger;
 import com.component.airline.entity.Payment;
@@ -52,7 +54,7 @@ public class BookingDAOService {
 	
 	@Transactional
 	public Booking saveBooking(BookingRequestObject bookingReq){
-		User user  =userRepository.getById(bookingReq.getUser().getId());
+		User user  = userRepository.getById(bookingReq.getUser().getId());
 		Payment payment = new Payment();
 		payment.setPayment_type(bookingReq.getPayment_type());
 		CardDetails card = new CardDetails();
@@ -83,7 +85,6 @@ public class BookingDAOService {
 			mileageHistory.setDate_avl(new Date(System.currentTimeMillis()));
 			mileageHistoryRepository.save(mileageHistory);
 		}
-		//m.setAvailableRewards((m.getAvailableRewards()+bookingReq.getTotalAmt()/10.0)-bookingReq.getRewards());
 		Booking booking = new Booking();
 		booking.setFlight(bookingReq.getFlight());
 		booking.setTransaction(transaction);
@@ -94,15 +95,69 @@ public class BookingDAOService {
 		booking.setPassengers(bookingReq.getPassengers());
 		booking.setUser(user);
 		Booking savedBooking = bookingRepository.save(booking);
-//		for(Passenger p: bookingReq.getPassengers()) {
-//			p.setBooking(savedBooking);
-//		}
-//		passengerRepository.saveAll(bookingReq.getPassengers());
+
 		return savedBooking;
 	}
 	
+	@Transactional
+	public Booking saveBookingUpdateFlow(UpdateBookingRequestObject bookingReq){
+		User user  = userRepository.getById(bookingReq.getUser().getId());
+		Payment payment = new Payment();
+		payment.setPayment_type(bookingReq.getPayment_type());
+		CardDetails card = new CardDetails();
+		card.setCardNumber(bookingReq.getCardNumber());
+		card.setNameOnCard(bookingReq.getNameOnCard());
+		card.setExpirationDate(bookingReq.getExpirationDate());
+		payment.setCardDetails(card);
+		payment.setUser(bookingReq.getUser());
+		Transaction transaction = new Transaction();
+		transaction.setPayment(payment);
+		transaction.setTotal_amt(bookingReq.getTotalAmt());
+		Date sqlDate = new Date(System.currentTimeMillis());
+		transaction.setTran_date(sqlDate);
+		transaction.setUser(bookingReq.getUser());
+		transaction.setCash(bookingReq.getTotalAmt()-bookingReq.getRewards());
+		transaction.setRewards(bookingReq.getRewards());
+		System.out.println(bookingReq.getRewards());
+		Mileage m= payment.getUser().getMileage();
+		m.setEarnedPoints(m.getEarnedPoints()+((bookingReq.getTotalAmt()-bookingReq.getRewards())*0.1));
+		m.setPoints(m.getEarnedPoints()-bookingReq.getRewards());
+		mileageRepository.save(m);
+		if(bookingReq.getRewards() != 0) {
+			MileageHistory mileageHistory =  new MileageHistory();
+			mileageHistory.setMileage(m);
+			mileageHistory.setPoints(bookingReq.getRewards());
+			mileageHistory.setRemiaingPoints(m.getAvailableRewards()-bookingReq.getRewards());
+			mileageHistory.setStatus("Redeemed");
+			mileageHistory.setDate_avl(new Date(System.currentTimeMillis()));
+			mileageHistoryRepository.save(mileageHistory);
+		}
+		Booking booking = new Booking();
+		booking.setFlight(bookingReq.getFlight());
+		booking.setTransaction(transaction);
+		booking.setMileagePoints((bookingReq.getTotalAmt()-bookingReq.getRewards())/10.0);
+		booking.setMileageStatus("Pending");
+		booking.setStatus("Scheduled");
+		
+		booking.setPassengers(bookingReq.getPassengers());
+		booking.setUser(user);
+		Booking savedBooking = bookingRepository.save(booking);
+		
+		Booking oldBooking =bookingRepository.getById(bookingReq.getOldBookingId());
+		oldBooking.setStatus("Cancelled");
+		bookingRepository.save(oldBooking);
+		
+		return savedBooking;
+	}
 	public Booking getBookingById(int bookingId){
 		return bookingRepository.findById(bookingId).orElse(null);
+	}
+	
+	public void deleteBooking(DeleteBookingRequest deleteBookingRequest){
+		Booking oldBooking =bookingRepository.getById(deleteBookingRequest.getId());
+		oldBooking.setStatus("Cancelled");
+		bookingRepository.save(oldBooking);
+		
 	}
 	
 	public List<Booking> getBookings(){

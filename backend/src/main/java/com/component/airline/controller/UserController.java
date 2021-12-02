@@ -30,7 +30,7 @@ public class UserController {
 	
 	@GetMapping(path = "/getUser", produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object getUser(@QueryParam(value = "userId") int userId) {
+	public Object getUser(@QueryParam(value = "userId") Integer userId) {
 		return service.getUserById(userId);
 	}
 	

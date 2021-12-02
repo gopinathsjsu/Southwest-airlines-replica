@@ -28,6 +28,9 @@ import FlightIcon from "@mui/icons-material/Flight";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddFlight from "../../Flight/AddFlight";
 import EditFlight from "../../Flight/EditFlight";
+import SearchFlightUpdateFlow from "../../UpdateBookingFlow/SearchFlightUpdateFlow";
+import ConfirmBookingUpdateFlow from "../../UpdateBookingFlow/ConfirmBookingUpdateFlow";
+import SuccessPage from "../../UpdateBookingFlow/SuccessPage";
 import BookingReview from "../../Payment/BookingReview";
 import Header from "../../Header/header";
 import BookingSuccess from "../../Bookings/BookingSucess";
@@ -238,13 +241,18 @@ class DashBoard extends React.Component {
             <SearchFlight setPage={this.setPage} />
           ) : null}
           {this.state.page === "payment" ? <Payment /> : null}
-          {this.state.page === "booking" ? <Booking /> : null}
+          {this.state.page === "booking" ? <Booking setPage={this.setPage} /> : null}
           {this.state.page === "profile" ? <Profile /> : null}
           {this.state.page === "rewards" ? (
             <Mileage setPage={this.setPage} />
           ) : null}
           {this.state.page === "addFlight" ? <AddFlight /> : null}
           {this.state.page === "editFlight" ? <EditFlight /> : null}
+          {this.state.page === "searchFlightUpdateFlow" ? <SearchFlightUpdateFlow setPage={this.setPage} /> : null}
+          {this.state.page === "confirmBookingUpdateFlow" ? <ConfirmBookingUpdateFlow setPage={this.setPage} /> : null}
+          {this.state.page === "successPage" ? <SuccessPage setPage={this.setPage} /> : null}
+          
+          {/* {this.state.page === "tripDetails" ? <TripDetails setPage={this.setPage} /> : null} */}
           {this.state.page === "addpassenger" ? (
             <AddPassenger setPage={this.setPage} />
           ) : null}
