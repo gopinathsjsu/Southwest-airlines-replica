@@ -68,7 +68,6 @@ export default class Registration extends React.Component {
       country: "",
       userType: "",
       phonenumber: "",
-      successMsg: "",
       errorMsg: "",
     });
   };
@@ -301,6 +300,7 @@ export default class Registration extends React.Component {
                     name="dateOfBirth"
                     dateFormat="MM/dd/yyyy"
                     value={this.state.dateOfBirth}
+                    maxDate={new Date()}
                   />
                 </Form.Group>
               </Row>
