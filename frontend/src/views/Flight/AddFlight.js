@@ -320,10 +320,12 @@ export default class AddFlight extends React.Component {
               <Col md={3}>
                 {" "}
                 <Form.Group className="sm-3">
-                  <Form.Label>Arrive Date</Form.Label>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Form.Label>Arrival Date</Form.Label>
+                  <LocalizationProvider dateAdapter={AdapterDateFns} size="sm">
                     <DateTimePicker
                       label=""
+                      size="small"
+                      style={{ "max-height": "10 px !important" }}
                       name="arriveDate"
                       value={this.state.arriveDate}
                       onChange={this.handleArriveDate}
