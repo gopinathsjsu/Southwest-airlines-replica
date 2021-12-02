@@ -124,10 +124,10 @@ public class BookingDAOService {
 		transaction.setCash(bookingReq.getTotalAmt()-bookingReq.getRewards());
 		transaction.setRewards(bookingReq.getRewards());
 		System.out.println(bookingReq.getRewards());
+		
 		Mileage m= payment.getUser().getMileage();
-		m.setEarnedPoints(m.getEarnedPoints()+((bookingReq.getTotalAmt()-bookingReq.getRewards())*0.1));
-		m.setPoints(m.getEarnedPoints()-bookingReq.getRewards());
-		mileageRepository.save(m);
+		double mileagePoints = (bookingReq.getTotalAmt()-bookingReq.getRewards())/10.0;
+		
 		if(bookingReq.getRewards() != 0) {
 			MileageHistory mileageHistory =  new MileageHistory();
 			mileageHistory.setMileage(m);
@@ -136,7 +136,12 @@ public class BookingDAOService {
 			mileageHistory.setStatus("Redeemed");
 			mileageHistory.setDate_avl(new Date(System.currentTimeMillis()));
 			mileageHistoryRepository.save(mileageHistory);
+			m.setAvailableRewards(m.getAvailableRewards()-bookingReq.getRewards());
 		}
+		m.setEarnedPoints(m.getEarnedPoints()+mileagePoints);
+		m.setPoints(m.getEarnedPoints()-bookingReq.getRewards());
+		mileageRepository.save(m);
+		
 		Booking booking = new Booking();
 		booking.setFlight(bookingReq.getFlight());
 		booking.setTransaction(transaction);
