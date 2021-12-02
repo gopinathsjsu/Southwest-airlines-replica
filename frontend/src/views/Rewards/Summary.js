@@ -206,14 +206,14 @@ export default class Summary extends React.Component {
                   </Typography>{" "}
                   <BorderLinearProgress
                     variant="determinate"
-                    value={this.state.user.mileage.availableRewards}
+                    value={this.state.user.mileage.earnedPoints}
                   />{" "}
                   <Typography
                     sx={{ fontSize: 10 }}
                     color="text.secondary"
                     gutterBottom
                   >
-                    {this.state.user.mileage.availableRewards} out of 100 points
+                    {this.state.user.mileage.earnedPoints} out of 100 points
                   </Typography>{" "}
                 </Col>
                 <Col md={4}>
