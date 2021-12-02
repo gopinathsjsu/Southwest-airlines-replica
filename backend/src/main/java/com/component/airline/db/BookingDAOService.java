@@ -72,10 +72,10 @@ public class BookingDAOService {
 		transaction.setCash(bookingReq.getTotalAmt()-bookingReq.getRewards());
 		transaction.setRewards(bookingReq.getRewards());
 		System.out.println(bookingReq.getRewards());
+		
 		Mileage m= payment.getUser().getMileage();
-		m.setEarnedPoints(m.getEarnedPoints()+((bookingReq.getTotalAmt()-bookingReq.getRewards())*0.1));
-		m.setPoints(m.getEarnedPoints()-bookingReq.getRewards());
-		mileageRepository.save(m);
+		double mileagePoints = (bookingReq.getTotalAmt()-bookingReq.getRewards())/10.0;
+		
 		if(bookingReq.getRewards() != 0) {
 			MileageHistory mileageHistory =  new MileageHistory();
 			mileageHistory.setMileage(m);
@@ -84,7 +84,12 @@ public class BookingDAOService {
 			mileageHistory.setStatus("Redeemed");
 			mileageHistory.setDate_avl(new Date(System.currentTimeMillis()));
 			mileageHistoryRepository.save(mileageHistory);
+			m.setAvailableRewards(m.getAvailableRewards()-bookingReq.getRewards());
 		}
+		m.setEarnedPoints(m.getEarnedPoints()+mileagePoints);
+		m.setPoints(m.getEarnedPoints()-bookingReq.getRewards());
+		mileageRepository.save(m);
+		
 		Booking booking = new Booking();
 		booking.setFlight(bookingReq.getFlight());
 		booking.setTransaction(transaction);
@@ -183,10 +188,12 @@ public class BookingDAOService {
 			//bookingRepository.updateByBookingId(bookingId);
 			
 			Mileage m= booking.getUser().getMileage();
-			m.setAvailableRewards(m.getAvailableRewards()+booking.getMileagePoints());
+			
 			MileageHistory mileageHistory = new MileageHistory();
 			mileageHistory.setPoints(booking.getMileagePoints());
 			mileageHistory.setRemiaingPoints(m.getAvailableRewards()+booking.getMileagePoints());
+			m.setAvailableRewards(m.getAvailableRewards()+booking.getMileagePoints());
+			//mileageRepository.save(m);
 			mileageHistory.setMileage(m);
 			mileageHistory.setStatus("Availed");
 			Date date = new Date(System.currentTimeMillis());
@@ -194,6 +201,7 @@ public class BookingDAOService {
 			date.setMonth((date.getMonth() - 1 + 1) % 12 + 1);
 			mileageHistory.setDate_avl(date);
 			mileageHistoryRepository.save(mileageHistory);
+			
 			return ("Mileage points availed for: "+bookingId);
 		}else {
 			return ("Mileage points already availed for: "+bookingId);
