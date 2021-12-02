@@ -79,13 +79,15 @@ export default class AddFlight extends React.Component {
       arriveDate: "",
       stops: "",
       price: "",
-      pilot1: "0",
-      pilot2: "0",
+      pilot1: "",
+      pilot2: "",
       seats: "",
+      errorMsg: "",
     });
   };
 
   handleAdd = () => {
+    this.setState({ successMsg: "" });
     if (!this.validateForm()) {
       return;
     }
@@ -355,6 +357,7 @@ export default class AddFlight extends React.Component {
                 <select
                   className="form-control"
                   name="pilot1"
+                  value={this.state.pilot1}
                   onChange={this.handleInputChange}
                   size="sm"
                 >
@@ -369,6 +372,7 @@ export default class AddFlight extends React.Component {
                 <select
                   className="form-control"
                   name="pilot2"
+                  value={this.state.pilot2}
                   onChange={this.handleInputChange}
                   size="sm"
                 >

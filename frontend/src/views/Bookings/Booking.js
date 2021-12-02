@@ -26,6 +26,7 @@ export default class Booking extends React.Component {
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data);
+
           this.setState({
             bookings: response.data,
           });

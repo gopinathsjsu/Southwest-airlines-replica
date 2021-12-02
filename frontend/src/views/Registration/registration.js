@@ -68,6 +68,8 @@ export default class Registration extends React.Component {
       country: "",
       userType: "",
       phonenumber: "",
+      successMsg: "",
+      errorMsg: "",
     });
   };
   handleSubmit = (e) => {
@@ -120,6 +122,7 @@ export default class Registration extends React.Component {
           this.setState({
             successMsg: "User Registered Successfully! Please Login.",
           });
+          this.clear();
         } else {
           this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
@@ -146,14 +149,14 @@ export default class Registration extends React.Component {
     if (firstName === null || firstName === "") {
       this.setState({ errorMsg: "First Name can not be blank" });
       return false;
-    } else if (firstName.match("^[a-zA-Z]*$") === null) {
+    } else if (firstName.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid First Name" });
       return false;
     }
     if (lastName === null || lastName === "") {
       this.setState({ errorMsg: "Last Name date can not be blank" });
       return false;
-    } else if (lastName.match("^[a-zA-Z]*$") === null) {
+    } else if (lastName.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid Last Name" });
       return false;
     }
@@ -164,14 +167,14 @@ export default class Registration extends React.Component {
     if (address1 === null || address1 === "") {
       this.setState({ errorMsg: "Address1 can not be blank" });
       return false;
-    } else if (address1.match("^[a-zA-Z0-9]*$") === null) {
+    } else if (address1.match("^[a-zA-Z 0-9]*$") === null) {
       this.setState({ errorMsg: "Please enter valid address" });
       return false;
     }
     if (city === null || city === "") {
       this.setState({ errorMsg: "City can not be blank" });
       return false;
-    } else if (city.match("^[a-zA-Z]*$") === null) {
+    } else if (city.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid city" });
       return false;
     }
@@ -185,14 +188,14 @@ export default class Registration extends React.Component {
     if (state === null || state === "" || state === "Select Pilot 2") {
       this.setState({ errorMsg: "State can not be blank" });
       return false;
-    } else if (state.match("^[a-zA-Z]*$") === null) {
+    } else if (state.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid state" });
       return false;
     }
     if (country === null || country === "") {
       this.setState({ errorMsg: "Country can not be blank" });
       return false;
-    } else if (country.match("^[a-zA-Z]*$") === null) {
+    } else if (country.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid Country" });
       return false;
     }
@@ -217,7 +220,7 @@ export default class Registration extends React.Component {
     if (userType === null || userType === "") {
       this.setState({ errorMsg: "Please select user type" });
       return false;
-    } else if (userType.match("^[a-zA-Z]*$") === null) {
+    } else if (userType.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid user type" });
       return false;
     }

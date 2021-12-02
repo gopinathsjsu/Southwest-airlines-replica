@@ -26,13 +26,13 @@ export default class HistoryItinerary extends React.Component {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Col md={3}>
+              <Col md={2}>
                 <Avatar sx={{ width: 24, height: 24 }}>
                   <TakeOff fontSize="sm" />
                 </Avatar>
                 <Typography>{this.state.booking.flight.tripSource}</Typography>
               </Col>
-              <Col md={3}>
+              <Col md={2}>
                 <Avatar sx={{ width: 24, height: 24 }}>
                   <Landing fontSize="sm" />
                 </Avatar>
@@ -40,12 +40,33 @@ export default class HistoryItinerary extends React.Component {
                   {this.state.booking.flight.tripDestination}{" "}
                 </Typography>
               </Col>
-              <Col md={4}>
+
+              <Col md={2}>
                 {" "}
-                <Typography>Time</Typography>
+                <Typography>Departure </Typography>
+                <Typography>
+                  {" "}
+                  {new Date(
+                    this.state.booking.flight.departureTime
+                  ).toLocaleDateString()}
+                </Typography>
+              </Col>
+              <Col md={2}>
+                {" "}
+                <Typography>Arrival </Typography>
+                <Typography>
+                  {" "}
+                  {new Date(
+                    this.state.booking.flight.arrivalTime
+                  ).toLocaleDateString()}
+                </Typography>
+              </Col>
+              <Col md={2}>
+                {" "}
+                <Typography>Duration</Typography>
                 <Typography> {this.state.booking.flight.duration}</Typography>
               </Col>
-              <Col md={3}>
+              <Col md={2}>
                 {" "}
                 <Typography>Status</Typography>
                 <Typography> {this.state.booking.status}</Typography>
