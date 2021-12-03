@@ -43,6 +43,28 @@ export default class Summary extends React.Component {
     this.setState({ user: JSON.parse(localStorage.getItem("user")) });
     this.getBookings();
   };
+
+  getUser = () => {
+    const userId = this.state.user.id;
+    axios
+      .get(`${backendServer}/v1/user/getUser`, {
+        params: { userId },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+          this.setState({
+            user: response.data,
+          });
+          localStorage.setItem("user", this.state.user);
+        } else {
+          this.setState({ errorMsg: response.data });
+        }
+      })
+      .catch((err) => {
+        this.setState({ errorMsg: err });
+      });
+  };
   handleAvailBooking = (e) => {
     if (
       this.state.bookingId.length === 0 ||
@@ -73,6 +95,7 @@ export default class Summary extends React.Component {
           console.log(response.data);
           this.setState({ successMsg: response.data.entity });
           this.props.getMileage();
+          this.getUser();
         } else {
           this.setState({ errorMsg: response.data.statusInfo.reasonPhrase });
         }
