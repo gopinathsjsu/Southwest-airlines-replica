@@ -21,6 +21,9 @@
 
 ![help](images/Schema_Diagram.png)
 
+## Deployment Diagram
+![help](images/Deployment_Diagram.png)
+
 ## High-level Module Ownership
 * Akash Kuratkar - Mileage Account, Employee Portal(Add/Edit Flights)
 * Sherin Thlakulathil Elias - Flight Search, Purchase seats and book travel.
@@ -34,13 +37,13 @@
 ### Cumulative flow diagram
 ![help](images/Cumulative_Flow_Diagram_Of_Project_Task.png)
 ### Total Sprints 9 (10/01/2021 - 12/02/2021)
-* Sprint 1(10/01 - 10/08) -  
-* Sprint 2(10/09 - 10/15) -  
-* Sprint 3(10/15 - 10/21) -  
-* Sprint 4(10/22 - 10/28) -  
-* Sprint 5(10/29 - 11/05) -  
-* Sprint 6(11/06 - 11/12) - 
-* Sprint 7(11/12 - 11/18) -  
-* Sprint 8(11/19 - 11/25) -  
-* Sprint 9(11/26 - 12/02) - 
+* Sprint 1(10/01 - 10/08) -  ![help](images/Sprint1_Burndown.png)
+* Sprint 2(10/09 - 10/15) -  ![help](images/Sprint2_Burndown.png)
+* Sprint 3(10/15 - 10/21) -  ![help](images/Sprint3_Burndown.png)
+* Sprint 4(10/22 - 10/28) -  ![help](images/Sprint4_burndown.png)
+* Sprint 5(10/29 - 11/05) -  ![help](images/Sprint 5_burndown.png)
+* Sprint 6(11/06 - 11/12) - ![help](images/Sprint_6_Burndown.png)
+* Sprint 7(11/12 - 11/18) -  ![help](images/Sprint7_burndown.png)
+* Sprint 8(11/19 - 11/25) -  ![help](images/Sprint_8_Burndown.png)
+* Sprint 9(11/26 - 12/02) - ![help](images/Sprint_9_Burndown.png)
 
