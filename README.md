@@ -53,3 +53,15 @@
 * Sprint 8(11/19 - 11/25) -  ![help](images/Sprint_8_Burndown.png)
 * Sprint 9(11/26 - 12/02) - ![help](images/Sprint_9_Burndown.png)
 
+#Run Instructions
+* FrontEnd
+ ### npm install
+ 
+ ### npm start
+* Backend
+  Go to Backend Folder, open command prompt and run
+  ### mvn clean install
+  ### cd target
+  ### java -jar backend-0.0.1-SNAPSHOT.jar
+ 
+
