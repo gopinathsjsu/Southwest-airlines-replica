@@ -203,8 +203,8 @@ public class BookingDAOService {
 			mileageHistory.setStatus("Availed");
 			Date date = new Date(System.currentTimeMillis());
 			mileageHistory.setDate_avl(date);
-			date.setMonth((date.getMonth() - 1 + 1) % 12 + 1);
-			mileageHistory.setDate_exp(date);
+			//date.setMonth((date.getMonth() - 1 + 1) % 12 + 1);
+			//mileageHistory.setDate_exp(date);
 			mileageHistoryRepository.save(mileageHistory);
 			
 			return ("Mileage points availed for: "+bookingId);
