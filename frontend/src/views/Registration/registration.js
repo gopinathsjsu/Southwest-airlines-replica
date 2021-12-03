@@ -154,14 +154,14 @@ export default class Registration extends React.Component {
       return false;
     }
     if (lastName === null || lastName === "") {
-      this.setState({ errorMsg: "Last Name date can not be blank" });
+      this.setState({ errorMsg: "Last Name can not be blank" });
       return false;
     } else if (lastName.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid Last Name" });
       return false;
     }
     if (dateOfBirth === null || dateOfBirth === "") {
-      this.setState({ errorMsg: "Date Of Birth date can not be blank" });
+      this.setState({ errorMsg: "Date Of Birth can not be blank" });
       return false;
     }
     if (address1 === null || address1 === "") {
