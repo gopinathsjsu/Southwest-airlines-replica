@@ -216,6 +216,16 @@ class DashBoard extends React.Component {
                     </ListItemIcon>
                     <ListItemText primary="Edit Flight" />
                   </ListItem>
+                  <ListItem
+                    button
+                    onClick={this.handlePageChange}
+                    key="MyProfile"
+                  >
+                    <ListItemIcon>
+                      <MyProfile />
+                    </ListItemIcon>
+                    <ListItemText primary="My Profile" />
+                  </ListItem>
                 </>
               )}
             </List>
@@ -241,17 +251,25 @@ class DashBoard extends React.Component {
             <SearchFlight setPage={this.setPage} />
           ) : null}
           {this.state.page === "payment" ? <Payment /> : null}
-          {this.state.page === "booking" ? <Booking setPage={this.setPage} /> : null}
+          {this.state.page === "booking" ? (
+            <Booking setPage={this.setPage} />
+          ) : null}
           {this.state.page === "profile" ? <Profile /> : null}
           {this.state.page === "rewards" ? (
             <Mileage setPage={this.setPage} />
           ) : null}
           {this.state.page === "addFlight" ? <AddFlight /> : null}
           {this.state.page === "editFlight" ? <EditFlight /> : null}
-          {this.state.page === "searchFlightUpdateFlow" ? <SearchFlightUpdateFlow setPage={this.setPage} /> : null}
-          {this.state.page === "confirmBookingUpdateFlow" ? <ConfirmBookingUpdateFlow setPage={this.setPage} /> : null}
-          {this.state.page === "successPage" ? <SuccessPage setPage={this.setPage} /> : null}
-          
+          {this.state.page === "searchFlightUpdateFlow" ? (
+            <SearchFlightUpdateFlow setPage={this.setPage} />
+          ) : null}
+          {this.state.page === "confirmBookingUpdateFlow" ? (
+            <ConfirmBookingUpdateFlow setPage={this.setPage} />
+          ) : null}
+          {this.state.page === "successPage" ? (
+            <SuccessPage setPage={this.setPage} />
+          ) : null}
+
           {/* {this.state.page === "tripDetails" ? <TripDetails setPage={this.setPage} /> : null} */}
           {this.state.page === "addpassenger" ? (
             <AddPassenger setPage={this.setPage} />

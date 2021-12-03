@@ -67,12 +67,12 @@ export default class Registration extends React.Component {
       state: "",
       country: "",
       userType: "",
-      phonenumber: "",
-      successMsg: "",
+      phone: "",
       errorMsg: "",
     });
   };
   handleSubmit = (e) => {
+    this.setState({ successMsg: "" });
     if (!this.validateForm()) {
       return;
     }
@@ -91,7 +91,7 @@ export default class Registration extends React.Component {
       state,
       country,
       userType,
-      phonenumber,
+      phone,
     } = this.state;
     const user = {
       username: username,
@@ -107,7 +107,7 @@ export default class Registration extends React.Component {
       state: state,
       country: country,
       user_type: userType,
-      phone_number: phonenumber,
+      phone_number: phone,
     };
     console.log(user);
     axios
@@ -144,7 +144,7 @@ export default class Registration extends React.Component {
       state,
       country,
       userType,
-      phonenumber,
+      phone,
     } = this.state;
     if (firstName === null || firstName === "") {
       this.setState({ errorMsg: "First Name can not be blank" });
@@ -154,14 +154,14 @@ export default class Registration extends React.Component {
       return false;
     }
     if (lastName === null || lastName === "") {
-      this.setState({ errorMsg: "Last Name date can not be blank" });
+      this.setState({ errorMsg: "Last Name can not be blank" });
       return false;
     } else if (lastName.match("^[a-zA-Z ]*$") === null) {
       this.setState({ errorMsg: "Please enter valid Last Name" });
       return false;
     }
     if (dateOfBirth === null || dateOfBirth === "") {
-      this.setState({ errorMsg: "Date Of Birth date can not be blank" });
+      this.setState({ errorMsg: "Date Of Birth can not be blank" });
       return false;
     }
     if (address1 === null || address1 === "") {
@@ -206,10 +206,10 @@ export default class Registration extends React.Component {
       this.setState({ errorMsg: "Please enter valid email" });
       return false;
     }
-    if (phonenumber === null || phonenumber === "" || zip === "0") {
+    if (phone === null || phone === "" || zip === "0") {
       this.setState({ errorMsg: "Phone Number can not be blank" });
       return false;
-    } else if (phonenumber.match("^[0-9]*$") === null) {
+    } else if (phone.match("^[0-9]*$") === null) {
       this.setState({ errorMsg: "Please enter valid phone number" });
       return false;
     }
@@ -301,6 +301,7 @@ export default class Registration extends React.Component {
                     name="dateOfBirth"
                     dateFormat="MM/dd/yyyy"
                     value={this.state.dateOfBirth}
+                    maxDate={new Date()}
                   />
                 </Form.Group>
               </Row>
@@ -418,12 +419,12 @@ export default class Registration extends React.Component {
                   <Form.Label>Phone</Form.Label>
                   <Form.Control
                     type="phone"
-                    name="phonenumber"
+                    name="phone"
                     placeholder="Phone"
                     required
                     size="sm"
                     maxLength="20"
-                    value={this.state.phonenumber}
+                    value={this.state.phone}
                     onChange={this.handleChange}
                   />
                   <Form.Control.Feedback type="invalid">

@@ -50,9 +50,15 @@ export default class Mileage extends React.Component {
       });
   };
   handleActivity = () => {
-    this.setState({
-      page: "activities",
-    });
+    if (this.state.page === "default") {
+      this.setState({
+        page: "activities",
+      });
+    } else {
+      this.setState({
+        page: "default",
+      });
+    }
   };
   render() {
     return (
