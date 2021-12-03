@@ -33,6 +33,11 @@
 ## Scrum Event
 ### Scrum Meeting - Every Friday
 
+## XP Core Values
+* Communication
+* Respect
+* Feedback
+
 ## Srcum Report
 ### Cumulative flow diagram
 ![help](images/Cumulative_Flow_Diagram_Of_Project_Task.png)
