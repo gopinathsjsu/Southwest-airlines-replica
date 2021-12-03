@@ -2,9 +2,9 @@
 
 ## Team Members
 * Akash Kuratkar (013534118)
-* Sherin Thlakulathil Elias
+* Sherin Thlakulathil Elias(014635504)
 * Veena Mamidi (015226198)
-* Sai Sravani Chalasani
+* Sai Sravani Chalasani(015911467)
 
 ## Technology Stack
 * Frontend - ReactJS,BootStrap,MaterialUI,HTML/CSS
