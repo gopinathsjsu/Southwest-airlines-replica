@@ -12,6 +12,7 @@
 * Backend - MySQL Database
 * Version Control: Git
 * Task Management: JIRA
+* Tools: Swagger, Postman.
 
 ## Architecture Diagram
 
